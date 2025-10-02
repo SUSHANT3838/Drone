@@ -1,0 +1,2326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DroneRent India - Professional Drone Rentals</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .drone-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .drone-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+        .step {
+            transition: all 0.3s ease;
+        }
+        .step.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .step.completed {
+            background: #10b981;
+            color: white;
+        }
+        .payment-method {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .payment-method:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .payment-method.selected {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+        .tracking-dot {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .sidebar-item {
+            transition: all 0.3s ease;
+        }
+        .sidebar-item:hover {
+            background: #f3f4f6;
+            transform: translateX(5px);
+        }
+        .sidebar-item.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .order-status {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .nav-link:hover {
+            transform: translateY(-1px);
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="showHomePage()">
+                    <div class="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <span class="text-white font-bold text-2xl">🚁</span>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">DroneRent India</h1>
+                        <p class="text-sm text-gray-600">Professional Drone Rentals</p>
+                    </div>
+                </div>
+                
+                <!-- Navigation Menu -->
+                <nav class="hidden md:flex items-center space-x-6">
+                    <button onclick="showHomePage()" class="nav-link text-gray-700 hover:text-blue-600 font-medium transition-colors">
+                        🏠 Home
+                    </button>
+                    <button onclick="scrollToDrones()" class="nav-link text-gray-700 hover:text-blue-600 font-medium transition-colors">
+                        🚁 Browse Drones
+                    </button>
+                    <button onclick="showReviewsSection()" class="nav-link text-gray-700 hover:text-blue-600 font-medium transition-colors">
+                        ⭐ Reviews
+                    </button>
+                    <button onclick="showHowItWorks()" class="nav-link text-gray-700 hover:text-blue-600 font-medium transition-colors">
+                        ❓ How It Works
+                    </button>
+                </nav>
+                
+                <div class="flex items-center space-x-3">
+                    <!-- Mobile Menu Button -->
+                    <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-gray-600 hover:text-gray-900">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                    
+                    <div id="authButtons" class="flex space-x-2">
+                        <button onclick="openLoginModal()" class="px-4 py-2 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors font-medium">
+                            Login
+                        </button>
+                        <button onclick="openSignupModal()" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-medium shadow-lg">
+                            Get Started
+                        </button>
+                    </div>
+                    
+                    <div id="userProfile" class="hidden flex items-center space-x-3">
+                        <div class="text-right hidden sm:block">
+                            <p class="font-medium text-gray-900" id="userName">Welcome!</p>
+                            <p class="text-sm text-gray-500" id="userEmail"></p>
+                        </div>
+                        <div class="relative">
+                            <button onclick="toggleUserMenu()" class="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white font-bold shadow-lg hover:shadow-xl transition-shadow">
+                                <span id="userInitial">U</span>
+                            </button>
+                            <div id="userMenu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border z-50">
+                                <div class="p-3 border-b bg-gray-50 rounded-t-xl">
+                                    <p class="font-medium text-gray-900" id="menuUserName">User Name</p>
+                                    <p class="text-sm text-gray-500" id="menuUserEmail">user@email.com</p>
+                                </div>
+                                <div class="py-2">
+                                    <a href="#" onclick="showUserDashboard()" class="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                        <span class="mr-3">👤</span> My Dashboard
+                                    </a>
+                                    <a href="#" onclick="showUserOrders()" class="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                        <span class="mr-3">📦</span> My Orders
+                                    </a>
+                                    <a href="#" onclick="showUserSettings()" class="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                        <span class="mr-3">⚙️</span> Settings
+                                    </a>
+                                    <a href="#" onclick="showNearbySuppliers()" class="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                        <span class="mr-3">📍</span> Find Suppliers
+                                    </a>
+                                </div>
+                                <div class="border-t py-2">
+                                    <button onclick="logout()" class="flex items-center w-full px-4 py-3 text-red-600 hover:bg-red-50 transition-colors">
+                                        <span class="mr-3">🚪</span> Logout
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t">
+            <div class="px-4 py-3 space-y-2">
+                <button onclick="showHomePage(); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+                    🏠 Home
+                </button>
+                <button onclick="scrollToDrones(); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+                    🚁 Browse Drones
+                </button>
+                <button onclick="showReviewsSection(); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+                    ⭐ Reviews
+                </button>
+                <button onclick="showHowItWorks(); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+                    ❓ How It Works
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Home Page Content -->
+        <div id="homePage">
+            <!-- Hero Section -->
+            <section class="py-12 text-center">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                        Rent Professional Drones 
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Instantly</span>
+                    </h2>
+                    <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+                        From photography to surveying, find the perfect drone for your project. 
+                        Trusted by professionals across India with same-day delivery.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+                        <button onclick="scrollToDrones()" class="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                            🚁 Browse Drones
+                        </button>
+                        <button onclick="showHowItWorks()" class="px-8 py-4 border-2 border-gray-300 text-gray-700 rounded-xl hover:border-blue-500 hover:text-blue-600 transition-all duration-300 font-medium">
+                            📖 How It Works
+                        </button>
+                    </div>
+                    
+                    <!-- Quick Stats -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-blue-600">500+</div>
+                            <div class="text-gray-600">Drones Available</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-green-600">50+</div>
+                            <div class="text-gray-600">Cities Covered</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-purple-600">10K+</div>
+                            <div class="text-gray-600">Happy Customers</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-orange-600">4.8★</div>
+                            <div class="text-gray-600">Average Rating</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- How It Works Section -->
+            <section id="howItWorks" class="hidden py-12 bg-gray-50 rounded-2xl mb-12">
+                <div class="max-w-4xl mx-auto text-center px-6">
+                    <h3 class="text-3xl font-bold text-gray-900 mb-8">How It Works</h3>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="bg-white p-6 rounded-xl shadow-lg">
+                            <div class="text-4xl mb-4">🔍</div>
+                            <h4 class="text-xl font-bold mb-3">1. Browse & Select</h4>
+                            <p class="text-gray-600">Choose from our wide range of professional drones. Filter by type, price, and location to find the perfect match.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-lg">
+                            <div class="text-4xl mb-4">📅</div>
+                            <h4 class="text-xl font-bold mb-3">2. Book & Pay</h4>
+                            <p class="text-gray-600">Select your dates, choose delivery option, and make secure payment. Get instant confirmation with booking details.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-lg">
+                            <div class="text-4xl mb-4">🚁</div>
+                            <h4 class="text-xl font-bold mb-3">3. Fly & Create</h4>
+                            <p class="text-gray-600">Receive your drone with full setup support. Create amazing content and return when done. It's that simple!</p>
+                        </div>
+                    </div>
+                    <button onclick="scrollToDrones()" class="mt-8 px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-medium">
+                        Start Browsing
+                    </button>
+                </div>
+            </section>
+
+            <!-- Filters -->
+            <div id="droneFilters" class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-gray-900">Find Your Perfect Drone</h2>
+                    <div class="text-sm text-gray-600">
+                        <span id="droneCount">6</span> drones available
+                    </div>
+                </div>
+                
+                <!-- Category Filters -->
+                <div class="mb-6">
+                    <h3 class="text-sm font-medium text-gray-700 mb-3">Drone Type</h3>
+                    <div class="flex flex-wrap gap-3">
+                        <button class="filter-btn active px-6 py-3 rounded-xl border-2 border-gray-200 text-gray-700 hover:border-blue-500 hover:text-blue-600 transition-all duration-300 font-medium" data-filter="all">
+                            🚁 All Drones
+                        </button>
+                        <button class="filter-btn px-6 py-3 rounded-xl border-2 border-gray-200 text-gray-700 hover:border-blue-500 hover:text-blue-600 transition-all duration-300 font-medium" data-filter="photography">
+                            📸 Photography
+                        </button>
+                        <button class="filter-btn px-6 py-3 rounded-xl border-2 border-gray-200 text-gray-700 hover:border-blue-500 hover:text-blue-600 transition-all duration-300 font-medium" data-filter="surveying">
+                            🗺️ Surveying
+                        </button>
+                        <button class="filter-btn px-6 py-3 rounded-xl border-2 border-gray-200 text-gray-700 hover:border-blue-500 hover:text-blue-600 transition-all duration-300 font-medium" data-filter="racing">
+                            🏁 Racing
+                        </button>
+                        <button class="filter-btn px-6 py-3 rounded-xl border-2 border-gray-200 text-gray-700 hover:border-blue-500 hover:text-blue-600 transition-all duration-300 font-medium" data-filter="industrial">
+                            🏭 Industrial
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Advanced Filters -->
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">💰 Price Range</label>
+                        <select id="priceFilter" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                            <option value="">All Prices</option>
+                            <option value="0-5000">₹0 - ₹5,000/day</option>
+                            <option value="5000-15000">₹5,000 - ₹15,000/day</option>
+                            <option value="15000+">₹15,000+/day</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">🏢 Supplier</label>
+                        <select id="supplierFilter" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                            <option value="">All Suppliers</option>
+                            <option value="SkyTech Rentals">SkyTech Rentals</option>
+                            <option value="AerialPro India">AerialPro India</option>
+                            <option value="DroneHub Mumbai">DroneHub Mumbai</option>
+                            <option value="FlightGear Delhi">FlightGear Delhi</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">📍 Location</label>
+                        <select id="locationFilter" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                            <option value="">All Locations</option>
+                            <option value="delhi">Delhi NCR</option>
+                            <option value="mumbai">Mumbai</option>
+                            <option value="bangalore">Bangalore</option>
+                            <option value="chennai">Chennai</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="flex flex-wrap gap-3 mt-4 pt-4 border-t">
+                    <button onclick="clearAllFilters()" class="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors">
+                        🔄 Clear All
+                    </button>
+                    <button onclick="showAvailableOnly()" class="px-4 py-2 text-green-600 hover:text-green-800 transition-colors">
+                        ✅ Available Only
+                    </button>
+                    <button onclick="sortByPrice()" class="px-4 py-2 text-blue-600 hover:text-blue-800 transition-colors">
+                        💰 Sort by Price
+                    </button>
+                </div>
+            </div>
+
+            <!-- Drone Listings -->
+            <div id="droneGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Drone cards will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- User Dashboard -->
+        <div id="userDashboard" class="hidden">
+            <div class="grid lg:grid-cols-4 gap-8">
+                <!-- Sidebar -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <div class="text-center mb-6">
+                            <div class="w-20 h-20 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-2xl mx-auto mb-3">
+                                <span id="dashboardUserInitial">U</span>
+                            </div>
+                            <h3 class="text-xl font-bold" id="dashboardUserName">User Name</h3>
+                            <p class="text-gray-600" id="dashboardUserEmail">user@email.com</p>
+                        </div>
+                        
+                        <nav class="space-y-2">
+                            <button onclick="showDashboardSection('overview')" class="sidebar-item active w-full text-left px-4 py-3 rounded-lg flex items-center space-x-3">
+                                <span>📊</span>
+                                <span>Overview</span>
+                            </button>
+                            <button onclick="showDashboardSection('orders')" class="sidebar-item w-full text-left px-4 py-3 rounded-lg flex items-center space-x-3">
+                                <span>📦</span>
+                                <span>My Orders</span>
+                            </button>
+                            <button onclick="showDashboardSection('profile')" class="sidebar-item w-full text-left px-4 py-3 rounded-lg flex items-center space-x-3">
+                                <span>👤</span>
+                                <span>Profile</span>
+                            </button>
+                            <button onclick="showDashboardSection('settings')" class="sidebar-item w-full text-left px-4 py-3 rounded-lg flex items-center space-x-3">
+                                <span>⚙️</span>
+                                <span>Settings</span>
+                            </button>
+                            <button onclick="showDashboardSection('suppliers')" class="sidebar-item w-full text-left px-4 py-3 rounded-lg flex items-center space-x-3">
+                                <span>📍</span>
+                                <span>Nearby Suppliers</span>
+                            </button>
+                            <button onclick="showDashboardSection('reviews')" class="sidebar-item w-full text-left px-4 py-3 rounded-lg flex items-center space-x-3">
+                                <span>⭐</span>
+                                <span>My Reviews</span>
+                            </button>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="lg:col-span-3">
+                    <div id="dashboardContent">
+                        <!-- Content will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl max-w-md w-full p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold">Login to DroneRent</h3>
+                <button onclick="closeLoginModal()" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Email or Phone</label>
+                    <input type="text" id="loginEmail" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter email or phone number">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <input type="password" id="loginPassword" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter password">
+                </div>
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center">
+                        <input type="checkbox" class="rounded text-blue-600">
+                        <span class="ml-2 text-sm text-gray-600">Remember me</span>
+                    </label>
+                    <a href="#" class="text-sm text-blue-600 hover:text-blue-700">Forgot password?</a>
+                </div>
+                <button type="submit" class="w-full px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300">
+                    Login
+                </button>
+            </form>
+            
+            <div class="mt-6 text-center">
+                <p class="text-gray-600">Don't have an account? 
+                    <button onclick="switchToSignup()" class="text-blue-600 hover:text-blue-700 font-medium">Sign up here</button>
+                </p>
+            </div>
+            
+            <div class="mt-4 pt-4 border-t">
+                <p class="text-center text-sm text-gray-500 mb-3">Or continue with</p>
+                <div class="flex space-x-3">
+                    <button class="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center">
+                        <span class="mr-2">📱</span> Google
+                    </button>
+                    <button class="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center">
+                        <span class="mr-2">📘</span> Facebook
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signupModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl max-w-md w-full p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold">Create Account</h3>
+                <button onclick="closeSignupModal()" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <form onsubmit="handleSignup(event)" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                    <input type="text" id="signupName" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter your full name">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input type="email" id="signupEmail" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter your email">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                    <input type="tel" id="signupPhone" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter your phone number">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">City</label>
+                    <select id="signupCity" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <option value="">Select your city</option>
+                        <option value="delhi">Delhi NCR</option>
+                        <option value="mumbai">Mumbai</option>
+                        <option value="bangalore">Bangalore</option>
+                        <option value="chennai">Chennai</option>
+                        <option value="pune">Pune</option>
+                        <option value="hyderabad">Hyderabad</option>
+                        <option value="kolkata">Kolkata</option>
+                        <option value="ahmedabad">Ahmedabad</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <input type="password" id="signupPassword" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Create a password">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                    <input type="password" id="confirmPassword" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Confirm your password">
+                </div>
+                <div class="flex items-start">
+                    <input type="checkbox" id="agreeTerms" required class="mt-1 rounded text-blue-600">
+                    <label for="agreeTerms" class="ml-2 text-sm text-gray-600">
+                        I agree to the <a href="#" class="text-blue-600 hover:text-blue-700">Terms of Service</a> and <a href="#" class="text-blue-600 hover:text-blue-700">Privacy Policy</a>
+                    </label>
+                </div>
+                <button type="submit" class="w-full px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300">
+                    Create Account
+                </button>
+            </form>
+            
+            <div class="mt-6 text-center">
+                <p class="text-gray-600">Already have an account? 
+                    <button onclick="switchToLogin()" class="text-blue-600 hover:text-blue-700 font-medium">Login here</button>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div id="feedbackModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold">Share Your Experience</h3>
+                <button onclick="closeFeedbackModal()" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <div id="feedbackContent">
+                <!-- Feedback content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Rental Modal -->
+    <div id="rentalModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <!-- Progress Steps -->
+            <div class="bg-gray-50 p-6 border-b">
+                <div class="flex items-center justify-between max-w-2xl mx-auto">
+                    <div class="step active flex items-center space-x-2 px-4 py-2 rounded-lg">
+                        <span class="w-6 h-6 bg-white rounded-full flex items-center justify-center text-sm font-bold">1</span>
+                        <span class="font-medium">Details</span>
+                    </div>
+                    <div class="step flex items-center space-x-2 px-4 py-2 rounded-lg bg-gray-200">
+                        <span class="w-6 h-6 bg-white rounded-full flex items-center justify-center text-sm font-bold">2</span>
+                        <span class="font-medium">Location</span>
+                    </div>
+                    <div class="step flex items-center space-x-2 px-4 py-2 rounded-lg bg-gray-200">
+                        <span class="w-6 h-6 bg-white rounded-full flex items-center justify-center text-sm font-bold">3</span>
+                        <span class="font-medium">Payment</span>
+                    </div>
+                    <div class="step flex items-center space-x-2 px-4 py-2 rounded-lg bg-gray-200">
+                        <span class="w-6 h-6 bg-white rounded-full flex items-center justify-center text-sm font-bold">4</span>
+                        <span class="font-medium">Tracking</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold">Rent Drone</h3>
+                    <button id="closeModal" onclick="closeRentalModal()" class="text-gray-500 hover:text-gray-700">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div id="modalContent">
+                    <!-- Modal content will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // User authentication and data management
+        let currentUser = null;
+        let userReviews = [];
+        let userOrders = [];
+        let userSettings = {
+            notifications: true,
+            emailUpdates: true,
+            smsUpdates: true,
+            locationSharing: true,
+            autoLocation: true
+        };
+
+        function isUserLoggedIn() {
+            return currentUser !== null;
+        }
+
+        function getUserLocation() {
+            if (currentUser && currentUser.city) {
+                return currentUser.city;
+            }
+            return null;
+        }
+
+        // User-friendly helper functions
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        function scrollToDrones() {
+            const droneFilters = document.getElementById('droneFilters');
+            if (droneFilters) {
+                droneFilters.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function showHowItWorks() {
+            const howItWorks = document.getElementById('howItWorks');
+            if (howItWorks) {
+                howItWorks.classList.toggle('hidden');
+                if (!howItWorks.classList.contains('hidden')) {
+                    howItWorks.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        }
+
+        function clearAllFilters() {
+            // Reset all filters
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
+            document.getElementById('priceFilter').value = '';
+            document.getElementById('supplierFilter').value = '';
+            document.getElementById('locationFilter').value = '';
+            
+            // Show all drones
+            filteredDrones = [...drones];
+            renderDrones(filteredDrones);
+            updateDroneCount();
+        }
+
+        function showAvailableOnly() {
+            filteredDrones = drones.filter(drone => drone.availability === 'Available');
+            renderDrones(filteredDrones);
+            updateDroneCount();
+        }
+
+        function sortByPrice() {
+            filteredDrones.sort((a, b) => a.price - b.price);
+            renderDrones(filteredDrones);
+        }
+
+        function updateDroneCount() {
+            const countElement = document.getElementById('droneCount');
+            if (countElement) {
+                countElement.textContent = filteredDrones.length;
+            }
+        }
+
+        function showReviewsSection() {
+            // Show reviews in a modal or section
+            alert('Reviews section would show customer testimonials and ratings here. This feature helps build trust with potential customers.');
+        }
+
+        function openLoginModal() {
+            const modal = document.getElementById('loginModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeLoginModal() {
+            const modal = document.getElementById('loginModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function openSignupModal() {
+            const modal = document.getElementById('signupModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeSignupModal() {
+            const modal = document.getElementById('signupModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function switchToSignup() {
+            closeLoginModal();
+            openSignupModal();
+        }
+
+        function switchToLogin() {
+            closeSignupModal();
+            openLoginModal();
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            // Simulate login validation
+            if (email && password) {
+                currentUser = {
+                    id: Date.now(),
+                    name: email.includes('@') ? email.split('@')[0] : 'User',
+                    email: email,
+                    phone: '+91 98765 43210',
+                    city: 'delhi', // Default city
+                    joinDate: new Date().toLocaleDateString('en-IN'),
+                    totalOrders: 0,
+                    totalSpent: 0,
+                    membershipLevel: 'Bronze',
+                    address: '',
+                    preferences: {
+                        droneTypes: [],
+                        priceRange: '',
+                        notifications: true
+                    }
+                };
+                
+                updateUserInterface();
+                closeLoginModal();
+                alert('Login successful! Welcome to DroneRent India.');
+            } else {
+                alert('Please enter valid credentials');
+            }
+        }
+
+        function handleSignup(event) {
+            event.preventDefault();
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const phone = document.getElementById('signupPhone').value;
+            const city = document.getElementById('signupCity').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+
+            if (!/^[6-9]\d{9}$/.test(phone)) {
+                alert('Please enter a valid Indian phone number');
+                return;
+            }
+
+            // Simulate account creation
+            currentUser = {
+                id: Date.now(),
+                name: name,
+                email: email,
+                phone: phone,
+                city: city,
+                joinDate: new Date().toLocaleDateString('en-IN'),
+                totalOrders: 0,
+                totalSpent: 0,
+                membershipLevel: 'Bronze',
+                address: '',
+                preferences: {
+                    droneTypes: [],
+                    priceRange: '',
+                    notifications: true
+                }
+            };
+            
+            updateUserInterface();
+            closeSignupModal();
+            alert('Account created successfully! Welcome to DroneRent India.');
+            
+            // Show user dashboard after signup
+            setTimeout(() => {
+                showUserDashboard();
+            }, 1000);
+        }
+
+        function updateUserInterface() {
+            const authButtons = document.getElementById('authButtons');
+            const userProfile = document.getElementById('userProfile');
+            const userName = document.getElementById('userName');
+            const userEmail = document.getElementById('userEmail');
+            const userInitial = document.getElementById('userInitial');
+            const menuUserName = document.getElementById('menuUserName');
+            const menuUserEmail = document.getElementById('menuUserEmail');
+
+            if (currentUser) {
+                authButtons.classList.add('hidden');
+                userProfile.classList.remove('hidden');
+                userName.textContent = `Welcome, ${currentUser.name}!`;
+                userEmail.textContent = currentUser.email;
+                userInitial.textContent = currentUser.name.charAt(0).toUpperCase();
+                
+                // Update menu user info
+                if (menuUserName) menuUserName.textContent = currentUser.name;
+                if (menuUserEmail) menuUserEmail.textContent = currentUser.email;
+                
+                // Update dashboard info
+                const dashboardUserName = document.getElementById('dashboardUserName');
+                const dashboardUserEmail = document.getElementById('dashboardUserEmail');
+                const dashboardUserInitial = document.getElementById('dashboardUserInitial');
+                
+                if (dashboardUserName) dashboardUserName.textContent = currentUser.name;
+                if (dashboardUserEmail) dashboardUserEmail.textContent = currentUser.email;
+                if (dashboardUserInitial) dashboardUserInitial.textContent = currentUser.name.charAt(0).toUpperCase();
+                
+                // Filter drones by user location
+                filterDronesByLocation();
+                
+                // Show welcome message for new users
+                if (currentUser.totalOrders === 0) {
+                    setTimeout(() => {
+                        showWelcomeMessage();
+                    }, 1000);
+                }
+            } else {
+                authButtons.classList.remove('hidden');
+                userProfile.classList.add('hidden');
+            }
+        }
+
+        function showWelcomeMessage() {
+            const welcomeModal = document.createElement('div');
+            welcomeModal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+            welcomeModal.innerHTML = `
+                <div class="bg-white rounded-xl max-w-md w-full p-6 text-center">
+                    <div class="text-6xl mb-4">🎉</div>
+                    <h3 class="text-2xl font-bold mb-3">Welcome to DroneRent India!</h3>
+                    <p class="text-gray-600 mb-6">You're all set! Start exploring our amazing collection of professional drones.</p>
+                    <div class="flex gap-3">
+                        <button onclick="this.closest('.fixed').remove(); scrollToDrones()" class="flex-1 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300">
+                            Browse Drones
+                        </button>
+                        <button onclick="this.closest('.fixed').remove()" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(welcomeModal);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (welcomeModal.parentNode) {
+                    welcomeModal.remove();
+                }
+            }, 5000);
+        }
+
+        function toggleUserMenu() {
+            const userMenu = document.getElementById('userMenu');
+            userMenu.classList.toggle('hidden');
+        }
+
+        function logout() {
+            currentUser = null;
+            userOrders = [];
+            userReviews = [];
+            updateUserInterface();
+            document.getElementById('userMenu').classList.add('hidden');
+            showHomePage();
+            alert('Logged out successfully');
+        }
+
+        function showHomePage() {
+            document.getElementById('homePage').classList.remove('hidden');
+            document.getElementById('userDashboard').classList.add('hidden');
+        }
+
+        function showUserDashboard() {
+            if (!isUserLoggedIn()) {
+                alert('Please login to access your dashboard');
+                openLoginModal();
+                return;
+            }
+            
+            document.getElementById('homePage').classList.add('hidden');
+            document.getElementById('userDashboard').classList.remove('hidden');
+            document.getElementById('userMenu').classList.add('hidden');
+            showDashboardSection('overview');
+        }
+
+        function showUserOrders() {
+            showUserDashboard();
+            showDashboardSection('orders');
+        }
+
+        function showUserSettings() {
+            showUserDashboard();
+            showDashboardSection('settings');
+        }
+
+        function showNearbySuppliers() {
+            showUserDashboard();
+            showDashboardSection('suppliers');
+        }
+
+        function showDashboardSection(section) {
+            // Update sidebar active state
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            const content = document.getElementById('dashboardContent');
+            
+            switch(section) {
+                case 'overview':
+                    showOverviewSection(content);
+                    break;
+                case 'orders':
+                    showOrdersSection(content);
+                    break;
+                case 'profile':
+                    showProfileSection(content);
+                    break;
+                case 'settings':
+                    showSettingsSection(content);
+                    break;
+                case 'suppliers':
+                    showSuppliersSection(content);
+                    break;
+                case 'reviews':
+                    showUserReviewsSection(content);
+                    break;
+            }
+        }
+
+        function showOverviewSection(content) {
+            const totalSpent = userOrders.reduce((sum, order) => sum + order.totalAmount, 0);
+            const activeOrders = userOrders.filter(order => ['confirmed', 'preparing', 'delivered'].includes(order.status)).length;
+            const completedOrders = userOrders.filter(order => order.status === 'completed').length;
+            
+            content.innerHTML = `
+                <div class="space-y-6">
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h2 class="text-2xl font-bold mb-6">Dashboard Overview</h2>
+                        
+                        <div class="grid md:grid-cols-4 gap-6 mb-8">
+                            <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-6 rounded-lg">
+                                <div class="text-3xl font-bold">${userOrders.length}</div>
+                                <div class="text-blue-100">Total Orders</div>
+                            </div>
+                            <div class="bg-gradient-to-r from-green-500 to-green-600 text-white p-6 rounded-lg">
+                                <div class="text-3xl font-bold">${activeOrders}</div>
+                                <div class="text-green-100">Active Rentals</div>
+                            </div>
+                            <div class="bg-gradient-to-r from-purple-500 to-purple-600 text-white p-6 rounded-lg">
+                                <div class="text-3xl font-bold">₹${totalSpent.toLocaleString('en-IN')}</div>
+                                <div class="text-purple-100">Total Spent</div>
+                            </div>
+                            <div class="bg-gradient-to-r from-orange-500 to-orange-600 text-white p-6 rounded-lg">
+                                <div class="text-3xl font-bold">${currentUser.membershipLevel}</div>
+                                <div class="text-orange-100">Membership</div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="bg-gray-50 p-6 rounded-lg">
+                                <h3 class="text-lg font-bold mb-4">Recent Activity</h3>
+                                ${userOrders.length > 0 ? `
+                                    <div class="space-y-3">
+                                        ${userOrders.slice(0, 3).map(order => `
+                                            <div class="flex items-center justify-between p-3 bg-white rounded-lg">
+                                                <div>
+                                                    <div class="font-medium">${order.droneName}</div>
+                                                    <div class="text-sm text-gray-600">${order.date}</div>
+                                                </div>
+                                                <div class="text-right">
+                                                    <div class="font-bold">₹${order.totalAmount.toLocaleString('en-IN')}</div>
+                                                    <div class="text-sm ${getStatusColor(order.status)}">${order.status}</div>
+                                                </div>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                ` : `
+                                    <div class="text-center py-8 text-gray-500">
+                                        <div class="text-4xl mb-2">📦</div>
+                                        <p>No orders yet</p>
+                                        <button onclick="showHomePage()" class="mt-2 text-blue-600 hover:text-blue-700">Browse Drones</button>
+                                    </div>
+                                `}
+                            </div>
+                            
+                            <div class="bg-gray-50 p-6 rounded-lg">
+                                <h3 class="text-lg font-bold mb-4">Quick Actions</h3>
+                                <div class="space-y-3">
+                                    <button onclick="showHomePage()" class="w-full p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                        🚁 Browse Drones
+                                    </button>
+                                    <button onclick="showDashboardSection('orders')" class="w-full p-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                                        📦 View Orders
+                                    </button>
+                                    <button onclick="showDashboardSection('suppliers')" class="w-full p-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                                        📍 Find Suppliers
+                                    </button>
+                                    <button onclick="showDashboardSection('profile')" class="w-full p-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors">
+                                        👤 Update Profile
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showOrdersSection(content) {
+            content.innerHTML = `
+                <div class="space-y-6">
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-2xl font-bold">My Orders</h2>
+                            <div class="flex space-x-2">
+                                <select id="orderStatusFilter" class="px-3 py-2 border border-gray-300 rounded-lg">
+                                    <option value="">All Orders</option>
+                                    <option value="confirmed">Confirmed</option>
+                                    <option value="preparing">Preparing</option>
+                                    <option value="delivered">Delivered</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="cancelled">Cancelled</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div id="ordersContainer">
+                            ${userOrders.length > 0 ? `
+                                <div class="space-y-4">
+                                    ${userOrders.map(order => `
+                                        <div class="border border-gray-200 rounded-lg p-6 order-status">
+                                            <div class="flex justify-between items-start mb-4">
+                                                <div>
+                                                    <h3 class="text-lg font-bold">${order.droneName}</h3>
+                                                    <p class="text-gray-600">Order #${order.id}</p>
+                                                    <p class="text-sm text-gray-500">Supplier: ${order.supplier}</p>
+                                                </div>
+                                                <div class="text-right">
+                                                    <div class="text-xl font-bold">₹${order.totalAmount.toLocaleString('en-IN')}</div>
+                                                    <div class="px-3 py-1 rounded-full text-sm ${getStatusBadgeColor(order.status)}">
+                                                        ${order.status.toUpperCase()}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="grid md:grid-cols-3 gap-4 mb-4 text-sm">
+                                                <div>
+                                                    <strong>Duration:</strong> ${order.duration} days
+                                                </div>
+                                                <div>
+                                                    <strong>Start Date:</strong> ${order.startDate}
+                                                </div>
+                                                <div>
+                                                    <strong>Order Date:</strong> ${order.date}
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="flex justify-between items-center pt-4 border-t">
+                                                <div class="flex space-x-2">
+                                                    <button onclick="viewOrderDetails('${order.id}')" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                                        View Details
+                                                    </button>
+                                                    ${order.status === 'completed' ? `
+                                                        <button onclick="openFeedbackModal('${order.id}')" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                                                            Leave Review
+                                                        </button>
+                                                    ` : ''}
+                                                    ${['confirmed', 'preparing'].includes(order.status) ? `
+                                                        <button onclick="trackOrder('${order.id}')" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                                                            Track Order
+                                                        </button>
+                                                    ` : ''}
+                                                </div>
+                                                <div class="text-sm text-gray-500">
+                                                    📞 ${order.supplierPhone}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : `
+                                <div class="text-center py-12">
+                                    <div class="text-6xl mb-4">📦</div>
+                                    <h3 class="text-xl font-bold mb-2">No Orders Yet</h3>
+                                    <p class="text-gray-600 mb-6">Start exploring our amazing drone collection!</p>
+                                    <button onclick="showHomePage()" class="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300">
+                                        Browse Drones
+                                    </button>
+                                </div>
+                            `}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showProfileSection(content) {
+            content.innerHTML = `
+                <div class="space-y-6">
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h2 class="text-2xl font-bold mb-6">My Profile</h2>
+                        
+                        <form onsubmit="updateProfile(event)" class="space-y-6">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                                    <input type="text" id="profileName" value="${currentUser.name}" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                    <input type="email" id="profileEmail" value="${currentUser.email}" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                                    <input type="tel" id="profilePhone" value="${currentUser.phone}" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">City</label>
+                                    <select id="profileCity" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                        <option value="delhi" ${currentUser.city === 'delhi' ? 'selected' : ''}>Delhi NCR</option>
+                                        <option value="mumbai" ${currentUser.city === 'mumbai' ? 'selected' : ''}>Mumbai</option>
+                                        <option value="bangalore" ${currentUser.city === 'bangalore' ? 'selected' : ''}>Bangalore</option>
+                                        <option value="chennai" ${currentUser.city === 'chennai' ? 'selected' : ''}>Chennai</option>
+                                        <option value="pune" ${currentUser.city === 'pune' ? 'selected' : ''}>Pune</option>
+                                        <option value="hyderabad" ${currentUser.city === 'hyderabad' ? 'selected' : ''}>Hyderabad</option>
+                                        <option value="kolkata" ${currentUser.city === 'kolkata' ? 'selected' : ''}>Kolkata</option>
+                                        <option value="ahmedabad" ${currentUser.city === 'ahmedabad' ? 'selected' : ''}>Ahmedabad</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                                <textarea id="profileAddress" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter your complete address">${currentUser.address || ''}</textarea>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-lg font-medium mb-3">Preferences</h3>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Preferred Drone Types</label>
+                                        <div class="space-y-2">
+                                            <label class="flex items-center">
+                                                <input type="checkbox" value="photography" class="rounded text-blue-600">
+                                                <span class="ml-2">Photography Drones</span>
+                                            </label>
+                                            <label class="flex items-center">
+                                                <input type="checkbox" value="surveying" class="rounded text-blue-600">
+                                                <span class="ml-2">Surveying Drones</span>
+                                            </label>
+                                            <label class="flex items-center">
+                                                <input type="checkbox" value="racing" class="rounded text-blue-600">
+                                                <span class="ml-2">Racing Drones</span>
+                                            </label>
+                                            <label class="flex items-center">
+                                                <input type="checkbox" value="industrial" class="rounded text-blue-600">
+                                                <span class="ml-2">Industrial Drones</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Price Range</label>
+                                        <select id="profilePriceRange" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                            <option value="">No Preference</option>
+                                            <option value="0-5000">₹0 - ₹5,000/day</option>
+                                            <option value="5000-15000">₹5,000 - ₹15,000/day</option>
+                                            <option value="15000+">₹15,000+/day</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-end space-x-3">
+                                <button type="button" onclick="showDashboardSection('overview')" class="px-6 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors">
+                                    Cancel
+                                </button>
+                                <button type="submit" class="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300">
+                                    Update Profile
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h3 class="text-lg font-bold mb-4">Account Information</h3>
+                        <div class="grid md:grid-cols-3 gap-4 text-sm">
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <div class="font-medium text-gray-700">Member Since</div>
+                                <div class="text-lg font-bold">${currentUser.joinDate}</div>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <div class="font-medium text-gray-700">Total Orders</div>
+                                <div class="text-lg font-bold">${userOrders.length}</div>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <div class="font-medium text-gray-700">Membership Level</div>
+                                <div class="text-lg font-bold">${currentUser.membershipLevel}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showSettingsSection(content) {
+            content.innerHTML = `
+                <div class="space-y-6">
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h2 class="text-2xl font-bold mb-6">Settings</h2>
+                        
+                        <form onsubmit="updateSettings(event)" class="space-y-6">
+                            <div>
+                                <h3 class="text-lg font-medium mb-4">Notification Preferences</h3>
+                                <div class="space-y-3">
+                                    <label class="flex items-center justify-between">
+                                        <span>Push Notifications</span>
+                                        <input type="checkbox" id="notifications" ${userSettings.notifications ? 'checked' : ''} class="rounded text-blue-600">
+                                    </label>
+                                    <label class="flex items-center justify-between">
+                                        <span>Email Updates</span>
+                                        <input type="checkbox" id="emailUpdates" ${userSettings.emailUpdates ? 'checked' : ''} class="rounded text-blue-600">
+                                    </label>
+                                    <label class="flex items-center justify-between">
+                                        <span>SMS Updates</span>
+                                        <input type="checkbox" id="smsUpdates" ${userSettings.smsUpdates ? 'checked' : ''} class="rounded text-blue-600">
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-lg font-medium mb-4">Privacy Settings</h3>
+                                <div class="space-y-3">
+                                    <label class="flex items-center justify-between">
+                                        <span>Share Location for Better Recommendations</span>
+                                        <input type="checkbox" id="locationSharing" ${userSettings.locationSharing ? 'checked' : ''} class="rounded text-blue-600">
+                                    </label>
+                                    <label class="flex items-center justify-between">
+                                        <span>Auto-detect Location</span>
+                                        <input type="checkbox" id="autoLocation" ${userSettings.autoLocation ? 'checked' : ''} class="rounded text-blue-600">
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-lg font-medium mb-4">Account Security</h3>
+                                <div class="space-y-3">
+                                    <button type="button" onclick="changePassword()" class="w-full p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-left">
+                                        🔒 Change Password
+                                    </button>
+                                    <button type="button" onclick="enable2FA()" class="w-full p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-left">
+                                        🛡️ Enable Two-Factor Authentication
+                                    </button>
+                                    <button type="button" onclick="downloadData()" class="w-full p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-left">
+                                        📄 Download My Data
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-end space-x-3">
+                                <button type="button" onclick="showDashboardSection('overview')" class="px-6 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors">
+                                    Cancel
+                                </button>
+                                <button type="submit" class="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300">
+                                    Save Settings
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="bg-red-50 border border-red-200 rounded-xl p-6">
+                        <h3 class="text-lg font-bold text-red-800 mb-4">Danger Zone</h3>
+                        <p class="text-red-600 mb-4">These actions cannot be undone. Please be careful.</p>
+                        <button onclick="deleteAccount()" class="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                            Delete Account
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showSuppliersSection(content) {
+            const userLocation = getUserLocation();
+            const nearbySuppliers = suppliers.filter(supplier => 
+                !userLocation || supplier.cities.includes(userLocation)
+            );
+            
+            content.innerHTML = `
+                <div class="space-y-6">
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-2xl font-bold">Nearby Suppliers</h2>
+                            <div class="text-sm text-gray-600">
+                                📍 Showing suppliers in ${userLocation ? getCityName(userLocation) : 'all cities'}
+                            </div>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-6">
+                            ${nearbySuppliers.map(supplier => `
+                                <div class="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
+                                    <div class="flex items-start justify-between mb-4">
+                                        <div>
+                                            <h3 class="text-lg font-bold">${supplier.name}</h3>
+                                            <div class="flex items-center space-x-2 text-sm text-gray-600">
+                                                <span>⭐ ${supplier.rating}</span>
+                                                <span>•</span>
+                                                <span>${supplier.totalDrones} drones</span>
+                                                <span>•</span>
+                                                <span class="text-green-600">${supplier.distance}</span>
+                                            </div>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
+                                                ${supplier.status}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <p class="text-gray-600 text-sm mb-2">${supplier.description}</p>
+                                        <div class="flex flex-wrap gap-2">
+                                            ${supplier.specialties.map(specialty => 
+                                                `<span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">${specialty}</span>`
+                                            ).join('')}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="space-y-2 text-sm mb-4">
+                                        <div class="flex items-center space-x-2">
+                                            <span>📍</span>
+                                            <span>${supplier.address}</span>
+                                        </div>
+                                        <div class="flex items-center space-x-2">
+                                            <span>📞</span>
+                                            <span>${supplier.phone}</span>
+                                        </div>
+                                        <div class="flex items-center space-x-2">
+                                            <span>📧</span>
+                                            <span>${supplier.email}</span>
+                                        </div>
+                                        <div class="flex items-center space-x-2">
+                                            <span>🕒</span>
+                                            <span>${supplier.hours}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex space-x-2">
+                                        <button onclick="viewSupplierDrones('${supplier.id}')" class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                            View Drones
+                                        </button>
+                                        <button onclick="contactSupplier('${supplier.name}')" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                                            📞 Contact
+                                        </button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        ${nearbySuppliers.length === 0 ? `
+                            <div class="text-center py-12">
+                                <div class="text-6xl mb-4">📍</div>
+                                <h3 class="text-xl font-bold mb-2">No Suppliers Found</h3>
+                                <p class="text-gray-600 mb-6">No suppliers found in your area. Try updating your location in profile settings.</p>
+                                <button onclick="showDashboardSection('profile')" class="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300">
+                                    Update Location
+                                </button>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function showUserReviewsSection(content) {
+            const userReviewsList = userReviews.filter(review => review.userEmail === currentUser.email);
+            
+            content.innerHTML = `
+                <div class="space-y-6">
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h2 class="text-2xl font-bold mb-6">My Reviews</h2>
+                        
+                        ${userReviewsList.length > 0 ? `
+                            <div class="space-y-4">
+                                ${userReviewsList.map(review => `
+                                    <div class="border border-gray-200 rounded-lg p-6">
+                                        <div class="flex justify-between items-start mb-3">
+                                            <div>
+                                                <h3 class="text-lg font-bold">${review.reviewTitle}</h3>
+                                                <div class="flex items-center space-x-2 text-sm text-gray-600">
+                                                    <span>${review.droneName}</span>
+                                                    <span>•</span>
+                                                    <span>${review.date}</span>
+                                                    <span>•</span>
+                                                    <span class="${review.allowPublic ? 'text-green-600' : 'text-orange-600'}">
+                                                        ${review.allowPublic ? '🌐 Public' : '🔒 Private'}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="text-yellow-400 text-lg">${'⭐'.repeat(review.overallRating)}</div>
+                                                <div class="text-sm text-gray-500">${review.overallRating}/5</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <p class="text-gray-700 mb-3">${review.reviewText}</p>
+                                        
+                                        <div class="flex justify-between items-center">
+                                            <div class="flex space-x-2">
+                                                <button onclick="editReview('${review.id}')" class="px-3 py-1 text-blue-600 border border-blue-600 rounded hover:bg-blue-50 transition-colors">
+                                                    Edit
+                                                </button>
+                                                <button onclick="deleteReview('${review.id}')" class="px-3 py-1 text-red-600 border border-red-600 rounded hover:bg-red-50 transition-colors">
+                                                    Delete
+                                                </button>
+                                            </div>
+                                            <div class="text-sm text-gray-500">
+                                                Supplier: ${review.supplier}
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : `
+                            <div class="text-center py-12">
+                                <div class="text-6xl mb-4">⭐</div>
+                                <h3 class="text-xl font-bold mb-2">No Reviews Yet</h3>
+                                <p class="text-gray-600 mb-6">Complete your first rental to leave a review!</p>
+                                <button onclick="showHomePage()" class="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300">
+                                    Browse Drones
+                                </button>
+                            </div>
+                        `}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Helper functions
+        function getStatusColor(status) {
+            const colors = {
+                'confirmed': 'text-blue-600',
+                'preparing': 'text-yellow-600',
+                'delivered': 'text-green-600',
+                'completed': 'text-green-800',
+                'cancelled': 'text-red-600'
+            };
+            return colors[status] || 'text-gray-600';
+        }
+
+        function getStatusBadgeColor(status) {
+            const colors = {
+                'confirmed': 'bg-blue-100 text-blue-800',
+                'preparing': 'bg-yellow-100 text-yellow-800',
+                'delivered': 'bg-green-100 text-green-800',
+                'completed': 'bg-green-200 text-green-900',
+                'cancelled': 'bg-red-100 text-red-800'
+            };
+            return colors[status] || 'bg-gray-100 text-gray-800';
+        }
+
+        function getCityName(cityCode) {
+            const cities = {
+                'delhi': 'Delhi NCR',
+                'mumbai': 'Mumbai',
+                'bangalore': 'Bangalore',
+                'chennai': 'Chennai',
+                'pune': 'Pune',
+                'hyderabad': 'Hyderabad',
+                'kolkata': 'Kolkata',
+                'ahmedabad': 'Ahmedabad'
+            };
+            return cities[cityCode] || cityCode;
+        }
+
+        function updateProfile(event) {
+            event.preventDefault();
+            
+            currentUser.name = document.getElementById('profileName').value;
+            currentUser.email = document.getElementById('profileEmail').value;
+            currentUser.phone = document.getElementById('profilePhone').value;
+            currentUser.city = document.getElementById('profileCity').value;
+            currentUser.address = document.getElementById('profileAddress').value;
+            
+            // Update preferences
+            const droneTypes = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+            currentUser.preferences.droneTypes = droneTypes;
+            currentUser.preferences.priceRange = document.getElementById('profilePriceRange').value;
+            
+            updateUserInterface();
+            alert('Profile updated successfully!');
+            showDashboardSection('overview');
+        }
+
+        function updateSettings(event) {
+            event.preventDefault();
+            
+            userSettings.notifications = document.getElementById('notifications').checked;
+            userSettings.emailUpdates = document.getElementById('emailUpdates').checked;
+            userSettings.smsUpdates = document.getElementById('smsUpdates').checked;
+            userSettings.locationSharing = document.getElementById('locationSharing').checked;
+            userSettings.autoLocation = document.getElementById('autoLocation').checked;
+            
+            alert('Settings updated successfully!');
+        }
+
+        function changePassword() {
+            alert('Password change functionality would redirect to a secure password change form.');
+        }
+
+        function enable2FA() {
+            alert('Two-factor authentication setup would be implemented here.');
+        }
+
+        function downloadData() {
+            alert('Your data download has been initiated. You will receive an email with your data within 24 hours.');
+        }
+
+        function deleteAccount() {
+            if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+                if (confirm('This will permanently delete all your data, orders, and reviews. Are you absolutely sure?')) {
+                    alert('Account deletion request submitted. You will receive a confirmation email.');
+                }
+            }
+        }
+
+        function viewOrderDetails(orderId) {
+            const order = userOrders.find(o => o.id === orderId);
+            if (order) {
+                alert(`Order Details:\n\nDrone: ${order.droneName}\nSupplier: ${order.supplier}\nDuration: ${order.duration} days\nTotal: ₹${order.totalAmount.toLocaleString('en-IN')}\nStatus: ${order.status}\n\nDetailed tracking and order management would be shown here.`);
+            }
+        }
+
+        function trackOrder(orderId) {
+            alert('Order tracking with real-time GPS location would be shown here.');
+        }
+
+        function viewSupplierDrones(supplierId) {
+            const supplier = suppliers.find(s => s.id === supplierId);
+            if (supplier) {
+                // Filter drones by supplier and show them
+                showHomePage();
+                document.getElementById('supplierFilter').value = supplier.name;
+                filterDrones();
+            }
+        }
+
+        function contactSupplier(supplierName) {
+            const supplier = suppliers.find(s => s.name === supplierName);
+            if (supplier) {
+                const modal = document.createElement('div');
+                modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+                modal.innerHTML = `
+                    <div class="bg-white rounded-xl max-w-md w-full p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold">Contact ${supplier.name}</h3>
+                            <button onclick="this.closest('.fixed').remove()" class="text-gray-500 hover:text-gray-700">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="space-y-3">
+                            <a href="tel:${supplier.phone}" class="flex items-center p-3 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
+                                <span class="mr-3 text-green-600">📞</span>
+                                <div>
+                                    <div class="font-medium">Call Now</div>
+                                    <div class="text-sm text-gray-600">${supplier.phone}</div>
+                                </div>
+                            </a>
+                            <a href="mailto:${supplier.email}" class="flex items-center p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
+                                <span class="mr-3 text-blue-600">📧</span>
+                                <div>
+                                    <div class="font-medium">Send Email</div>
+                                    <div class="text-sm text-gray-600">${supplier.email}</div>
+                                </div>
+                            </a>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                                <span class="mr-3 text-gray-600">📍</span>
+                                <div>
+                                    <div class="font-medium">Address</div>
+                                    <div class="text-sm text-gray-600">${supplier.address}</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-yellow-50 rounded-lg">
+                                <span class="mr-3 text-yellow-600">🕒</span>
+                                <div>
+                                    <div class="font-medium">Hours</div>
+                                    <div class="text-sm text-gray-600">${supplier.hours}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            }
+        }
+
+        function viewDroneDetails(droneId) {
+            const drone = drones.find(d => d.id === droneId);
+            if (drone) {
+                const modal = document.createElement('div');
+                modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+                modal.innerHTML = `
+                    <div class="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="text-2xl font-bold">${drone.name}</h3>
+                                <button onclick="this.closest('.fixed').remove()" class="text-gray-500 hover:text-gray-700">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <div class="bg-gradient-to-br from-blue-50 to-purple-50 p-8 rounded-xl text-center mb-4">
+                                        <div class="text-8xl mb-2">${drone.image}</div>
+                                        <div class="text-lg font-medium text-gray-700">${drone.category.charAt(0).toUpperCase() + drone.category.slice(1)} Drone</div>
+                                    </div>
+                                    
+                                    <div class="space-y-3">
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Supplier:</span>
+                                            <span class="font-medium">${drone.supplier}</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Location:</span>
+                                            <span class="font-medium">${drone.location.address}</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Availability:</span>
+                                            <span class="font-medium ${drone.availability === 'Available' ? 'text-green-600' : 'text-red-600'}">${drone.availability}</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Daily Rate:</span>
+                                            <span class="font-bold text-xl text-blue-600">₹${drone.price.toLocaleString('en-IN')}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <h4 class="text-lg font-bold mb-3">Technical Specifications</h4>
+                                    <div class="grid grid-cols-2 gap-3 mb-6">
+                                        <div class="bg-gray-50 p-3 rounded-lg">
+                                            <div class="text-sm text-gray-500">Flight Time</div>
+                                            <div class="font-bold">${drone.specs.flightTime}</div>
+                                        </div>
+                                        <div class="bg-gray-50 p-3 rounded-lg">
+                                            <div class="text-sm text-gray-500">Range</div>
+                                            <div class="font-bold">${drone.specs.range}</div>
+                                        </div>
+                                        <div class="bg-gray-50 p-3 rounded-lg">
+                                            <div class="text-sm text-gray-500">Camera</div>
+                                            <div class="font-bold">${drone.specs.camera}</div>
+                                        </div>
+                                        <div class="bg-gray-50 p-3 rounded-lg">
+                                            <div class="text-sm text-gray-500">Weight</div>
+                                            <div class="font-bold">${drone.specs.weight}</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <h4 class="text-lg font-bold mb-3">Key Features</h4>
+                                    <div class="flex flex-wrap gap-2 mb-6">
+                                        ${drone.features.map(feature => 
+                                            `<span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">${feature}</span>`
+                                        ).join('')}
+                                    </div>
+                                    
+                                    <div class="flex gap-3">
+                                        <button onclick="this.closest('.fixed').remove(); contactSupplier('${drone.supplier}')" class="flex-1 px-4 py-2 border-2 border-gray-300 text-gray-700 rounded-lg hover:border-blue-500 hover:text-blue-600 transition-colors">
+                                            Contact Supplier
+                                        </button>
+                                        <button onclick="this.closest('.fixed').remove(); openRentalModal(${drone.id})" class="flex-1 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 ${drone.availability !== 'Available' ? 'opacity-50 cursor-not-allowed' : ''}" ${drone.availability !== 'Available' ? 'disabled' : ''}>
+                                            ${drone.availability === 'Available' ? 'Rent Now' : 'Not Available'}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            }
+        }
+
+        // Close menus when clicking outside
+        document.addEventListener('click', function(event) {
+            const userMenu = document.getElementById('userMenu');
+            const userButton = event.target.closest('button[onclick="toggleUserMenu()"]');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileButton = event.target.closest('button[onclick="toggleMobileMenu()"]');
+            
+            if (!userButton && !userMenu.contains(event.target)) {
+                userMenu.classList.add('hidden');
+            }
+            
+            if (!mobileButton && !mobileMenu.contains(event.target)) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+
+        // Sample drone data with Indian pricing and locations
+        const drones = [
+            {
+                id: 1,
+                name: "DJI Mavic 3 Pro",
+                supplier: "SkyTech Rentals",
+                category: "photography",
+                price: 12500,
+                location: { lat: 28.6139, lng: 77.2090, address: "Connaught Place, New Delhi", city: "delhi" },
+                image: "📸",
+                specs: {
+                    flightTime: "43 minutes",
+                    range: "15 km",
+                    camera: "4K/120fps",
+                    weight: "895g"
+                },
+                features: ["4K Camera", "Obstacle Avoidance", "GPS Return", "Professional Gimbal"],
+                availability: "Available",
+                contact: "contact@skytech.in",
+                phone: "+91 98765 43210"
+            },
+            {
+                id: 2,
+                name: "DJI Phantom 4 RTK",
+                supplier: "AerialPro India",
+                category: "surveying",
+                price: 23500,
+                location: { lat: 19.0760, lng: 72.8777, address: "Bandra West, Mumbai", city: "mumbai" },
+                image: "🗺️",
+                specs: {
+                    flightTime: "30 minutes",
+                    range: "7 km",
+                    camera: "20MP",
+                    weight: "1391g"
+                },
+                features: ["RTK Positioning", "Survey Grade Accuracy", "Mapping Software", "Centimeter Precision"],
+                availability: "Available",
+                contact: "rentals@aerialpro.in",
+                phone: "+91 87654 32109"
+            },
+            {
+                id: 3,
+                name: "FPV Racing Drone X1",
+                supplier: "DroneHub Mumbai",
+                category: "racing",
+                price: 6250,
+                location: { lat: 19.0176, lng: 72.8562, address: "Andheri East, Mumbai", city: "mumbai" },
+                image: "🏁",
+                specs: {
+                    flightTime: "8 minutes",
+                    range: "2 km",
+                    camera: "1080p/60fps",
+                    weight: "450g"
+                },
+                features: ["High Speed", "Acrobatic Flight", "FPV Goggles Included", "Custom Tuning"],
+                availability: "Available",
+                contact: "info@dronehub.in",
+                phone: "+91 76543 21098"
+            },
+            {
+                id: 4,
+                name: "DJI Matrice 300 RTK",
+                supplier: "FlightGear Delhi",
+                category: "industrial",
+                price: 37500,
+                location: { lat: 28.5355, lng: 77.3910, address: "Sector 62, Noida", city: "delhi" },
+                image: "🏭",
+                specs: {
+                    flightTime: "55 minutes",
+                    range: "15 km",
+                    camera: "Multiple Payloads",
+                    weight: "6.3kg"
+                },
+                features: ["Dual Operator", "IP45 Rating", "Advanced AI", "Enterprise Grade"],
+                availability: "Available",
+                contact: "enterprise@flightgear.in",
+                phone: "+91 65432 10987"
+            },
+            {
+                id: 5,
+                name: "DJI Air 2S",
+                supplier: "SkyTech Rentals",
+                category: "photography",
+                price: 10000,
+                location: { lat: 28.6139, lng: 77.2090, address: "Connaught Place, New Delhi", city: "delhi" },
+                image: "📷",
+                specs: {
+                    flightTime: "31 minutes",
+                    range: "12 km",
+                    camera: "5.4K/30fps",
+                    weight: "595g"
+                },
+                features: ["1-inch Sensor", "MasterShots", "FocusTrack", "APAS 4.0"],
+                availability: "Rented",
+                contact: "contact@skytech.in",
+                phone: "+91 98765 43210"
+            },
+            {
+                id: 6,
+                name: "Autel EVO II Pro",
+                supplier: "AerialPro India",
+                category: "photography",
+                price: 15000,
+                location: { lat: 19.0760, lng: 72.8777, address: "Bandra West, Mumbai", city: "mumbai" },
+                image: "🎬",
+                specs: {
+                    flightTime: "40 minutes",
+                    range: "9 km",
+                    camera: "6K/30fps",
+                    weight: "1127g"
+                },
+                features: ["6K Video", "360° Obstacle Avoidance", "Dynamic Track", "Hyperlapse"],
+                availability: "Available",
+                contact: "rentals@aerialpro.in",
+                phone: "+91 87654 32109"
+            }
+        ];
+
+        // Sample suppliers data
+        const suppliers = [
+            {
+                id: 1,
+                name: "SkyTech Rentals",
+                rating: 4.8,
+                totalDrones: 25,
+                distance: "2.3 km away",
+                status: "Open Now",
+                description: "Professional drone rental service specializing in photography and videography equipment.",
+                specialties: ["Photography", "Videography", "Events"],
+                address: "Connaught Place, New Delhi",
+                phone: "+91 98765 43210",
+                email: "contact@skytech.in",
+                hours: "9:00 AM - 8:00 PM",
+                cities: ["delhi"]
+            },
+            {
+                id: 2,
+                name: "AerialPro India",
+                rating: 4.9,
+                totalDrones: 18,
+                distance: "1.8 km away",
+                status: "Open Now",
+                description: "Leading provider of surveying and mapping drones with professional support.",
+                specialties: ["Surveying", "Mapping", "Industrial"],
+                address: "Bandra West, Mumbai",
+                phone: "+91 87654 32109",
+                email: "rentals@aerialpro.in",
+                hours: "8:00 AM - 9:00 PM",
+                cities: ["mumbai"]
+            },
+            {
+                id: 3,
+                name: "DroneHub Mumbai",
+                rating: 4.6,
+                totalDrones: 12,
+                distance: "3.1 km away",
+                status: "Open Now",
+                description: "Specialized in racing drones and FPV equipment with training services.",
+                specialties: ["Racing", "FPV", "Training"],
+                address: "Andheri East, Mumbai",
+                phone: "+91 76543 21098",
+                email: "info@dronehub.in",
+                hours: "10:00 AM - 7:00 PM",
+                cities: ["mumbai"]
+            },
+            {
+                id: 4,
+                name: "FlightGear Delhi",
+                rating: 4.7,
+                totalDrones: 30,
+                distance: "4.2 km away",
+                status: "Open Now",
+                description: "Enterprise-grade drone solutions for industrial and commercial applications.",
+                specialties: ["Industrial", "Enterprise", "Surveying"],
+                address: "Sector 62, Noida",
+                phone: "+91 65432 10987",
+                email: "enterprise@flightgear.in",
+                hours: "9:00 AM - 6:00 PM",
+                cities: ["delhi"]
+            }
+        ];
+
+        let filteredDrones = [...drones];
+        let currentStep = 1;
+        let currentDrone = null;
+        let rentalData = {};
+
+        function filterDronesByLocation() {
+            if (currentUser && currentUser.city) {
+                // Prioritize drones from user's city but don't exclude others
+                filteredDrones = drones.sort((a, b) => {
+                    const aInCity = a.location.city === currentUser.city;
+                    const bInCity = b.location.city === currentUser.city;
+                    if (aInCity && !bInCity) return -1;
+                    if (!aInCity && bInCity) return 1;
+                    return 0;
+                });
+            }
+            renderDrones(filteredDrones);
+        }
+
+        function renderDrones(dronesToRender) {
+            const grid = document.getElementById('droneGrid');
+            grid.innerHTML = '';
+
+            dronesToRender.forEach(drone => {
+                const availabilityColor = drone.availability === 'Available' ? 'text-green-600 bg-green-100' : 'text-red-600 bg-red-100';
+                const isNearby = currentUser && drone.location.city === currentUser.city;
+                
+                const droneCard = document.createElement('div');
+                droneCard.className = 'drone-card bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:border-blue-200 transition-all duration-300';
+                droneCard.innerHTML = `
+                    <div class="relative">
+                        <!-- Status Badge -->
+                        <div class="absolute top-4 right-4 z-10">
+                            <span class="px-3 py-1 rounded-full text-sm font-medium ${availabilityColor} shadow-sm">
+                                ${drone.availability}
+                            </span>
+                            ${isNearby ? '<div class="text-xs text-blue-600 mt-1 bg-blue-50 px-2 py-1 rounded-full">📍 Near you</div>' : ''}
+                        </div>
+                        
+                        <!-- Drone Image/Icon -->
+                        <div class="bg-gradient-to-br from-blue-50 to-purple-50 p-8 text-center">
+                            <div class="text-6xl mb-2">${drone.image}</div>
+                            <div class="text-sm text-gray-600">${drone.category.charAt(0).toUpperCase() + drone.category.slice(1)} Drone</div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <!-- Drone Info -->
+                        <div class="mb-4">
+                            <h3 class="text-xl font-bold text-gray-900 mb-1">${drone.name}</h3>
+                            <div class="flex items-center justify-between text-sm text-gray-600">
+                                <span>by ${drone.supplier}</span>
+                                <span class="text-2xl font-bold text-blue-600">₹${drone.price.toLocaleString('en-IN')}<span class="text-sm font-normal">/day</span></span>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-1">📍 ${drone.location.address}</p>
+                        </div>
+                        
+                        <!-- Quick Specs -->
+                        <div class="grid grid-cols-2 gap-3 mb-4">
+                            <div class="bg-gray-50 p-3 rounded-lg text-center">
+                                <div class="text-xs text-gray-500 mb-1">Flight Time</div>
+                                <div class="font-bold text-gray-900">${drone.specs.flightTime}</div>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded-lg text-center">
+                                <div class="text-xs text-gray-500 mb-1">Camera</div>
+                                <div class="font-bold text-gray-900">${drone.specs.camera}</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Key Features -->
+                        <div class="mb-4">
+                            <div class="flex flex-wrap gap-1">
+                                ${drone.features.slice(0, 3).map(feature => 
+                                    `<span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">${feature}</span>`
+                                ).join('')}
+                                ${drone.features.length > 3 ? `<span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">+${drone.features.length - 3} more</span>` : ''}
+                            </div>
+                        </div>
+                        
+                        <!-- Rating (if available) -->
+                        ${drone.averageRating ? `
+                        <div class="mb-4 flex items-center space-x-2">
+                            <div class="text-yellow-400">${'⭐'.repeat(Math.round(drone.averageRating))}</div>
+                            <span class="text-sm text-gray-600">${drone.averageRating.toFixed(1)} (${drone.totalReviews} reviews)</span>
+                        </div>` : ''}
+                        
+                        <!-- Action Buttons -->
+                        <div class="flex gap-3">
+                            <button onclick="viewDroneDetails(${drone.id})" class="flex-1 px-4 py-2 border-2 border-gray-200 text-gray-700 rounded-lg hover:border-blue-500 hover:text-blue-600 transition-all duration-300 font-medium">
+                                View Details
+                            </button>
+                            <button onclick="openRentalModal(${drone.id})" 
+                                    class="flex-1 px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 ${drone.availability !== 'Available' ? 'opacity-50 cursor-not-allowed' : ''}"
+                                    ${drone.availability !== 'Available' ? 'disabled' : ''}>
+                                ${drone.availability === 'Available' ? '🚁 Rent Now' : 'Not Available'}
+                            </button>
+                        </div>
+                        
+                        <!-- Quick Contact -->
+                        <div class="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between text-sm text-gray-500">
+                            <span>📞 ${drone.phone}</span>
+                            <button onclick="contactSupplier('${drone.supplier}')" class="text-blue-600 hover:text-blue-700 font-medium">
+                                Contact Supplier
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(droneCard);
+            });
+            
+            updateDroneCount();
+        }
+
+        function filterDrones() {
+            const categoryFilter = document.querySelector('.filter-btn.active').dataset.filter;
+            const priceFilter = document.getElementById('priceFilter').value;
+            const supplierFilter = document.getElementById('supplierFilter').value;
+            const locationFilter = document.getElementById('locationFilter').value;
+
+            filteredDrones = drones.filter(drone => {
+                let matches = true;
+
+                if (categoryFilter !== 'all' && drone.category !== categoryFilter) {
+                    matches = false;
+                }
+
+                if (priceFilter) {
+                    if (priceFilter === '0-5000' && drone.price > 5000) matches = false;
+                    if (priceFilter === '5000-15000' && (drone.price < 5000 || drone.price > 15000)) matches = false;
+                    if (priceFilter === '15000+' && drone.price < 15000) matches = false;
+                }
+
+                if (supplierFilter && drone.supplier !== supplierFilter) {
+                    matches = false;
+                }
+
+                if (locationFilter && drone.location.city !== locationFilter) {
+                    matches = false;
+                }
+
+                return matches;
+            });
+
+            renderDrones(filteredDrones);
+        }
+
+        function openRentalModal(droneId) {
+            // Check if user is logged in
+            if (!isUserLoggedIn()) {
+                alert('Please login or create an account to rent a drone');
+                openLoginModal();
+                return;
+            }
+
+            currentDrone = drones.find(d => d.id === droneId);
+            if (!currentDrone || currentDrone.availability !== 'Available') return;
+
+            currentStep = 1;
+            updateSteps();
+            showStep1();
+            
+            const modal = document.getElementById('rentalModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeRentalModal() {
+            const modal = document.getElementById('rentalModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function updateSteps() {
+            const steps = document.querySelectorAll('.step');
+            steps.forEach((step, index) => {
+                step.classList.remove('active', 'completed');
+                if (index + 1 < currentStep) {
+                    step.classList.add('completed');
+                } else if (index + 1 === currentStep) {
+                    step.classList.add('active');
+                }
+            });
+        }
+
+        function showStep1() {
+            const modalContent = document.getElementById('modalContent');
+            modalContent.innerHTML = `
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <div class="text-center mb-6">
+                            <div class="text-6xl mb-3">${currentDrone.image}</div>
+                            <h4 class="text-xl font-bold">${currentDrone.name}</h4>
+                            <p class="text-gray-600">by ${currentDrone.supplier}</p>
+                            <p class="text-2xl font-bold text-blue-600 mt-2">₹${currentDrone.price.toLocaleString('en-IN')}/day</p>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Your Name *</label>
+                                <input type="text" id="customerName" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" value="${currentUser.name}">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
+                                <input type="tel" id="customerPhone" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" value="${currentUser.phone}">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                                <input type="email" id="customerEmail" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" value="${currentUser.email}">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Rental Duration (days) *</label>
+                                <input type="number" id="rentalDays" min="1" value="1" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Start Date *</label>
+                                <input type="date" id="startDate" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Purpose of Use</label>
+                                <textarea id="purpose" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Wedding photography, surveying, etc."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-lg font-bold mb-4">Rental Summary</h4>
+                        <div class="bg-gray-50 p-4 rounded-lg space-y-3">
+                            <div class="flex justify-between">
+                                <span>Daily Rate:</span>
+                                <span class="font-bold">₹${currentDrone.price.toLocaleString('en-IN')}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Duration:</span>
+                                <span id="summaryDuration">1 day</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Total Amount:</span>
+                                <span id="summaryTotal" class="font-bold text-xl text-blue-600">₹${currentDrone.price.toLocaleString('en-IN')}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <h4 class="text-lg font-bold mb-3">What's Included</h4>
+                            <ul class="space-y-2 text-sm text-gray-600">
+                                <li class="flex items-center">
+                                    <span class="text-green-500 mr-2">✓</span>
+                                    Professional drone with all accessories
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-green-500 mr-2">✓</span>
+                                    Basic training and setup support
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-green-500 mr-2">✓</span>
+                                    Insurance coverage
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="text-green-500 mr-2">✓</span>
+                                    24/7 customer support
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-between items-center mt-8 pt-6 border-t">
+                    <button onclick="closeRentalModal()" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                        Cancel
+                    </button>
+                    <button onclick="nextStep()" class="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300">
+                        Continue to Location
+                    </button>
+                </div>
+            `;
+            
+            // Set default start date to tomorrow
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            document.getElementById('startDate').value = tomorrow.toISOString().split('T')[0];
+            
+            // Update summary when duration changes
+            document.getElementById('rentalDays').addEventListener('input', updateRentalSummary);
+        }
+
+        function updateRentalSummary() {
+            const days = parseInt(document.getElementById('rentalDays').value) || 1;
+            const total = currentDrone.price * days;
+            
+            document.getElementById('summaryDuration').textContent = days + (days === 1 ? ' day' : ' days');
+            document.getElementById('summaryTotal').textContent = '₹' + total.toLocaleString('en-IN');
+        }
+
+        function nextStep() {
+            if (currentStep === 1) {
+                // Validate step 1
+                const requiredFields = ['customerName', 'customerPhone', 'customerEmail', 'rentalDays', 'startDate'];
+                let isValid = true;
+                
+                requiredFields.forEach(fieldId => {
+                    const field = document.getElementById(fieldId);
+                    if (!field.value.trim()) {
+                        field.classList.add('border-red-500');
+                        isValid = false;
+                    } else {
+                        field.classList.remove('border-red-500');
+                    }
+                });
+                
+                if (!isValid) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+                
+                // Save step 1 data
+                rentalData = {
+                    customerName: document.getElementById('customerName').value,
+                    customerPhone: document.getElementById('customerPhone').value,
+                    customerEmail: document.getElementById('customerEmail').value,
+                    rentalDays: parseInt(document.getElementById('rentalDays').value),
+                    startDate: document.getElementById('startDate').value,
+                    purpose: document.getElementById('purpose').value
+                };
+                
+                currentStep = 2;
+                updateSteps();
+                showStep2();
+            }
+        }
+
+        function showStep2() {
+            const modalContent = document.getElementById('modalContent');
+            modalContent.innerHTML = `
+                <div class="space-y-6">
+                    <h4 class="text-xl font-bold">Delivery & Pickup Location</h4>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h5 class="font-medium mb-3">Delivery Address</h5>
+                            <div class="space-y-3">
+                                <input type="text" id="deliveryAddress" placeholder="Enter your delivery address" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <input type="text" id="deliveryCity" placeholder="City" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <input type="text" id="deliveryPincode" placeholder="Pincode" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h5 class="font-medium mb-3">Pickup Options</h5>
+                            <div class="space-y-3">
+                                <label class="flex items-center">
+                                    <input type="radio" name="pickupOption" value="delivery" checked class="mr-2">
+                                    <span>Home/Office Delivery (₹500 extra)</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="pickupOption" value="pickup" class="mr-2">
+                                    <span>Pickup from Supplier Location</span>
+                                </label>
+                            </div>
+                            
+                            <div class="mt-4 p-3 bg-blue-50 rounded-lg">
+                                <p class="text-sm text-blue-800">
+                                    <strong>Note:</strong> Delivery charges may apply based on your location. 
+                                    Our team will contact you to confirm delivery details.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center pt-6 border-t">
+                        <button onclick="previousStep()" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                            Back
+                        </button>
+                        <button onclick="nextStep()" class="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300">
+                            Continue to Payment
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function previousStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateSteps();
+                if (currentStep === 1) {
+                    showStep1();
+                } else if (currentStep === 2) {
+                    showStep2();
+                }
+            }
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up filter event listeners
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    filterDrones();
+                });
+            });
+            
+            document.getElementById('priceFilter').addEventListener('change', filterDrones);
+            document.getElementById('supplierFilter').addEventListener('change', filterDrones);
+            document.getElementById('locationFilter').addEventListener('change', filterDrones);
+            
+            // Render initial drones
+            renderDrones(filteredDrones);
+            
+            // Check if user is already logged in (from localStorage)
+            const savedUser = localStorage.getItem('droneRentUser');
+            if (savedUser) {
+                try {
+                    currentUser = JSON.parse(savedUser);
+                    updateUserInterface();
+                } catch (e) {
+                    console.error('Error parsing saved user data:', e);
+                }
+            }
+        });
+
+        // Save user data to localStorage when user logs in
+        function saveUserToStorage() {
+            if (currentUser) {
+                localStorage.setItem('droneRentUser', JSON.stringify(currentUser));
+            }
+        }
+
+        // Update the handleLogin and handleSignup functions to save user data
+        const originalHandleLogin = handleLogin;
+        handleLogin = function(event) {
+            originalHandleLogin.call(this, event);
+            saveUserToStorage();
+        };
+
+        const originalHandleSignup = handleSignup;
+        handleSignup = function(event) {
+            originalHandleSignup.call(this, event);
+            saveUserToStorage();
+        };
+
+        // Update logout to clear localStorage
+        const originalLogout = logout;
+        logout = function() {
+            originalLogout.call(this);
+            localStorage.removeItem('droneRentUser');
+        };
+    </script>
+</body>
+</html>
