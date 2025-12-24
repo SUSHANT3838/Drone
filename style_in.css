@@ -2,6 +2,7 @@ body{
     margin: 0%;
     padding: 0%;
 }
+
 /* header part */
 header{
     height: 150px;
@@ -9,18 +10,22 @@ header{
     justify-content: center;
     display: flex;
 }
-.nav{
-    color: black;
-    justify-content:center;
-
-}
 
 /* main part */
 main{
     height: 400px;
     background-color: rgb(122, 224, 228);
-    justify-content: center;    
+}
+.nav{
+    background-color: rgb(199, 177, 94);
+    align-items: center;
     display: flex;
+    justify-content: space-evenly;
+    height: 40px;
+}
+a{
+    text-decoration: none;
+    color: black;
 }
 
 /* footer part */
