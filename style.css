@@ -1,24 +1,34 @@
+body{
+    margin: 0%;
+    padding: 0%;
+}
 /* header part */
 header{
-    height: 25px;
-    background-color: rgb(204, 206, 126);
+    height: 150px;
+    background-color: rgb(108, 247, 252);
+    justify-content: center;
+    display: flex;
 }
 .nav{
     color: black;
-    justify-items:center;
-    justify-content: flex-start;
+    justify-content:center;
 
 }
 
 /* main part */
 main{
+    height: 400px;
     background-color: rgb(122, 224, 228);
+    justify-content: center;    
+    display: flex;
 }
 
 /* footer part */
 footer{
-    background-color: rgb(82, 74, 74);
-}
-header, main, footer {
-    padding: 20px;
+    height: 100px;
+    background-color: rgb(50, 50, 50);
+    color: white;
+    justify-content: center;    
+    display: flex;
+    align-items: center;
 }
