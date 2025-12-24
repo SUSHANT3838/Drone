@@ -37,3 +37,26 @@ footer{
     display: flex;
     align-items: center;
 }
+
+/* responsive website */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.5rem;   /* Smaller heading */
+    }
+
+    .nav {
+        display: flex;
+        flex-direction: column;   /* Stack links vertically */
+        align-items: center;
+    }
+
+    .nav a {
+        margin: 10px 0;           /* Space between links */
+        font-size: 1.2rem;        /* Larger tap-friendly text */
+    }
+
+    footer {
+        font-size: 0.9rem;
+        padding: 15px;
+    }
+}
