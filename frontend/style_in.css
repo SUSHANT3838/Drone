@@ -6,6 +6,7 @@ body{
 /* header part */
 header{
     height: 150px;
+    width: 100%;
     background-color: rgb(108, 247, 252);
     justify-content: center;
     display: flex;
@@ -13,19 +14,8 @@ header{
 
 /* main part */
 main{
-    height: 400px;
+    height: 100%;
     background-color: rgb(122, 224, 228);
-}
-.nav{
-    background-color: rgb(199, 177, 94);
-    align-items: center;
-    display: flex;
-    justify-content: space-evenly;
-    height: 40px;
-}
-a{
-    text-decoration: none;
-    color: black;
 }
 
 /* footer part */
