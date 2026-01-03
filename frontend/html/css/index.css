@@ -57,7 +57,7 @@ a{
 .product{
     height: 200px;
     width: 200px;
-    background-image:url(../images/Photo.jpg);
+    background-image:url('images/Photo.jpg');
     background-repeat: no-repeat;
     background-size: cover;
 }
