@@ -3,24 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>contact</title>
-    <link rel="stylesheet" href="css/style_in.css">
-    <link rel="stylesheet" href="css/contact.css">
+    <title>ShoeStore - Contact</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- header part  -->
-    <header>
 
+    <header class="header">
+        <div class="logo"><h1>Shoe<span>Store</span></h1></div>
+        <div class="menu-toggle" id="mobile-menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
+        <nav class="nav-menu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="products.html" class="nav-link">Products</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="contact.html" class="nav-link active">Contact</a>
+            <button class="btn-login">Login</button>
+        </nav>
     </header>
 
-    <!-- main part -->
-     <main>
+    <section class="page-header contact-header">
+        <h2>#Let's_Talk</h2>
+        <p>Leave a message, We love to hear from you!</p>
+    </section>
 
-     </main>
+    <section class="contact-details section-p1">
+        <div class="details">
+            <span>GET IN TOUCH</span>
+            <h2>Visit one of our agency locations or contact us today</h2>
+            <h3>Head Office</h3>
+            <div>
+                <li><i class="fas fa-map"></i> <p>Pune, Maharashtra, India</p></li>
+                <li><i class="far fa-envelope"></i> <p>contact@shoestore.com</p></li>
+                <li><i class="fas fa-phone-alt"></i> <p>+91 123 456 7890</p></li>
+            </div>
+        </div>
+        
+        <div class="form">
+            <form onsubmit="submitForm(event)">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="E-mail" required>
+                <input type="text" placeholder="Subject">
+                <textarea cols="30" rows="10" placeholder="Your Message"></textarea>
+                <button class="btn-primary">Submit</button>
+            </form>
+        </div>
+    </section>
 
-    <!-- footer part -->
-    <footer>
-
+    <footer class="section-p1">
+        <div class="copyright"><p>© 2025 Sushant Shete</p></div>
     </footer>
+    <script src="js/script.js"></script>
 </body>
 </html>

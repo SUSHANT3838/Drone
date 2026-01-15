@@ -3,24 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link rel="stylesheet" href="css/style_in.css">
-    <link rel="stylesheet" href="css/home.css">
+    <title>ShoeStore - Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- header part  -->
-    <header>
 
+    <header class="header">
+        <div class="logo"><h1>Shoe<span>Store</span></h1></div>
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+        <nav class="nav-menu">
+            <a href="index.html" class="nav-link active">Home</a>
+            <a href="products.html" class="nav-link">Products</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+            <button class="btn-login">Login</button>
+        </nav>
     </header>
 
-    <!-- main part -->
-     <main>
+    <section class="hero">
+        <div class="hero-text">
+            <h4>Trade-in-offer</h4>
+            <h2>Super value deals</h2>
+            <h1>On all products</h1>
+            <p>Save more with coupons & up to 70% off!</p>
+            <a href="products.html"><button class="btn-primary">Shop Now</button></a>
+        </div>
+    </section>
 
-     </main>
+    <section class="features section-p1">
+        <div class="fe-box">
+            <img src="https://img.icons8.com/color/96/free-shipping.png" alt="">
+            <h6>Free Shipping</h6>
+        </div>
+        <div class="fe-box">
+            <img src="https://img.icons8.com/color/96/online-order.png" alt="">
+            <h6>Online Order</h6>
+        </div>
+        <div class="fe-box">
+            <img src="https://img.icons8.com/color/96/money-bag-rupee.png" alt="">
+            <h6>Save Money</h6>
+        </div>
+        <div class="fe-box">
+            <img src="https://img.icons8.com/color/96/support.png" alt="">
+            <h6>24/7 Support</h6>
+        </div>
+    </section>
 
-    <!-- footer part -->
-    <footer>
-
+    <footer class="section-p1">
+        <div class="copyright">
+            <p>© 2025 Sushant Shete - All Rights Reserved</p>
+        </div>
     </footer>
+
+    <script src="js/script.js"></script>
 </body>
 </html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShoeStore - Products</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo"><h1>Shoe<span>Store</span></h1></div>
+        <div class="menu-toggle" id="mobile-menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
+        <nav class="nav-menu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="products.html" class="nav-link active">Products</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+            <button class="btn-login">Login</button>
+        </nav>
+    </header>
+
+    <section class="page-header">
+        <h2>#StayHome</h2>
+        <p>Save more with coupons & up to 70% off!</p>
+    </section>
+
+    <section class="filter-section section-p1">
+        <button class="filter-btn active-btn" onclick="filterProducts('all')">All</button>
+        <button class="filter-btn" onclick="filterProducts('nike')">Nike</button>
+        <button class="filter-btn" onclick="filterProducts('adidas')">Adidas</button>
+    </section>
+
+    <section class="product-container section-p1">
+        
+        <div class="product-card" data-category="nike">
+            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000&auto=format&fit=crop" alt="">
+            <div class="des">
+                <span>Nike</span>
+                <h5>Red Air Max</h5>
+                <div class="star">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <h4>₹4500</h4>
+            </div>
+            <button class="cart-btn" onclick="addToCart('Red Air Max')"><i class="fas fa-shopping-cart"></i></button>
+        </div>
+
+        <div class="product-card" data-category="adidas">
+            <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=1000&auto=format&fit=crop" alt="">
+            <div class="des">
+                <span>Adidas</span>
+                <h5>Black Sneaker</h5>
+                <div class="star">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <h4>₹3200</h4>
+            </div>
+            <button class="cart-btn" onclick="addToCart('Black Sneaker')"><i class="fas fa-shopping-cart"></i></button>
+        </div>
+
+        <div class="product-card" data-category="nike">
+            <img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=1000&auto=format&fit=crop" alt="">
+            <div class="des">
+                <span>Nike</span>
+                <h5>Green Jordan</h5>
+                <div class="star">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <h4>₹5500</h4>
+            </div>
+            <button class="cart-btn" onclick="addToCart('Green Jordan')"><i class="fas fa-shopping-cart"></i></button>
+        </div>
+
+        <div class="product-card" data-category="adidas">
+            <img src="https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?q=80&w=1000&auto=format&fit=crop" alt="">
+            <div class="des">
+                <span>Adidas</span>
+                <h5>Casual Vans</h5>
+                <div class="star">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <h4>₹2800</h4>
+            </div>
+            <button class="cart-btn" onclick="addToCart('Casual Vans')"><i class="fas fa-shopping-cart"></i></button>
+        </div>
+
+    </section>
+
+    <footer class="section-p1">
+        <div class="copyright"><p>© 2025 Sushant Shete</p></div>
+    </footer>
+    <script src="js/script.js"></script>
+</body>
+</html>

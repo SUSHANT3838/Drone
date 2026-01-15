@@ -3,126 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My website</title>
-    <link rel="stylesheet" href="css/style_in.css">
+    <title>Sushant's Store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-    <!-- header part of the website -->
-    <header>
-        <div class="name">
-            <h1>Welcome to my website</h1>
+
+    <header class="header">
+        <div class="logo">
+            <h1>Shoe<span>Store</span></h1>
         </div>
-        <div class="login">
-            <button>Login</button>
-            <button>Sign-up</button>
+
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
         </div>
+
+        <nav class="nav-menu">
+            <a href="home.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+            <a href="html/products.html" class="nav-link"><i class="fas fa-box"></i> Products</a>
+            <a href="html/about.html" class="nav-link"><i class="fas fa-info-circle"></i> About</a>
+            <a href="html/contact.html" class="nav-link"><i class="fas fa-envelope"></i> Contact</a>
+            
+            <div class="auth-buttons">
+                <button class="btn-login">Login</button>
+                <button class="btn-signup">Sign-up</button>
+            </div>
+        </nav>
     </header>
 
-    <!-- main part of the website -->
-    <main>
-        <div class="nav">
-            <a href="home.html" >Home</a>
-            <a href="about.html">about</a>
-            <a href="contact.html" >contact</a>
-            <a href="help.html" >help</a>
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h2>Welcome to My Website</h2>
+            <p>Discover the best footwear collection of 2025.</p>
+            <button class="btn-primary">Shop Now</button>
         </div>
+    </section>
 
-        <!-- part one -->
-        <div class="box">
-            <!-- Box no 1 -->
-            <div class="box-shop">
-                <div class="product">
-                    <img src="#">
+    <section id="products" class="products-section">
+        <h2 class="section-title">Featured Products</h2>
+        
+        <div class="product-container">
+            <div class="product-card">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000&auto=format&fit=crop" alt="Red Nike Shoe">
+                    <span class="discount-tag">-20%</span>
                 </div>
-                <div class="p-info">
-                    <p>Shoose</p>
-                    <p>price 800 rs.</p>
-                </div>
-            </div>
-            <!-- Box no 2 -->
-            <div class="box-shop">
-                <div class="product">
-                    <img src="#" type="image">
-                </div>
-                <div class="p-info">
-                    <p>Shoose</p>
-                    <p>price 800 rs.</p>
-                </div>            
-            </div>
-            <!-- Box no 3 -->
-            <div class="box-shop">
-                <div class="product">
-                    <img src="#">
-                </div>
-                <div class="p-info">
-                    <p>Shoose</p>
-                    <p>price 800 rs.</p>
+                <div class="card-details">
+                    <h3>Nike Red Run</h3>
+                    <p class="price">₹800 <span class="old-price">₹1000</span></p>
+                    <button class="add-to-cart" onclick="addToCart('Nike Red Run')">Add to Cart</button>
                 </div>
             </div>
-            <!-- Box no 4 -->
-            <div class="box-shop">
-                <div class="product">
-                    <img src="#" type="image">
+
+            <div class="product-card">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=1000&auto=format&fit=crop" alt="Green Sneaker">
                 </div>
-                <div class="p-info">
-                    <p>Shoose</p>
-                    <p>price 800 rs.</p>
-                </div>            
+                <div class="card-details">
+                    <h3>Green Air</h3>
+                    <p class="price">₹1200</p>
+                    <button class="add-to-cart" onclick="addToCart('Green Air')">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?q=80&w=1000&auto=format&fit=crop" alt="Casual Blue">
+                    <span class="discount-tag">New</span>
+                </div>
+                <div class="card-details">
+                    <h3>Casual Blue</h3>
+                    <p class="price">₹950</p>
+                    <button class="add-to-cart" onclick="addToCart('Casual Blue')">Add to Cart</button>
+                </div>
+            </div>
+
+             <div class="product-card">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=1000&auto=format&fit=crop" alt="Classic Brown">
+                </div>
+                <div class="card-details">
+                    <h3>Classic Brown</h3>
+                    <p class="price">₹1500</p>
+                    <button class="add-to-cart" onclick="addToCart('Classic Brown')">Add to Cart</button>
+                </div>
             </div>
         </div>
+    </section>
 
-        <!-- part two -->
-        <div class="box">
-            <!-- Box no 1 -->
-            <div class="box-shop">
-                <div class="product">
-                    <img src="#" type="image">
-                </div>
-                <div class="p-info">
-                    <p>Shoose</p>
-                    <p>price 800 rs.</p>
-                </div>
-            </div>
-            <!-- Box no 2 -->
-            <div class="box-shop">
-                <div class="product">
-                    <img src="#" type="image">
-                </div>
-                <div class="p-info">
-                    <p>Shoose</p>
-                    <p>price 800 rs.</p>
-                </div>            
-            </div>
-            <!-- Box no 3 -->
-            <div class="box-shop">
-                <div class="product">
-                    <img src="#" type="image">
-                </div>
-                <div class="p-info">
-                    <p>Shoose</p>
-                    <p>price 800 rs.</p>
-                </div>            
-            </div>
-            <!-- Box no 4 -->
-            <div class="box-shop">
-                <div class="product">
-                    <img src="#" type="image">
-                </div>
-                <div class="p-info">
-                    <p>Shoose</p>
-                    <p>price 800 rs.</p>
-                </div>            
-            </div>
-        </div>   
-
-    </main>
-
-    <!-- footer part of the website -->
     <footer>
-       <p> @2025 -By Sushant Shete </p>
+        <p>&copy; 2025 - Designed by Sushant Shete</p>
+        <div class="socials">
+            <!-- <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a> -->
+        </div>
     </footer>
 
+    <script src="js/index.js"></script>
 </body>
-<script src="index.js"></script>
 </html>
