@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drone Rental - Cart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo"><h1>Drone <span>Fleet </span>Manegment</h1></div>
+        <div class="menu-toggle" id="mobile-menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
+        <nav class="nav-menu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="Products.html" class="nav-link">Products</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+            <a href="cart.html" class="nav-link active">Cart</a>
+            <button class="btn-login">Login</button>
+        </nav>
+    </header>
+
+    <section class="page-header">
+        <h2>#Your_Cart</h2>
+        <p>Review your selected drones and proceed to checkout</p>
+    </section>
+
+    <section class="cart-container section-p1">
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price/Day</th>
+                    <th>Quantity</th>
+                    <th>Days</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="cart-items">
+                <!-- Cart items will be dynamically added here -->
+            </tbody>
+        </table>
+
+        <div class="cart-summary">
+            <h3>Cart Summary</h3>
+            <p id="cart-total">Total: ₹0</p>
+            <button onclick="proceedToPayment()" class="btn-primary">Proceed to Payment</button>
+        </div>
+    </section>
+
+    <footer class="section-p1">
+        <p>&copy; 2026 Drone Rental Service</p>
+    </footer>
+
+    <script src="js/cart.js"></script>
+</body>
+</html>
