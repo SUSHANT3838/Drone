@@ -17,7 +17,7 @@
             <a href="Products.html" class="nav-link active">Products</a>
             <a href="about.html" class="nav-link">About</a>
             <a href="contact.html" class="nav-link">Contact</a>
-            <a href="cart.html" class="nav-link">Cart</a>
+            <a href="cart.html" class="nav-link"><i class="fas fa-shopping-cart"></i> Cart <span id="cart-count" class="cart-badge">0</span></a>
             <button class="btn-login">Login</button>
         </nav>
     </header>
@@ -27,102 +27,17 @@
         <p>Explore our wide range of drones for every purpose</p>
     </section>
 
-    <section class="product-container section-p1">
-        <!-- Example drone product -->
-        <div class="product-card">
-            <img src="https://example.com/drone1.jpg" alt="Photography Drone">
-            <div class="des">
-                <span>Photography</span>
-                <h5>SkyView Pro</h5>
-                <div class="star">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                </div>
-                <h4>₹1200/day</h4>
-            </div>
-            <button class="cart-btn" onclick="addToCart('SkyView Pro', 1200)"><i class="fas fa-shopping-cart"></i></button>
-        </div>
-
-        <!-- Add 50 drone products dynamically -->
-        <script>
-            const products = [
-                { name: "SkyView Pro", price: 1200, purpose: "Photography", image: "https://example.com/drone1.jpg" },
-                { name: "Delivery Max", price: 1500, purpose: "Delivery", image: "https://example.com/drone2.jpg" },
-                { name: "Surveillance Hawk", price: 1800, purpose: "Surveillance", image: "https://example.com/drone3.jpg" },
-                { name: "Racing Drone", price: 2000, purpose: "Racing", image: "https://example.com/drone4.jpg" },
-                { name: "Mapping Drone", price: 1000, purpose: "Mapping", image: "https://example.com/drone5.jpg" },
-                { name: "Inspection Drone", price: 1400, purpose: "Inspection", image: "https://example.com/drone6.jpg" },
-                { name: "Aerial Survey", price: 1600, purpose: "Survey", image: "https://example.com/drone7.jpg" },
-                { name: "Recreational Drone", price: 800, purpose: "Recreational", image: "https://example.com/drone8.jpg" },
-                { name: "Commercial Drone", price: 2500, purpose: "Commercial", image: "https://example.com/drone9.jpg" },
-                { name: "Agricultural Drone", price: 1300, purpose: "Agricultural", image: "https://example.com/drone10.jpg" },
-                { name: "Search and Rescue", price: 2200, purpose: "Search and Rescue", image: "https://example.com/drone11.jpg" },
-                { name: "Firefighting Drone", price: 2400, purpose: "Firefighting", image: "https://example.com/drone12.jpg" },
-                { name: "Environmental Drone", price: 1100, purpose: "Environmental", image: "https://example.com/drone13.jpg" },
-                { name: "Infrastructure Drone", price: 1900, purpose: "Infrastructure", image: "https://example.com/drone14.jpg" },
-                { name: "Urban Drone", price: 1700, purpose: "Urban", image: "https://example.com/drone15.jpg" },
-                { name: "Forest Drone", price: 1500, purpose: "Forest", image: "https://example.com/drone16.jpg" },
-                { name: "Water Drone", price: 1200, purpose: "Water", image: "https://example.com/drone17.jpg" },
-                { name: "Ground Drone", price: 900, purpose: "Ground", image: "https://example.com/drone18.jpg" },
-                { name: "Drone with Camera", price: 1000, purpose: "Camera", image: "https://example.com/drone19.jpg" },
-                { name: "Drone with Sensors", price: 1300, purpose: "Sensors", image: "https://example.com/drone20.jpg" },
-                { name: "Drone with GPS", price: 1100, purpose: "GPS", image: "https://example.com/drone21.jpg" },
-                { name: "Drone with AI", price: 1400, purpose: "AI", image: "https://example.com/drone22.jpg" },
-                { name: "Drone with Thermal", price: 1600, purpose: "Thermal", image: "https://example.com/drone23.jpg" },
-                { name: "Drone with Radar", price: 1800, purpose: "Radar", image: "https://example.com/drone24.jpg" },
-                { name: "Drone with LiDAR", price: 2000, purpose: "LiDAR", image: "https://example.com/drone25.jpg" },
-                { name: "Drone with UTM", price: 1200, purpose: "UTM", image: "https://example.com/drone26.jpg" },
-                { name: "Drone with VLOS", price: 1500, purpose: "VLOS", image: "https://example.com/drone27.jpg" },
-                { name: "Drone with 5G", price: 1700, purpose: "5G", image: "https://example.com/drone28.jpg" },
-                { name: "Drone with 4G", price: 1000, purpose: "4G", image: "https://example.com/drone29.jpg" },
-                { name: "Drone with 3G", price: 800, purpose: "3G", image: "https://example.com/drone30.jpg" },
-                { name: "Drone with 2G", price: 600, purpose: "2G", image: "https://example.com/drone31.jpg" },
-                { name: "Drone with 1G", price: 400, purpose: "1G", image: "https://example.com/drone32.jpg" },
-                { name: "Drone with 0G", price: 200, purpose: "0G", image: "https://example.com/drone33.jpg" },
-                { name: "Drone with 500m", price: 300, purpose: "500m", image: "https://example.com/drone34.jpg" },
-                { name: "Drone with 400m", price: 250, purpose: "400m", image: "https://example.com/drone35.jpg" },
-                { name: "Drone with 300m", price: 200, purpose: "300m", image: "https://example.com/drone36.jpg" },
-                { name: "Drone with 200m", price: 150, purpose: "200m", image: "https://example.com/drone37.jpg" },
-                { name: "Drone with 100m", price: 100, purpose: "100m", image: "https://example.com/drone38.jpg" },
-                { name: "Drone with 50m", price: 50, purpose: "50m", image: "https://example.com/drone39.jpg" },
-                { name: "Drone with 40m", price: 40, purpose: "40m", image: "https://example.com/drone40.jpg" },
-                { name: "Drone with 30m", price: 30, purpose: "30m", image: "https://example.com/drone41.jpg" },
-                { name: "Drone with 20m", price: 20, purpose: "20m", image: "https://example.com/drone42.jpg" },
-                { name: "Drone with 10m", price: 10, purpose: "10m", image: "https://example.com/drone43.jpg" },
-                { name: "Drone with 5m", price: 5, purpose: "5m", image: "https://example.com/drone44.jpg" },
-                { name: "Drone with 4m", price: 4, purpose: "4m", image: "https://example.com/drone45.jpg" },
-                { name: "Drone with 3m", price: 3, purpose: "3m", image: "https://example.com/drone46.jpg" },
-                { name: "Drone with 2m", price: 2, purpose: "2m", image: "https://example.com/drone47.jpg" },
-                { name: "Drone with 1m", price: 1, purpose: "1m", image: "https://example.com/drone48.jpg" },
-                { name: "Drone with 0m", price: 0, purpose: "0m", image: "https://example.com/drone49.jpg" },
-                { name: "Drone with 50m", price: 300, purpose: "50m", image: "https://example.com/drone50.jpg" },
-            ];
-
-            const productContainer = document.querySelector('.product-container');
-
-            products.forEach(product => {
-                const productCard = document.createElement('div');
-                productCard.classList.add('product-card');
-
-                productCard.innerHTML = `
-                    <img src="${product.image}" alt="${product.purpose} Drone">
-                    <div class="des">
-                        <span>${product.purpose}</span>
-                        <h5>${product.name}</h5>
-                        <div class="star">
-                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                        </div>
-                        <h4>₹${product.price}/day</h4>
-                    </div>
-                    <button class="cart-btn" onclick="addToCart('${product.name}', ${product.price})"><i class="fas fa-shopping-cart"></i></button>
-                `;
-
-                productContainer.appendChild(productCard);
-            });
-        </script>
+    <section class="product-container section-p1" id="product-grid">
+        <!-- Products loaded from products.js -->
     </section>
 
     <footer class="section-p1">
         <p>&copy; 2026 Drone Rental Service</p>
     </footer>
+
+    <script src="js/nav.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/cart-storage.js"></script>
+    <script src="js/products-page.js"></script>
 </body>
 </html>

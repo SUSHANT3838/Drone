@@ -28,26 +28,83 @@
     </section>
 
     <section class="cart-container section-p1">
-        <table>
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Price/Day</th>
-                    <th>Quantity</th>
-                    <th>Days</th>
-                    <th>Total</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="cart-items">
-                <!-- Cart items will be dynamically added here -->
-            </tbody>
-        </table>
+        <div id="cart-step" class="checkout-step">
+            <div class="empty-cart" id="empty-cart" style="display:none;">
+                <p><i class="fas fa-shopping-cart fa-3x"></i></p>
+                <h3>Your cart is empty</h3>
+                <a href="Products.html" class="btn-primary">Browse Drones</a>
+            </div>
+            <div id="cart-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price/Day</th>
+                            <th>Qty</th>
+                            <th>Days</th>
+                            <th>Total</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cart-items"></tbody>
+                </table>
+                <div class="cart-summary">
+                    <h3>Cart Summary</h3>
+                    <p id="cart-total">Total: ₹0</p>
+                    <button onclick="showAddressStep()" class="btn-primary">Proceed to Checkout</button>
+                </div>
+            </div>
+        </div>
 
-        <div class="cart-summary">
-            <h3>Cart Summary</h3>
-            <p id="cart-total">Total: ₹0</p>
-            <button onclick="proceedToPayment()" class="btn-primary">Proceed to Payment</button>
+        <div id="address-step" class="checkout-step" style="display:none;">
+            <h3><i class="fas fa-map-marker-alt"></i> Delivery Address</h3>
+            <form id="address-form" class="address-form">
+                <div class="form-row">
+                    <input type="text" name="fullName" placeholder="Full Name" required>
+                    <input type="tel" name="phone" placeholder="Phone Number" required>
+                </div>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="text" name="address" placeholder="Street Address" required>
+                <div class="form-row">
+                    <input type="text" name="city" placeholder="City" required>
+                    <input type="text" name="state" placeholder="State" required>
+                    <input type="text" name="pincode" placeholder="Pincode" required>
+                </div>
+                <textarea name="notes" placeholder="Delivery notes (optional)" rows="2"></textarea>
+                <div class="form-actions">
+                    <button type="button" onclick="showCartStep()" class="btn-secondary">Back to Cart</button>
+                    <button type="submit" class="btn-primary">Proceed to Payment</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="payment-step" class="checkout-step" style="display:none;">
+            <h3><i class="fas fa-credit-card"></i> Payment</h3>
+            <p class="order-summary">Order Total: <strong id="payment-total">₹0</strong></p>
+            <div class="payment-options">
+                <label class="payment-option">
+                    <input type="radio" name="payment" value="online" checked>
+                    <span>Online Payment (UPI / Card)</span>
+                </label>
+                <label class="payment-option">
+                    <input type="radio" name="payment" value="cod">
+                    <span>Cash on Delivery</span>
+                </label>
+            </div>
+            <div class="delivery-address-display" id="address-display"></div>
+            <div class="form-actions">
+                <button type="button" onclick="showAddressStep()" class="btn-secondary">Back</button>
+                <button onclick="placeOrder()" class="btn-primary">Place Order</button>
+            </div>
+        </div>
+
+        <div id="success-step" class="checkout-step" style="display:none;">
+            <div class="order-success">
+                <i class="fas fa-check-circle fa-4x"></i>
+                <h3>Order Placed Successfully!</h3>
+                <p>Thank you for your rental. We'll deliver the drones to your address.</p>
+                <a href="index.html" class="btn-primary">Continue Shopping</a>
+            </div>
         </div>
     </section>
 
@@ -55,6 +112,9 @@
         <p>&copy; 2026 Drone Rental Service</p>
     </footer>
 
+    <script src="js/nav.js"></script>
+    <script src="js/cart-storage.js"></script>
     <script src="js/cart.js"></script>
+</body>
 </body>
 </html>

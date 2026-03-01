@@ -1,28 +1,10 @@
-// Toggle Mobile Menu
-const mobileMenu = document.getElementById('mobile-menu');
-const navMenu = document.querySelector('.nav-menu');
+// Products page - load drones and add to cart
 
-if (mobileMenu) {
-    mobileMenu.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
-        mobileMenu.classList.toggle('is-active');
-    });
-}
-
-const navLinks = document.querySelectorAll('.nav-link');
-navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        if (navMenu) navMenu.classList.remove('active');
-    });
-});
-
-// Update cart badge
 function updateCartBadge() {
     const badge = document.getElementById('cart-count');
     if (badge) badge.textContent = getCartCount();
 }
 
-// Add product to cart (uses cart-storage.js addToCart)
 function addProductToCart(product) {
     const daysInput = prompt(`How many days would you like to rent the ${product.name}?`);
     const numDays = parseInt(daysInput, 10);
@@ -44,21 +26,22 @@ function addProductToCart(product) {
     }
 }
 
-// Load products on page
 function loadProducts() {
     const grid = document.getElementById('product-grid');
     if (!grid || typeof DRONE_PRODUCTS === 'undefined') return;
 
     grid.innerHTML = DRONE_PRODUCTS.map(product => `
         <div class="product-card">
-            <div class="card-image">
-                <img src="${product.image}" alt="${product.name}" onerror="this.src='https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=400&h=300&fit=crop'">
+            <img src="${product.image}" alt="${product.name}" onerror="this.src='https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=400&h=300&fit=crop'">
+            <div class="des">
+                <span>${product.purpose}</span>
+                <h5>${product.name}</h5>
+                <div class="star">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <h4>₹${product.price}/day</h4>
             </div>
-            <div class="card-details">
-                <h3>${product.name}</h3>
-                <p class="price">₹${product.price}/day</p>
-                <button class="add-to-cart" data-product-id="${product.id}">Rent Now</button>
-            </div>
+            <button class="cart-btn" data-product-id="${product.id}"><i class="fas fa-shopping-cart"></i></button>
         </div>
     `).join('');
 
@@ -70,16 +53,6 @@ function loadProducts() {
     });
 }
 
-// Checkout - redirect to cart
-function checkout() {
-    if (getCartCount() === 0) {
-        alert('Your cart is empty! Add drones first.');
-        return;
-    }
-    window.location.href = 'cart.html';
-}
-
-// Init
 document.addEventListener('DOMContentLoaded', () => {
     loadProducts();
     updateCartBadge();

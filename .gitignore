@@ -1,0 +1,10 @@
+# User account data - contains password hashes
+backend/users.json
+backend/users.json.tmp
+
+# Dependencies
+node_modules/
+
+# Environment
+.env
+.env.local

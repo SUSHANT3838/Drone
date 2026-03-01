@@ -25,7 +25,7 @@
             <a href="Products.html" class="nav-link"><i class="fas fa-box"></i> Drones</a>
             <a href="about.html" class="nav-link"><i class="fas fa-info-circle"></i> About</a>
             <a href="contact.html" class="nav-link"><i class="fas fa-envelope"></i> Contact</a>
-            <a href="cart.html" class="nav-link">Cart</a>
+            <a href="cart.html" class="nav-link"><i class="fas fa-shopping-cart"></i> Cart <span id="cart-count" class="cart-badge">0</span></a>
             
             <div class="auth-buttons">
                 <button class="btn-login">Login</button>
@@ -38,50 +38,15 @@
         <div class="hero-content">
             <h2>Welcome to Drone Rental Service</h2>
             <p>Explore our fleet of high-quality drones available for rent.</p>
-            <button class="btn-primary">Rent a Drone</button>
+            <button class="btn-primary" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Rent a Drone</button>
         </div>
     </section>
 
     <section id="products" class="products-section">
         <h2 class="section-title">Featured Drones</h2>
         
-        <div class="product-container">
-            <div class="product-card">
-                <div class="card-image">
-                    <img src="https://example.com/drone1.jpg" alt="Photography Drone">
-                </div>
-                <div class="card-details">
-                    <h3>Photography Drone</h3>
-                    <p class="price">₹1000/day</p>
-                    <button class="add-to-cart" onclick="addToCart('Photography Drone', 1000)">Rent Now</button>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="card-image">
-                    <img src="https://example.com/drone2.jpg" alt="Delivery Drone">
-                </div>
-                <div class="card-details">
-                    <h3>Delivery Drone</h3>
-                    <p class="price">₹1500/day</p>
-                    <button class="add-to-cart" onclick="addToCart('Delivery Drone', 1500)">Rent Now</button>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="card-image">
-                    <img src="https://example.com/drone3.jpg" alt="Surveillance Drone">
-                </div>
-                <div class="card-details">
-                    <h3>Surveillance Drone</h3>
-                    <p class="price">₹1200/day</p>
-                    <button class="add-to-cart" onclick="addToCart('Surveillance Drone', 1200)">Rent Now</button>
-                </div>
-            </div>
-
-            <div id="dynamic-products" class="product-container">
-                <!-- Dynamic products fetched from API will be inserted here -->
-            </div>
+        <div class="product-container" id="product-grid">
+            <!-- Products loaded from products.js -->
         </div>
     </section>
 
@@ -94,18 +59,8 @@
         </div>
     </footer>
 
+    <script src="js/products.js"></script>
+    <script src="js/cart-storage.js"></script>
     <script src="js/index.js"></script>
-    <!-- <script>
-        // Check if the user is authenticated
-        document.addEventListener('DOMContentLoaded', () => {
-            const isAuthenticated = localStorage.getItem('isAuthenticated');
-
-            if (!isAuthenticated) {
-                // Redirect to login page if not authenticated
-                window.location.href = '../Login-Sign-up/html/login.html';
-            }
-        });
-    </script> -->
-    <button onclick="checkout()" class="btn-primary" style="margin: 20px;">Checkout</button>
 </body>
 </html>
