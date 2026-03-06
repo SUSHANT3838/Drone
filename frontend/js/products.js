@@ -1,6 +1,6 @@
 // Drone products with real Unsplash images
 const DRONE_PRODUCTS = [
-    { id: 'drone-1', name: 'Photography Drone', price: 1000, purpose: 'Photography', image: 'https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=400&h=300&fit=crop' },
+    { id: 'drone-1', name: 'Photography Drone', price: 1000, purpose: 'Photography', image: '' },
     { id: 'drone-2', name: 'Delivery Drone', price: 1500, purpose: 'Delivery', image: 'https://images.unsplash.com/photo-1527960471264-93225a1f4681?w=400&h=300&fit=crop' },
     { id: 'drone-3', name: 'Surveillance Drone', price: 1200, purpose: 'Surveillance', image: 'https://images.unsplash.com/photo-1534237712462-e2b829eee4c2?w=400&h=300&fit=crop' },
     { id: 'drone-4', name: 'SkyView Pro', price: 1200, purpose: 'Photography', image: 'https://images.unsplash.com/photo-1569163136540-e1cb4289362a?w=400&h=300&fit=crop' },
