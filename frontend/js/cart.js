@@ -131,6 +131,22 @@ function showAddressStep() {
         alert('Your cart is empty!');
         return;
     }
+    // Check if user is logged in before proceeding to checkout
+    if (typeof isLoggedIn === 'function' && !isLoggedIn()) {
+        if (typeof openLoginModal === 'function') {
+            openLoginModal();
+            setTimeout(() => {
+                const loginError = document.getElementById('login-error');
+                if (loginError) {
+                    loginError.style.color = '#088178';
+                    loginError.textContent = 'Please login or sign up to complete your order';
+                }
+            }, 100);
+        } else {
+            alert('Please login or sign up to complete your order');
+        }
+        return;
+    }
     document.getElementById('cart-step').style.display = 'none';
     document.getElementById('address-step').style.display = 'block';
     document.getElementById('payment-step').style.display = 'none';
@@ -372,4 +388,9 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCartDisplay();
     setupPaymentMethodHandlers();
     setupCardFormatting();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('step') === 'address' && getCart().length > 0) {
+        showAddressStep();
+    }
 });

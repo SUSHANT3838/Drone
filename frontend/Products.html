@@ -60,7 +60,10 @@
                     </div>
                     <h4>₹1,000<small>/day</small></h4>
                 </div>
-                <button class="cart rent-btn"><i class="fa-solid fa-cart-plus"></i></button>
+                <div class="product-actions">
+                    <button class="rent-btn" data-action="cart"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+                    <button class="buy-now-card-btn" data-action="buy-now"><i class="fa-solid fa-bolt"></i> Buy Now</button>
+                </div>
             </div>
 
             <!-- Delivery Drone -->
@@ -75,7 +78,10 @@
                     </div>
                     <h4>₹1,500<small>/day</small></h4>
                 </div>
-                <button class="cart rent-btn"><i class="fa-solid fa-cart-plus"></i></button>
+                <div class="product-actions">
+                    <button class="rent-btn" data-action="cart"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+                    <button class="buy-now-card-btn" data-action="buy-now"><i class="fa-solid fa-bolt"></i> Buy Now</button>
+                </div>
             </div>
 
             <!-- Surveillance Drone -->
@@ -90,7 +96,10 @@
                     </div>
                     <h4>₹1,200<small>/day</small></h4>
                 </div>
-                <button class="cart rent-btn"><i class="fa-solid fa-cart-plus"></i></button>
+                <div class="product-actions">
+                    <button class="rent-btn" data-action="cart"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+                    <button class="buy-now-card-btn" data-action="buy-now"><i class="fa-solid fa-bolt"></i> Buy Now</button>
+                </div>
             </div>
 
             <!-- SkyView Pro -->
@@ -105,7 +114,10 @@
                     </div>
                     <h4>₹1,200<small>/day</small></h4>
                 </div>
-                <button class="cart rent-btn"><i class="fa-solid fa-cart-plus"></i></button>
+                <div class="product-actions">
+                    <button class="rent-btn" data-action="cart"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+                    <button class="buy-now-card-btn" data-action="buy-now"><i class="fa-solid fa-bolt"></i> Buy Now</button>
+                </div>
             </div>
 
             <!-- Delivery Max -->
@@ -120,7 +132,10 @@
                     </div>
                     <h4>₹1,500<small>/day</small></h4>
                 </div>
-                <button class="cart rent-btn"><i class="fa-solid fa-cart-plus"></i></button>
+                <div class="product-actions">
+                    <button class="rent-btn" data-action="cart"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+                    <button class="buy-now-card-btn" data-action="buy-now"><i class="fa-solid fa-bolt"></i> Buy Now</button>
+                </div>
             </div>
 
             <!-- Surveillance Hawk -->
@@ -135,7 +150,10 @@
                     </div>
                     <h4>₹1,800<small>/day</small></h4>
                 </div>
-                <button class="cart rent-btn"><i class="fa-solid fa-cart-plus"></i></button>
+                <div class="product-actions">
+                    <button class="rent-btn" data-action="cart"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+                    <button class="buy-now-card-btn" data-action="buy-now"><i class="fa-solid fa-bolt"></i> Buy Now</button>
+                </div>
             </div>
 
             <!-- AgroSpray -->
@@ -150,7 +168,10 @@
                     </div>
                     <h4>₹2,000<small>/day</small></h4>
                 </div>
-                <button class="cart rent-btn"><i class="fa-solid fa-cart-plus"></i></button>
+                <div class="product-actions">
+                    <button class="rent-btn" data-action="cart"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+                    <button class="buy-now-card-btn" data-action="buy-now"><i class="fa-solid fa-bolt"></i> Buy Now</button>
+                </div>
             </div>
 
             <!-- RaceFX -->
@@ -165,7 +186,10 @@
                     </div>
                     <h4>₹800<small>/day</small></h4>
                 </div>
-                <button class="cart rent-btn"><i class="fa-solid fa-cart-plus"></i></button>
+                <div class="product-actions">
+                    <button class="rent-btn" data-action="cart"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+                    <button class="buy-now-card-btn" data-action="buy-now"><i class="fa-solid fa-bolt"></i> Buy Now</button>
+                </div>
             </div>
 
             <!-- CropMaster Pro -->
@@ -180,7 +204,10 @@
                     </div>
                     <h4>₹2,500<small>/day</small></h4>
                 </div>
-                <button class="cart rent-btn"><i class="fa-solid fa-cart-plus"></i></button>
+                <div class="product-actions">
+                    <button class="rent-btn" data-action="cart"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+                    <button class="buy-now-card-btn" data-action="buy-now"><i class="fa-solid fa-bolt"></i> Buy Now</button>
+                </div>
             </div>
 
             <!-- SpeedDemon -->
@@ -195,7 +222,10 @@
                     </div>
                     <h4>₹1,000<small>/day</small></h4>
                 </div>
-                <button class="cart rent-btn"><i class="fa-solid fa-cart-plus"></i></button>
+                <div class="product-actions">
+                    <button class="rent-btn" data-action="cart"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+                    <button class="buy-now-card-btn" data-action="buy-now"><i class="fa-solid fa-bolt"></i> Buy Now</button>
+                </div>
             </div>
         </div>
     </section>
@@ -244,9 +274,14 @@
                         <span>₹<span id="rental-total">0</span></span>
                     </div>
                 </div>
-                <button class="btn-buy-now" onclick="addToCartFromModal()">
-                    <i class="fas fa-shopping-cart"></i> Add to Cart
-                </button>
+                <div class="modal-action-buttons">
+                    <button class="btn-modal-add" onclick="addToCartFromModal(false)">
+                        <i class="fas fa-shopping-cart"></i> Add to Cart
+                    </button>
+                    <button class="btn-buy-now" onclick="addToCartFromModal(true)">
+                        <i class="fas fa-bolt"></i> Buy Now
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -393,8 +428,8 @@
             });
         });
 
-        // Rent button click - open modal
-        document.querySelectorAll('.rent-btn').forEach(btn => {
+        // Product action button click - open modal
+        document.querySelectorAll('.rent-btn, .buy-now-card-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const card = e.target.closest('.pro');
                 currentProduct = {
@@ -412,6 +447,12 @@
         // Open rental modal
         function openRentalModal() {
             if (!currentProduct) return;
+            
+            // Check if user is logged in
+            if (typeof isLoggedIn === 'function' && !isLoggedIn()) {
+                showAuthPrompt();
+                return;
+            }
             
             document.getElementById('modal-image').src = currentProduct.image;
             document.getElementById('modal-name').textContent = currentProduct.name;
@@ -464,8 +505,15 @@
         document.getElementById('end-date').addEventListener('change', updateRentalSummary);
         document.getElementById('quantity').addEventListener('change', updateRentalSummary);
 
-        function addToCartFromModal() {
+        function addToCartFromModal(redirectToCheckout = false) {
             if (!currentProduct) return;
+            
+            // Double-check login status
+            if (typeof isLoggedIn === 'function' && !isLoggedIn()) {
+                closeRentalModal();
+                showAuthPrompt();
+                return;
+            }
             
             const startDate = document.getElementById('start-date').value;
             const endDate = document.getElementById('end-date').value;
@@ -487,14 +535,37 @@
             });
             
             closeRentalModal();
+            updateCartBadge();
+
+            if (redirectToCheckout) {
+                window.location.href = 'cart.html?step=address';
+                return;
+            }
+
             document.getElementById('cart-notification').classList.add('show');
             setTimeout(() => document.getElementById('cart-notification').classList.remove('show'), 3000);
-            updateCartBadge();
         }
 
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeRentalModal(); });
         document.getElementById('rental-modal').addEventListener('click', (e) => { if (e.target.id === 'rental-modal') closeRentalModal(); });
         document.addEventListener('DOMContentLoaded', updateCartBadge);
+
+        // Show login prompt for unauthenticated users
+        function showAuthPrompt() {
+            if (typeof openLoginModal === 'function') {
+                openLoginModal();
+                // Show message after modal opens
+                setTimeout(() => {
+                    const loginError = document.getElementById('login-error');
+                    if (loginError) {
+                        loginError.style.color = '#088178';
+                        loginError.textContent = 'Please login or sign up to place an order';
+                    }
+                }, 100);
+            } else {
+                alert('Please login or sign up to place an order');
+            }
+        }
     </script>
 </body>
 </html>
