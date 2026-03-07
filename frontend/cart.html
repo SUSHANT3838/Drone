@@ -3,45 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drone Rental - Cart</title>
+    <title>Drone Rental - Cart & Checkout</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
     <header class="header">
-        <div class="logo"><h1>Drone <span>Fleet </span>Manegment</h1></div>
+        <div class="logo"><h1>Drone <span>Fleet </span>Management</h1></div>
         <div class="menu-toggle" id="mobile-menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
         <nav class="nav-menu">
-            <a href="index.html" class="nav-link">Home</a>
+            <a href="home.html" class="nav-link">Home</a>
             <a href="Products.html" class="nav-link">Products</a>
+            <a href="my-orders.html" class="nav-link">My Orders</a>
             <a href="about.html" class="nav-link">About</a>
             <a href="contact.html" class="nav-link">Contact</a>
-            <a href="cart.html" class="nav-link active">Cart</a>
-            <button class="btn-login">Login</button>
+            <a href="cart.html" class="nav-link active"><i class="fas fa-shopping-cart"></i> Cart <span id="cart-count" class="cart-badge">0</span></a>
+            <div class="auth-buttons">
+                <button class="btn-login">Login</button>
+                <button class="btn-signup">Sign Up</button>
+            </div>
+            <div class="user-menu" style="display: none;">
+                <span class="user-name">User</span>
+                <button class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
         </nav>
     </header>
 
     <section class="page-header">
-        <h2>#Your_Cart</h2>
-        <p>Review your selected drones and proceed to checkout</p>
+        <h2>#Checkout</h2>
+        <p>Complete your drone rental booking</p>
     </section>
 
+    <!-- Checkout Progress Bar -->
+    <div class="checkout-progress">
+        <div class="progress-step active" data-step="cart">
+            <div class="step-icon"><i class="fas fa-shopping-cart"></i></div>
+            <span>Cart</span>
+        </div>
+        <div class="progress-line"></div>
+        <div class="progress-step" data-step="address">
+            <div class="step-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <span>Address</span>
+        </div>
+        <div class="progress-line"></div>
+        <div class="progress-step" data-step="payment">
+            <div class="step-icon"><i class="fas fa-credit-card"></i></div>
+            <span>Payment</span>
+        </div>
+        <div class="progress-line"></div>
+        <div class="progress-step" data-step="success">
+            <div class="step-icon"><i class="fas fa-check"></i></div>
+            <span>Done</span>
+        </div>
+    </div>
+
     <section class="cart-container section-p1">
+        <!-- Step 1: Cart -->
         <div id="cart-step" class="checkout-step">
             <div class="empty-cart" id="empty-cart" style="display:none;">
                 <p><i class="fas fa-shopping-cart fa-3x"></i></p>
                 <h3>Your cart is empty</h3>
+                <p>Browse our drones and start your rental booking!</p>
                 <a href="Products.html" class="btn-primary">Browse Drones</a>
             </div>
             <div id="cart-content">
+                <h3 class="step-title"><i class="fas fa-shopping-cart"></i> Your Rental Items</h3>
                 <table>
                     <thead>
                         <tr>
-                            <th>Product</th>
-                            <th>Price/Day</th>
+                            <th>Drone</th>
+                            <th>Rate/Day</th>
+                            <th>Rental Period</th>
                             <th>Qty</th>
-                            <th>Days</th>
                             <th>Total</th>
                             <th>Action</th>
                         </tr>
@@ -49,72 +83,415 @@
                     <tbody id="cart-items"></tbody>
                 </table>
                 <div class="cart-summary">
-                    <h3>Cart Summary</h3>
-                    <p id="cart-total">Total: ₹0</p>
-                    <button onclick="showAddressStep()" class="btn-primary">Proceed to Checkout</button>
+                    <h3>Rental Summary</h3>
+                    <div class="summary-details">
+                        <div class="summary-row">
+                            <span>Subtotal:</span>
+                            <span id="cart-subtotal">₹0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Security Deposit (Refundable):</span>
+                            <span id="cart-deposit">₹0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>GST (18%):</span>
+                            <span id="cart-tax">₹0</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Grand Total:</span>
+                            <span id="cart-total">₹0</span>
+                        </div>
+                    </div>
+                    <button onclick="showAddressStep()" class="btn-primary btn-full">
+                        <i class="fas fa-arrow-right"></i> Proceed to Address
+                    </button>
                 </div>
             </div>
         </div>
 
+        <!-- Step 2: Address -->
         <div id="address-step" class="checkout-step" style="display:none;">
-            <h3><i class="fas fa-map-marker-alt"></i> Delivery Address</h3>
+            <h3 class="step-title"><i class="fas fa-map-marker-alt"></i> Delivery Address</h3>
+            <p class="step-desc">Where should we deliver the drone(s)?</p>
             <form id="address-form" class="address-form">
                 <div class="form-row">
-                    <input type="text" name="fullName" placeholder="Full Name" required>
-                    <input type="tel" name="phone" placeholder="Phone Number" required>
+                    <div class="input-group">
+                        <label>Full Name *</label>
+                        <input type="text" name="fullName" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Phone Number *</label>
+                        <input type="tel" name="phone" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
+                    </div>
                 </div>
-                <input type="email" name="email" placeholder="Email" required>
-                <input type="text" name="address" placeholder="Street Address" required>
+                <div class="input-group">
+                    <label>Email Address *</label>
+                    <input type="email" name="email" placeholder="your@email.com" required>
+                </div>
+                <div class="input-group">
+                    <label>Street Address *</label>
+                    <input type="text" name="address" placeholder="House no., Building, Street" required>
+                </div>
+                <div class="input-group">
+                    <label>Landmark (Optional)</label>
+                    <input type="text" name="landmark" placeholder="Near landmark">
+                </div>
                 <div class="form-row">
-                    <input type="text" name="city" placeholder="City" required>
-                    <input type="text" name="state" placeholder="State" required>
-                    <input type="text" name="pincode" placeholder="Pincode" required>
+                    <div class="input-group">
+                        <label>City *</label>
+                        <input type="text" name="city" placeholder="City" required>
+                    </div>
+                    <div class="input-group">
+                        <label>State *</label>
+                        <select name="state" required>
+                            <option value="">Select State</option>
+                            <option value="Andhra Pradesh">Andhra Pradesh</option>
+                            <option value="Delhi">Delhi</option>
+                            <option value="Gujarat">Gujarat</option>
+                            <option value="Karnataka">Karnataka</option>
+                            <option value="Maharashtra">Maharashtra</option>
+                            <option value="Tamil Nadu">Tamil Nadu</option>
+                            <option value="Telangana">Telangana</option>
+                            <option value="Uttar Pradesh">Uttar Pradesh</option>
+                            <option value="West Bengal">West Bengal</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Pincode *</label>
+                        <input type="text" name="pincode" placeholder="6-digit pincode" pattern="[0-9]{6}" required>
+                    </div>
                 </div>
-                <textarea name="notes" placeholder="Delivery notes (optional)" rows="2"></textarea>
+                <div class="input-group">
+                    <label>Delivery Instructions (Optional)</label>
+                    <textarea name="notes" placeholder="Any special delivery instructions..." rows="2"></textarea>
+                </div>
                 <div class="form-actions">
-                    <button type="button" onclick="showCartStep()" class="btn-secondary">Back to Cart</button>
-                    <button type="submit" class="btn-primary">Proceed to Payment</button>
+                    <button type="button" onclick="showCartStep()" class="btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Cart
+                    </button>
+                    <button type="submit" class="btn-primary">
+                        Continue to Payment <i class="fas fa-arrow-right"></i>
+                    </button>
                 </div>
             </form>
         </div>
 
+        <!-- Step 3: Payment -->
         <div id="payment-step" class="checkout-step" style="display:none;">
-            <h3><i class="fas fa-credit-card"></i> Payment</h3>
-            <p class="order-summary">Order Total: <strong id="payment-total">₹0</strong></p>
-            <div class="payment-options">
-                <label class="payment-option">
-                    <input type="radio" name="payment" value="online" checked>
-                    <span>Online Payment (UPI / Card)</span>
-                </label>
-                <label class="payment-option">
-                    <input type="radio" name="payment" value="cod">
-                    <span>Cash on Delivery</span>
-                </label>
+            <div class="payment-layout">
+                <div class="payment-methods">
+                    <h3 class="step-title"><i class="fas fa-credit-card"></i> Select Payment Method</h3>
+                    
+                    <div class="payment-options">
+                        <label class="payment-option" data-method="upi">
+                            <input type="radio" name="payment" value="upi" checked>
+                            <div class="option-content">
+                                <i class="fas fa-mobile-alt"></i>
+                                <div>
+                                    <strong>UPI Payment</strong>
+                                    <span>Google Pay, PhonePe, Paytm, etc.</span>
+                                </div>
+                            </div>
+                        </label>
+                        
+                        <label class="payment-option" data-method="card">
+                            <input type="radio" name="payment" value="card">
+                            <div class="option-content">
+                                <i class="fas fa-credit-card"></i>
+                                <div>
+                                    <strong>Credit / Debit Card</strong>
+                                    <span>Visa, Mastercard, Rupay</span>
+                                </div>
+                            </div>
+                        </label>
+                        
+                        <label class="payment-option" data-method="netbanking">
+                            <input type="radio" name="payment" value="netbanking">
+                            <div class="option-content">
+                                <i class="fas fa-university"></i>
+                                <div>
+                                    <strong>Net Banking</strong>
+                                    <span>All major banks supported</span>
+                                </div>
+                            </div>
+                        </label>
+                        
+                        <label class="payment-option" data-method="cod">
+                            <input type="radio" name="payment" value="cod">
+                            <div class="option-content">
+                                <i class="fas fa-money-bill-wave"></i>
+                                <div>
+                                    <strong>Cash on Delivery</strong>
+                                    <span>Pay when drone is delivered</span>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- UPI Section -->
+                    <div id="upi-section" class="payment-detail-section">
+                        <h4>Enter UPI ID</h4>
+                        <div class="input-group">
+                            <input type="text" id="upi-id" placeholder="yourname@upi">
+                        </div>
+                        <div class="upi-apps">
+                            <span>Or pay using:</span>
+                            <div class="upi-icons">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" alt="GPay" title="Google Pay">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/7/71/PhonePe_Logo.svg" alt="PhonePe" title="PhonePe">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Paytm_Logo_%28standalone%29.svg" alt="Paytm" title="Paytm">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card Section -->
+                    <div id="card-section" class="payment-detail-section" style="display:none;">
+                        <h4>Card Details</h4>
+                        <div class="input-group">
+                            <label>Card Number</label>
+                            <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19">
+                        </div>
+                        <div class="form-row">
+                            <div class="input-group">
+                                <label>Expiry Date</label>
+                                <input type="text" id="card-expiry" placeholder="MM/YY" maxlength="5">
+                            </div>
+                            <div class="input-group">
+                                <label>CVV</label>
+                                <input type="password" id="card-cvv" placeholder="***" maxlength="4">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label>Name on Card</label>
+                            <input type="text" id="card-name" placeholder="Enter name as on card">
+                        </div>
+                    </div>
+
+                    <!-- Net Banking Section -->
+                    <div id="netbanking-section" class="payment-detail-section" style="display:none;">
+                        <h4>Select Your Bank</h4>
+                        <div class="bank-list">
+                            <label class="bank-option">
+                                <input type="radio" name="bank" value="sbi">
+                                <span>State Bank of India</span>
+                            </label>
+                            <label class="bank-option">
+                                <input type="radio" name="bank" value="hdfc">
+                                <span>HDFC Bank</span>
+                            </label>
+                            <label class="bank-option">
+                                <input type="radio" name="bank" value="icici">
+                                <span>ICICI Bank</span>
+                            </label>
+                            <label class="bank-option">
+                                <input type="radio" name="bank" value="axis">
+                                <span>Axis Bank</span>
+                            </label>
+                            <label class="bank-option">
+                                <input type="radio" name="bank" value="kotak">
+                                <span>Kotak Mahindra Bank</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- COD Section -->
+                    <div id="cod-section" class="payment-detail-section" style="display:none;">
+                        <div class="cod-info">
+                            <i class="fas fa-info-circle"></i>
+                            <p>Pay the full amount when your drone is delivered. Please keep exact change ready.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-summary-panel">
+                    <h4>Order Summary</h4>
+                    <div id="order-items-summary"></div>
+                    <div class="summary-divider"></div>
+                    <div class="delivery-address-display" id="address-display"></div>
+                    <div class="summary-divider"></div>
+                    <div class="final-amount">
+                        <div class="amount-row">
+                            <span>Subtotal</span>
+                            <span id="summary-subtotal">₹0</span>
+                        </div>
+                        <div class="amount-row">
+                            <span>Security Deposit</span>
+                            <span id="summary-deposit">₹0</span>
+                        </div>
+                        <div class="amount-row">
+                            <span>GST (18%)</span>
+                            <span id="summary-tax">₹0</span>
+                        </div>
+                        <div class="amount-row total">
+                            <span>Total Payable</span>
+                            <span id="payment-total">₹0</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="delivery-address-display" id="address-display"></div>
+            
             <div class="form-actions">
-                <button type="button" onclick="showAddressStep()" class="btn-secondary">Back</button>
-                <button onclick="placeOrder()" class="btn-primary">Place Order</button>
+                <button type="button" onclick="showAddressStep()" class="btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+                <button onclick="processPayment()" class="btn-primary btn-pay">
+                    <i class="fas fa-lock"></i> Pay Now
+                </button>
             </div>
         </div>
 
+        <!-- Step 4: Success -->
         <div id="success-step" class="checkout-step" style="display:none;">
             <div class="order-success">
-                <i class="fas fa-check-circle fa-4x"></i>
-                <h3>Order Placed Successfully!</h3>
-                <p>Thank you for your rental. We'll deliver the drones to your address.</p>
-                <a href="index.html" class="btn-primary">Continue Shopping</a>
+                <div class="success-animation">
+                    <i class="fas fa-check-circle fa-5x"></i>
+                </div>
+                <h2>Booking Confirmed!</h2>
+                <p class="order-id">Order ID: <strong id="order-id-display"></strong></p>
+                <p>Thank you for choosing Drone Fleet Management!</p>
+                
+                <div class="booking-details">
+                    <h4>Booking Details</h4>
+                    <div id="success-order-summary"></div>
+                </div>
+                
+                <div class="next-steps">
+                    <h4>What's Next?</h4>
+                    <div class="steps-list">
+                        <div class="next-step">
+                            <i class="fas fa-envelope"></i>
+                            <span>Confirmation email sent to your address</span>
+                        </div>
+                        <div class="next-step">
+                            <i class="fas fa-truck"></i>
+                            <span>Drone will be delivered before rental start date</span>
+                        </div>
+                        <div class="next-step">
+                            <i class="fas fa-phone"></i>
+                            <span>Our team will contact you for delivery coordination</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="success-actions">
+                    <a href="home.html" class="btn-primary">
+                        <i class="fas fa-home"></i> Back to Home
+                    </a>
+                    <a href="Products.html" class="btn-secondary">
+                        <i class="fas fa-box"></i> Rent More Drones
+                    </a>
+                </div>
             </div>
         </div>
     </section>
 
-    <footer class="section-p1">
-        <p>&copy; 2026 Drone Rental Service</p>
+    <!-- Auth Modal -->
+    <div class="modal-overlay" id="auth-modal">
+        <div class="auth-modal-content">
+            <button class="modal-close" onclick="closeAuthModal()">&times;</button>
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Login</button>
+                <button class="auth-tab" data-tab="signup">Sign Up</button>
+            </div>
+            <form id="login-form" class="auth-form">
+                <h3>Welcome Back!</h3>
+                <p>Login to your account to continue</p>
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="login-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="login-password" placeholder="Enter your password" required>
+                </div>
+                <p class="auth-error" id="login-error"></p>
+                <button type="submit" class="btn-primary">Login</button>
+                <p class="auth-link">Don't have an account? <a href="#" onclick="showSignupForm()">Sign Up</a></p>
+            </form>
+            <form id="signup-form" class="auth-form" style="display: none;">
+                <h3>Create Account</h3>
+                <p>Join us to rent amazing drones</p>
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Full Name</label>
+                    <input type="text" id="signup-name" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="signup-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="signup-password" placeholder="Create a password (min 6 chars)" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Confirm Password</label>
+                    <input type="password" id="signup-confirm-password" placeholder="Confirm your password" required>
+                </div>
+                <p class="auth-error" id="signup-error"></p>
+                <button type="submit" class="btn-primary">Create Account</button>
+                <p class="auth-link">Already have an account? <a href="#" onclick="showLoginForm()">Login</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4>Drone Fleet Management</h4>
+                <p>Your trusted partner for professional drone rentals. Quality drones for photography, delivery, surveillance and more.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="Products.html">Products</a></li>
+                    <li><a href="my-orders.html">My Orders</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Drone Categories</h4>
+                <ul>
+                    <li><a href="Products.html">Photography Drones</a></li>
+                    <li><a href="Products.html">Delivery Drones</a></li>
+                    <li><a href="Products.html">Surveillance Drones</a></li>
+                    <li><a href="Products.html">Agriculture Drones</a></li>
+                    <li><a href="Products.html">Racing Drones</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Info</h4>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Tech Park, Bangalore, India</li>
+                    <li><i class="fas fa-phone"></i> +91 98765 43210</li>
+                    <li><i class="fas fa-envelope"></i> info@dronefleet.com</li>
+                    <li><i class="fas fa-clock"></i> Mon-Sat: 9:00 AM - 8:00 PM</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Drone Fleet Management. All Rights Reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Refund Policy</a>
+            </div>
+        </div>
     </footer>
 
     <script src="js/nav.js"></script>
     <script src="js/cart-storage.js"></script>
+    <script src="js/auth.js"></script>
     <script src="js/cart.js"></script>
-</body>
 </body>
 </html>

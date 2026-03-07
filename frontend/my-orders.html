@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - Drone Fleet Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .orders-section {
+            padding: 40px 80px;
+            min-height: 60vh;
+        }
+        
+        .orders-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .orders-header h2 {
+            font-size: 1.8rem;
+            color: var(--text);
+        }
+        
+        .email-lookup {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .email-lookup input {
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            min-width: 280px;
+        }
+        
+        .email-lookup input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        
+        .email-lookup button {
+            padding: 12px 24px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        
+        .email-lookup button:hover {
+            background: #06605a;
+        }
+        
+        /* Filter Tabs */
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-tab {
+            padding: 10px 20px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        
+        .filter-tab:hover {
+            border-color: var(--primary);
+        }
+        
+        .filter-tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .filter-tab .count {
+            background: rgba(0,0,0,0.1);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            margin-left: 5px;
+        }
+        
+        .filter-tab.active .count {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        /* Order Cards */
+        .orders-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .order-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: 0.3s;
+        }
+        
+        .order-card:hover {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .order-id-section h4 {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-bottom: 5px;
+        }
+        
+        .order-id-section h4 span {
+            color: var(--primary);
+        }
+        
+        .order-date {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        .order-status {
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+        
+        .status-confirmed {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-delivered {
+            background: #cce5ff;
+            color: #004085;
+        }
+        
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status-processing {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+        
+        .order-body {
+            padding: 25px;
+        }
+        
+        .order-items {
+            margin-bottom: 20px;
+        }
+        
+        .order-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        
+        .order-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 10px;
+            background: #f0f0f0;
+        }
+        
+        .item-details {
+            flex: 1;
+        }
+        
+        .item-name {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 3px;
+        }
+        
+        .item-meta {
+            color: #888;
+            font-size: 0.85rem;
+        }
+        
+        .item-price {
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .order-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 2px solid #f0f0f0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .order-total {
+            font-size: 1.2rem;
+        }
+        
+        .order-total span {
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .order-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-view-details {
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        
+        .btn-view-details:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-cancel {
+            padding: 10px 20px;
+            background: #ff4757;
+            border: none;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        
+        .btn-cancel:hover {
+            background: #ee3344;
+        }
+        
+        .btn-cancel:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        /* Empty State */
+        .no-orders {
+            text-align: center;
+            padding: 80px 20px;
+        }
+        
+        .no-orders i {
+            font-size: 4rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .no-orders h3 {
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+        
+        .no-orders p {
+            color: #888;
+            margin-bottom: 25px;
+        }
+        
+        /* Order Details Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+        
+        .modal-overlay.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .modal-header h3 {
+            font-size: 1.3rem;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #888;
+            padding: 5px;
+        }
+        
+        .modal-close:hover {
+            color: #333;
+        }
+        
+        .modal-body {
+            padding: 25px;
+        }
+        
+        .detail-section {
+            margin-bottom: 25px;
+        }
+        
+        .detail-section h4 {
+            font-size: 1rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            color: #666;
+        }
+        
+        .detail-value {
+            font-weight: 500;
+            color: var(--text);
+        }
+        
+        /* Cancel Confirmation Modal */
+        .cancel-modal .modal-body {
+            text-align: center;
+        }
+        
+        .cancel-modal .warning-icon {
+            font-size: 4rem;
+            color: #ff4757;
+            margin-bottom: 20px;
+        }
+        
+        .cancel-modal h4 {
+            margin-bottom: 10px;
+        }
+        
+        .cancel-modal p {
+            color: #666;
+            margin-bottom: 25px;
+        }
+        
+        .cancel-modal .modal-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .btn-confirm-cancel {
+            padding: 12px 30px;
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .btn-go-back {
+            padding: 12px 30px;
+            background: #e0e0e0;
+            color: #333;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 60px;
+        }
+        
+        .loading i {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+        
+        /* Responsive */
+        @media (max-width: 799px) {
+            .orders-section {
+                padding: 30px 20px;
+            }
+            
+            .email-lookup {
+                width: 100%;
+            }
+            
+            .email-lookup input {
+                min-width: 100%;
+            }
+            
+            .email-lookup button {
+                width: 100%;
+            }
+            
+            .order-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .order-footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .order-actions {
+                width: 100%;
+            }
+            
+            .order-actions button {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo"><h1>Drone <span>Fleet </span>Management</h1></div>
+        <div class="menu-toggle" id="mobile-menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
+        <nav class="nav-menu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="Products.html" class="nav-link">Products</a>
+            <a href="my-orders.html" class="nav-link active">My Orders</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+            <a href="cart.html" class="nav-link"><i class="fas fa-shopping-cart"></i> Cart <span id="cart-count" class="cart-badge">0</span></a>
+            <button class="btn-login">Login</button>
+        </nav>
+    </header>
+
+    <section class="page-header">
+        <h2>#My_Orders</h2>
+        <p>Track and manage your drone rentals</p>
+    </section>
+
+    <section class="orders-section">
+        <div class="orders-header">
+            <h2><i class="fas fa-box"></i> Your Orders</h2>
+            <div class="email-lookup">
+                <input type="email" id="lookup-email" placeholder="Enter your email to view orders">
+                <button onclick="lookupOrders()"><i class="fas fa-search"></i> Find Orders</button>
+            </div>
+        </div>
+
+        <div class="filter-tabs" id="filter-tabs" style="display: none;">
+            <button class="filter-tab active" data-filter="all">All <span class="count" id="count-all">0</span></button>
+            <button class="filter-tab" data-filter="confirmed">Confirmed <span class="count" id="count-confirmed">0</span></button>
+            <button class="filter-tab" data-filter="processing">Processing <span class="count" id="count-processing">0</span></button>
+            <button class="filter-tab" data-filter="delivered">Delivered <span class="count" id="count-delivered">0</span></button>
+            <button class="filter-tab" data-filter="cancelled">Cancelled <span class="count" id="count-cancelled">0</span></button>
+        </div>
+
+        <div id="orders-container">
+            <div class="no-orders" id="initial-state">
+                <i class="fas fa-box-open"></i>
+                <h3>Enter Your Email</h3>
+                <p>Enter the email address you used during checkout to view your orders</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Details Modal -->
+    <div class="modal-overlay" id="details-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-receipt"></i> Order Details</h3>
+                <button class="modal-close" onclick="closeDetailsModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="details-modal-body">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Cancel Confirmation Modal -->
+    <div class="modal-overlay cancel-modal" id="cancel-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-exclamation-triangle"></i> Cancel Order</h3>
+                <button class="modal-close" onclick="closeCancelModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <i class="fas fa-exclamation-circle warning-icon"></i>
+                <h4>Are you sure you want to cancel this order?</h4>
+                <p>Order ID: <strong id="cancel-order-id"></strong></p>
+                <p>This action cannot be undone. If you've already paid, a refund will be processed within 5-7 business days.</p>
+                <div class="modal-actions">
+                    <button class="btn-go-back" onclick="closeCancelModal()">No, Go Back</button>
+                    <button class="btn-confirm-cancel" onclick="confirmCancelOrder()">Yes, Cancel Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="section-p1">
+        <p>&copy; 2026 Drone Fleet Management - All Rights Reserved</p>
+    </footer>
+
+    <script src="js/nav.js"></script>
+    <script src="js/cart-storage.js"></script>
+    <script>
+        // Update cart badge
+        function updateCartBadge() {
+            const badge = document.getElementById('cart-count');
+            if (badge) badge.textContent = getCartCount();
+        }
+        
+        let userOrders = [];
+        let currentFilter = 'all';
+        let orderToCancel = null;
+        
+        // API Base URL
+        const API_BASE = 'http://localhost:3000';
+        
+        // Lookup orders by email
+        async function lookupOrders() {
+            const email = document.getElementById('lookup-email').value.trim();
+            if (!email || !email.includes('@')) {
+                alert('Please enter a valid email address');
+                return;
+            }
+            
+            const container = document.getElementById('orders-container');
+            container.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i><p>Loading your orders...</p></div>';
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/orders/user/${encodeURIComponent(email)}`);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    userOrders = data.orders || [];
+                    
+                    // Store email for future reference
+                    localStorage.setItem('user_email', email);
+                    
+                    // Show filter tabs
+                    document.getElementById('filter-tabs').style.display = 'flex';
+                    
+                    // Update counts and render
+                    updateFilterCounts();
+                    renderOrders();
+                } else {
+                    throw new Error(data.message || 'Failed to fetch orders');
+                }
+            } catch (error) {
+                console.error('Error fetching orders:', error);
+                container.innerHTML = `
+                    <div class="no-orders">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <h3>Error Loading Orders</h3>
+                        <p>${error.message || 'Could not connect to server. Please try again.'}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Update filter counts
+        function updateFilterCounts() {
+            const counts = {
+                all: userOrders.length,
+                confirmed: userOrders.filter(o => o.status === 'confirmed').length,
+                processing: userOrders.filter(o => o.status === 'processing' || o.status === 'pending_payment').length,
+                delivered: userOrders.filter(o => o.status === 'delivered').length,
+                cancelled: userOrders.filter(o => o.status === 'cancelled').length
+            };
+            
+            document.getElementById('count-all').textContent = counts.all;
+            document.getElementById('count-confirmed').textContent = counts.confirmed;
+            document.getElementById('count-processing').textContent = counts.processing;
+            document.getElementById('count-delivered').textContent = counts.delivered;
+            document.getElementById('count-cancelled').textContent = counts.cancelled;
+        }
+        
+        // Filter orders
+        function filterOrders(filter) {
+            currentFilter = filter;
+            
+            // Update active tab
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.filter === filter);
+            });
+            
+            renderOrders();
+        }
+        
+        // Render orders
+        function renderOrders() {
+            const container = document.getElementById('orders-container');
+            
+            let filteredOrders = userOrders;
+            if (currentFilter !== 'all') {
+                if (currentFilter === 'processing') {
+                    filteredOrders = userOrders.filter(o => o.status === 'processing' || o.status === 'pending_payment');
+                } else {
+                    filteredOrders = userOrders.filter(o => o.status === currentFilter);
+                }
+            }
+            
+            // Sort by date (newest first)
+            filteredOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            
+            if (filteredOrders.length === 0) {
+                container.innerHTML = `
+                    <div class="no-orders">
+                        <i class="fas fa-box-open"></i>
+                        <h3>No Orders Found</h3>
+                        <p>${currentFilter === 'all' ? 'You haven\'t placed any orders yet.' : 'No orders with this status.'}</p>
+                        <a href="Products.html" class="btn-primary">Browse Drones</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = `
+                <div class="orders-list">
+                    ${filteredOrders.map(order => renderOrderCard(order)).join('')}
+                </div>
+            `;
+        }
+        
+        // Render single order card
+        function renderOrderCard(order) {
+            const statusClass = getStatusClass(order.status);
+            const statusLabel = getStatusLabel(order.status);
+            const canCancel = ['confirmed', 'pending_payment', 'processing'].includes(order.status);
+            
+            const orderDate = new Date(order.createdAt).toLocaleDateString('en-IN', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            return `
+                <div class="order-card">
+                    <div class="order-header">
+                        <div class="order-id-section">
+                            <h4>Order <span>#${order.orderId}</span></h4>
+                            <p class="order-date"><i class="fas fa-calendar"></i> ${orderDate}</p>
+                        </div>
+                        <span class="order-status ${statusClass}">${statusLabel}</span>
+                    </div>
+                    <div class="order-body">
+                        <div class="order-items">
+                            ${order.items.map(item => `
+                                <div class="order-item">
+                                    <img src="${item.image || 'https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=100&h=100&fit=crop'}" 
+                                         alt="${item.productName}"
+                                         onerror="this.src='https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=100&h=100&fit=crop'">
+                                    <div class="item-details">
+                                        <p class="item-name">${item.productName}</p>
+                                        <p class="item-meta">
+                                            ${item.days} days × ${item.quantity} unit(s)
+                                            ${item.startDate ? `| ${formatDate(item.startDate)} - ${formatDate(item.endDate)}` : ''}
+                                        </p>
+                                    </div>
+                                    <p class="item-price">₹${(item.total || 0).toLocaleString()}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="order-footer">
+                            <p class="order-total">Total: <span>₹${(order.totals?.total || calculateTotal(order)).toLocaleString()}</span></p>
+                            <div class="order-actions">
+                                <button class="btn-view-details" onclick="viewOrderDetails('${order.orderId}')">
+                                    <i class="fas fa-eye"></i> View Details
+                                </button>
+                                ${canCancel ? `
+                                    <button class="btn-cancel" onclick="showCancelModal('${order.orderId}')">
+                                        <i class="fas fa-times"></i> Cancel Order
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Helper functions
+        function getStatusClass(status) {
+            const classes = {
+                'confirmed': 'status-confirmed',
+                'pending_payment': 'status-pending',
+                'processing': 'status-processing',
+                'delivered': 'status-delivered',
+                'cancelled': 'status-cancelled'
+            };
+            return classes[status] || 'status-pending';
+        }
+        
+        function getStatusLabel(status) {
+            const labels = {
+                'confirmed': 'Confirmed',
+                'pending_payment': 'Pending Payment',
+                'processing': 'Processing',
+                'delivered': 'Delivered',
+                'cancelled': 'Cancelled'
+            };
+            return labels[status] || status;
+        }
+        
+        function formatDate(dateStr) {
+            return new Date(dateStr).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+        }
+        
+        function calculateTotal(order) {
+            return order.items.reduce((sum, item) => sum + (item.total || 0), 0);
+        }
+        
+        // View order details
+        function viewOrderDetails(orderId) {
+            const order = userOrders.find(o => o.orderId === orderId);
+            if (!order) return;
+            
+            const modal = document.getElementById('details-modal');
+            const body = document.getElementById('details-modal-body');
+            
+            const statusClass = getStatusClass(order.status);
+            const statusLabel = getStatusLabel(order.status);
+            
+            body.innerHTML = `
+                <div class="detail-section">
+                    <h4><i class="fas fa-info-circle"></i> Order Information</h4>
+                    <div class="detail-row">
+                        <span class="detail-label">Order ID</span>
+                        <span class="detail-value">${order.orderId}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Status</span>
+                        <span class="order-status ${statusClass}" style="padding: 5px 12px; font-size: 0.8rem;">${statusLabel}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Order Date</span>
+                        <span class="detail-value">${new Date(order.createdAt).toLocaleString('en-IN')}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Payment Method</span>
+                        <span class="detail-value">${order.paymentMethod || 'N/A'}</span>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h4><i class="fas fa-box"></i> Items</h4>
+                    ${order.items.map(item => `
+                        <div class="detail-row">
+                            <span class="detail-label">${item.productName} (×${item.quantity})</span>
+                            <span class="detail-value">₹${(item.total || 0).toLocaleString()}</span>
+                        </div>
+                        <div class="detail-row" style="font-size: 0.85rem; color: #888;">
+                            <span>${item.days} days rental</span>
+                            <span>₹${item.price}/day</span>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <div class="detail-section">
+                    <h4><i class="fas fa-map-marker-alt"></i> Delivery Address</h4>
+                    <p style="line-height: 1.8;">
+                        <strong>${order.address?.fullName || 'N/A'}</strong><br>
+                        ${order.address?.address || ''}<br>
+                        ${order.address?.landmark ? order.address.landmark + '<br>' : ''}
+                        ${order.address?.city || ''}, ${order.address?.state || ''} - ${order.address?.pincode || ''}<br>
+                        <i class="fas fa-phone"></i> ${order.address?.phone || 'N/A'}<br>
+                        <i class="fas fa-envelope"></i> ${order.address?.email || 'N/A'}
+                    </p>
+                </div>
+                
+                <div class="detail-section">
+                    <h4><i class="fas fa-rupee-sign"></i> Payment Summary</h4>
+                    <div class="detail-row">
+                        <span class="detail-label">Subtotal</span>
+                        <span class="detail-value">₹${(order.totals?.subtotal || calculateTotal(order)).toLocaleString()}</span>
+                    </div>
+                    ${order.totals?.deposit ? `
+                        <div class="detail-row">
+                            <span class="detail-label">Security Deposit</span>
+                            <span class="detail-value">₹${order.totals.deposit.toLocaleString()}</span>
+                        </div>
+                    ` : ''}
+                    ${order.totals?.tax ? `
+                        <div class="detail-row">
+                            <span class="detail-label">GST (18%)</span>
+                            <span class="detail-value">₹${order.totals.tax.toLocaleString()}</span>
+                        </div>
+                    ` : ''}
+                    <div class="detail-row" style="font-weight: 700; font-size: 1.1rem; color: var(--primary); border-top: 2px solid #e0e0e0; margin-top: 10px; padding-top: 15px;">
+                        <span>Grand Total</span>
+                        <span>₹${(order.totals?.total || calculateTotal(order)).toLocaleString()}</span>
+                    </div>
+                </div>
+            `;
+            
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeDetailsModal() {
+            document.getElementById('details-modal').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+        
+        // Cancel order functions
+        function showCancelModal(orderId) {
+            orderToCancel = orderId;
+            document.getElementById('cancel-order-id').textContent = orderId;
+            document.getElementById('cancel-modal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeCancelModal() {
+            document.getElementById('cancel-modal').classList.remove('show');
+            document.body.style.overflow = '';
+            orderToCancel = null;
+        }
+        
+        async function confirmCancelOrder() {
+            if (!orderToCancel) return;
+            
+            const btn = document.querySelector('.btn-confirm-cancel');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cancelling...';
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/orders/${orderToCancel}/cancel`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Update local order
+                    const orderIndex = userOrders.findIndex(o => o.orderId === orderToCancel);
+                    if (orderIndex !== -1) {
+                        userOrders[orderIndex].status = 'cancelled';
+                    }
+                    
+                    closeCancelModal();
+                    updateFilterCounts();
+                    renderOrders();
+                    
+                    // Show success message
+                    alert('Order cancelled successfully! Refund will be processed within 5-7 business days.');
+                } else {
+                    throw new Error(data.message || 'Failed to cancel order');
+                }
+            } catch (error) {
+                console.error('Error cancelling order:', error);
+                alert(error.message || 'Failed to cancel order. Please try again.');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Yes, Cancel Order';
+            }
+        }
+        
+        // Filter tab click handlers
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', () => filterOrders(tab.dataset.filter));
+        });
+        
+        // Close modals on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeDetailsModal();
+                closeCancelModal();
+            }
+        });
+        
+        // Close modals on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeDetailsModal();
+                    closeCancelModal();
+                }
+            });
+        });
+        
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartBadge();
+            
+            // Check if email is stored
+            const savedEmail = localStorage.getItem('user_email');
+            if (savedEmail) {
+                document.getElementById('lookup-email').value = savedEmail;
+            }
+        });
+    </script>
+</body>
+</html>

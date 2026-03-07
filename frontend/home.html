@@ -10,19 +10,27 @@
 <body>
 
     <header class="header">
-        <div class="logo"><h1>Drone <span>Fleet </span>Manegment</h1></div>
+        <div class="logo"><h1>Drone <span>Fleet </span>Management</h1></div>
         <div class="menu-toggle" id="mobile-menu">
             <span class="bar"></span>
             <span class="bar"></span>
             <span class="bar"></span>
         </div>
         <nav class="nav-menu">
-            <a href="index.html" class="nav-link active">Home</a>
+            <a href="home.html" class="nav-link active">Home</a>
             <a href="Products.html" class="nav-link">Products</a>
+            <a href="my-orders.html" class="nav-link">My Orders</a>
             <a href="about.html" class="nav-link">About</a>
             <a href="contact.html" class="nav-link">Contact</a>
-            <a href="cart.html" class="nav-link">Cart</a>
-            <button class="btn-login">Login</button>
+            <a href="cart.html" class="nav-link"><i class="fas fa-shopping-cart"></i> Cart <span id="cart-count" class="cart-badge">0</span></a>
+            <div class="auth-buttons">
+                <button class="btn-login">Login</button>
+                <button class="btn-signup">Sign Up</button>
+            </div>
+            <div class="user-menu" style="display: none;">
+                <span class="user-name">User</span>
+                <button class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
         </nav>
     </header>
 
@@ -38,21 +46,240 @@
 
     <section class="features section-p1">
         <div class="fe-box">
-            <img src="https://example.com/free-shipping.png" alt="Free Shipping">
+            <img src="https://cdn-icons-png.flaticon.com/512/2769/2769339.png" alt="Free Delivery">
             <h6>Free Delivery</h6>
         </div>
         <div class="fe-box">
-            <img src="https://example.com/online-order.png" alt="Online Order">
+            <img src="https://cdn-icons-png.flaticon.com/512/3081/3081559.png" alt="Online Order">
             <h6>Easy Online Booking</h6>
         </div>
         <div class="fe-box">
-            <img src="https://example.com/money-saving.png" alt="Save Money">
+            <img src="https://cdn-icons-png.flaticon.com/512/2331/2331941.png" alt="Save Money">
             <h6>Affordable Prices</h6>
         </div>
     </section>
 
-    <footer class="section-p1">
-        <p>&copy; 2026 Drone Rental Service</p>
+    <!-- Featured Drones Section -->
+    <section class="product section-p1">
+        <h2>Featured Drones</h2>
+        <p>Explore our top rental drones for every need</p>
+        <div class="pro-container">
+            <div class="pro">
+                <img src="https://images.unsplash.com/photo-1507582020474-9a35b7d455d9?w=400&h=300&fit=crop" alt="Photography Drone">
+                <div class="des">
+                    <span>Photography</span>
+                    <h5>Photography Drone</h5>
+                    <p>4K Camera, 30min flight time, GPS enabled</p>
+                    <h4>₹1,000<small>/day</small></h4>
+                </div>
+                <a href="Products.html" class="cart"><i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="pro">
+                <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=400&h=300&fit=crop" alt="Delivery Drone">
+                <div class="des">
+                    <span>Delivery</span>
+                    <h5>Delivery Drone</h5>
+                    <p>2kg payload capacity, autonomous navigation</p>
+                    <h4>₹1,500<small>/day</small></h4>
+                </div>
+                <a href="Products.html" class="cart"><i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="pro">
+                <img src="https://images.unsplash.com/photo-1579829366248-204fe8413f31?w=400&h=300&fit=crop" alt="Surveillance Drone">
+                <div class="des">
+                    <span>Surveillance</span>
+                    <h5>Surveillance Drone</h5>
+                    <p>Night vision, thermal imaging, silent operation</p>
+                    <h4>₹1,200<small>/day</small></h4>
+                </div>
+                <a href="Products.html" class="cart"><i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="pro">
+                <img src="https://images.unsplash.com/photo-1527977966376-1c8408f9f108?w=400&h=300&fit=crop" alt="SkyView Pro">
+                <div class="des">
+                    <span>Photography</span>
+                    <h5>SkyView Pro</h5>
+                    <p>8K video, professional gimbal, obstacle avoidance</p>
+                    <h4>₹1,200<small>/day</small></h4>
+                </div>
+                <a href="Products.html" class="cart"><i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Banner Section -->
+    <section class="banner">
+        <h4>Rental Special</h4>
+        <h2>Up to <span>30% Off</span> - Weekly Rentals</h2>
+        <a href="Products.html" class="btn-primary white">Explore More</a>
+    </section>
+
+    <!-- More Drones Section -->
+    <section class="product section-p1">
+        <h2>More Drones</h2>
+        <p>Professional drones for industrial and commercial use</p>
+        <div class="pro-container">
+            <div class="pro">
+                <img src="https://images.unsplash.com/photo-1508614589041-895b88991e3e?w=400&h=300&fit=crop" alt="Delivery Max">
+                <div class="des">
+                    <span>Delivery</span>
+                    <h5>Delivery Max</h5>
+                    <p>5kg payload, weather resistant, long range</p>
+                    <h4>₹1,500<small>/day</small></h4>
+                </div>
+                <a href="Products.html" class="cart"><i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="pro">
+                <img src="https://images.unsplash.com/photo-1506947411487-a56738267384?w=400&h=300&fit=crop" alt="Surveillance Hawk">
+                <div class="des">
+                    <span>Surveillance</span>
+                    <h5>Surveillance Hawk</h5>
+                    <p>Military grade, 360° camera, encrypted transmission</p>
+                    <h4>₹1,800<small>/day</small></h4>
+                </div>
+                <a href="Products.html" class="cart"><i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="pro">
+                <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=400&h=300&fit=crop" alt="AgroSpray">
+                <div class="des">
+                    <span>Agriculture</span>
+                    <h5>AgroSpray</h5>
+                    <p>10L tank, precision spraying, field mapping</p>
+                    <h4>₹2,000<small>/day</small></h4>
+                </div>
+                <a href="Products.html" class="cart"><i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="pro">
+                <img src="https://images.unsplash.com/photo-1521405924368-64c5b84bec60?w=400&h=300&fit=crop" alt="RaceFX">
+                <div class="des">
+                    <span>Racing</span>
+                    <h5>RaceFX</h5>
+                    <p>High speed, FPV ready, agile maneuvering</p>
+                    <h4>₹800<small>/day</small></h4>
+                </div>
+                <a href="Products.html" class="cart"><i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Auth Modal -->
+    <div class="modal-overlay" id="auth-modal">
+        <div class="auth-modal-content">
+            <button class="modal-close" onclick="closeAuthModal()">&times;</button>
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Login</button>
+                <button class="auth-tab" data-tab="signup">Sign Up</button>
+            </div>
+            
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form">
+                <h3>Welcome Back!</h3>
+                <p>Login to your account to continue</p>
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="login-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="login-password" placeholder="Enter your password" required>
+                </div>
+                <p class="auth-error" id="login-error"></p>
+                <button type="submit" class="btn-primary">Login</button>
+                <p class="auth-link">Don't have an account? <a href="#" onclick="showSignupForm()">Sign Up</a></p>
+            </form>
+            
+            <!-- Signup Form -->
+            <form id="signup-form" class="auth-form" style="display: none;">
+                <h3>Create Account</h3>
+                <p>Join us to rent amazing drones</p>
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Full Name</label>
+                    <input type="text" id="signup-name" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="signup-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="signup-password" placeholder="Create a password (min 6 chars)" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Confirm Password</label>
+                    <input type="password" id="signup-confirm-password" placeholder="Confirm your password" required>
+                </div>
+                <p class="auth-error" id="signup-error"></p>
+                <button type="submit" class="btn-primary">Create Account</button>
+                <p class="auth-link">Already have an account? <a href="#" onclick="showLoginForm()">Login</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4>Drone Fleet Management</h4>
+                <p>Your trusted partner for professional drone rentals. Quality drones for photography, delivery, surveillance and more.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="Products.html">Products</a></li>
+                    <li><a href="my-orders.html">My Orders</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Drone Categories</h4>
+                <ul>
+                    <li><a href="Products.html">Photography Drones</a></li>
+                    <li><a href="Products.html">Delivery Drones</a></li>
+                    <li><a href="Products.html">Surveillance Drones</a></li>
+                    <li><a href="Products.html">Agriculture Drones</a></li>
+                    <li><a href="Products.html">Racing Drones</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Info</h4>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Tech Park, Bangalore, India</li>
+                    <li><i class="fas fa-phone"></i> +91 98765 43210</li>
+                    <li><i class="fas fa-envelope"></i> info@dronefleet.com</li>
+                    <li><i class="fas fa-clock"></i> Mon-Sat: 9:00 AM - 8:00 PM</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Drone Fleet Management. All Rights Reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Refund Policy</a>
+            </div>
+        </div>
     </footer>
+
+    <script src="js/nav.js"></script>
+    <script src="js/cart-storage.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // Update cart badge
+        document.addEventListener('DOMContentLoaded', () => {
+            const badge = document.getElementById('cart-count');
+            if (badge && typeof getCartCount === 'function') {
+                badge.textContent = getCartCount();
+            }
+        });
+    </script>
 </body>
 </html>
