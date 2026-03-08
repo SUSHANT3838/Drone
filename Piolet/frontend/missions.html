@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missions - Pilot Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="header">
+        <a href="../../index.html" class="logo"><h1>Drone <span>Fleet </span>Pilot</h1></a>
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+        <nav class="nav-menu">
+            <a href="index.html" class="nav-link">Dashboard</a>
+            <a href="missions.html" class="nav-link active">Missions</a>
+            <a href="schedule.html" class="nav-link">Schedule</a>
+            <a href="profile.html" class="nav-link">Profile</a>
+            <div class="user-menu" style="display: none;">
+                <span class="user-name">Pilot</span>
+                <button class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <section class="page-header">
+        <h2>My Missions</h2>
+        <p>View and manage your flight assignments</p>
+    </section>
+
+    <!-- Mission Stats -->
+    <section class="mission-stats section-p1">
+        <div class="stats-row">
+            <div class="stat-mini">
+                <span class="stat-number" id="assigned-count">0</span>
+                <span class="stat-label">Assigned</span>
+            </div>
+            <div class="stat-mini">
+                <span class="stat-number" id="in-progress-count">0</span>
+                <span class="stat-label">In Progress</span>
+            </div>
+            <div class="stat-mini">
+                <span class="stat-number" id="completed-count">0</span>
+                <span class="stat-label">Completed</span>
+            </div>
+            <div class="stat-mini">
+                <span class="stat-number" id="total-earnings">₹0</span>
+                <span class="stat-label">Earnings</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Missions List -->
+    <section class="missions-section section-p1">
+        <div class="section-header">
+            <h2>All Missions</h2>
+            <div class="filter-group">
+                <select id="status-filter">
+                    <option value="">All Status</option>
+                    <option value="assigned">Assigned</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+                <select id="type-filter">
+                    <option value="">All Types</option>
+                    <option value="photography">Photography</option>
+                    <option value="delivery">Delivery</option>
+                    <option value="surveillance">Surveillance</option>
+                    <option value="agriculture">Agriculture</option>
+                    <option value="racing">Racing</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="missions-list" id="missions-list">
+            <!-- Sample Mission Cards -->
+            <div class="mission-detail-card">
+                <div class="mission-left">
+                    <span class="mission-type photography">Photography</span>
+                    <h3>Aerial Photography - Wedding Event</h3>
+                    <div class="mission-info-grid">
+                        <div class="info-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>Mar 7, 2026 | 09:00 AM</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Palace Grounds, Bangalore</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-helicopter"></i>
+                            <span>Photography Pro X1</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Duration: 3 hours</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mission-right">
+                    <div class="mission-status status-assigned">Assigned</div>
+                    <div class="mission-payout">₹2,500</div>
+                    <div class="mission-actions">
+                        <button class="btn-primary btn-small" onclick="startMission('MSN001')">Start Mission</button>
+                        <button class="btn-secondary btn-small" onclick="viewMissionDetails('MSN001')">Details</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mission-detail-card">
+                <div class="mission-left">
+                    <span class="mission-type delivery">Delivery</span>
+                    <h3>Medical Supply Delivery</h3>
+                    <div class="mission-info-grid">
+                        <div class="info-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>Mar 7, 2026 | 02:00 PM</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Koramangala to HSR Layout</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-helicopter"></i>
+                            <span>Delivery Max</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-box"></i>
+                            <span>Payload: 1.5 kg</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mission-right">
+                    <div class="mission-status status-confirmed">Confirmed</div>
+                    <div class="mission-payout">₹1,800</div>
+                    <div class="mission-actions">
+                        <button class="btn-primary btn-small" onclick="startMission('MSN002')">Start Mission</button>
+                        <button class="btn-secondary btn-small" onclick="viewMissionDetails('MSN002')">Details</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mission-detail-card completed">
+                <div class="mission-left">
+                    <span class="mission-type surveillance">Surveillance</span>
+                    <h3>Security Patrol - Tech Park</h3>
+                    <div class="mission-info-grid">
+                        <div class="info-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>Mar 6, 2026 | 10:00 PM</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Electronic City, Bangalore</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-helicopter"></i>
+                            <span>Surveillance Hawk</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Duration: 2 hours</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mission-right">
+                    <div class="mission-status status-completed">Completed</div>
+                    <div class="mission-payout">₹3,000</div>
+                    <div class="mission-actions">
+                        <button class="btn-secondary btn-small" onclick="viewMissionDetails('MSN003')">View Report</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Detail Modal -->
+    <div class="modal-overlay" id="mission-modal">
+        <div class="mission-modal-content">
+            <button class="modal-close" onclick="closeMissionModal()">&times;</button>
+            <h2>Mission Details</h2>
+            <div class="mission-detail-body" id="mission-detail-body">
+                <!-- Populated by JS -->
+            </div>
+            <div class="modal-actions" id="mission-modal-actions">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 Drone Fleet Management - Pilot Portal. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/nav.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        let missions = JSON.parse(localStorage.getItem('pilotMissions')) || getSampleMissions();
+
+        function getSampleMissions() {
+            return [
+                {
+                    id: 'MSN001',
+                    type: 'photography',
+                    title: 'Aerial Photography - Wedding Event',
+                    location: 'Palace Grounds, Bangalore',
+                    date: '2026-03-07',
+                    time: '09:00',
+                    duration: 3,
+                    drone: 'Photography Pro X1',
+                    payout: 2500,
+                    status: 'assigned',
+                    customerName: 'Rahul Sharma',
+                    customerPhone: '9876543210',
+                    notes: 'Capture aerial shots of wedding ceremony and reception.'
+                },
+                {
+                    id: 'MSN002',
+                    type: 'delivery',
+                    title: 'Medical Supply Delivery',
+                    location: 'Koramangala to HSR Layout',
+                    date: '2026-03-07',
+                    time: '14:00',
+                    duration: 1,
+                    drone: 'Delivery Max',
+                    payload: '1.5 kg',
+                    payout: 1800,
+                    status: 'confirmed',
+                    customerName: 'City Hospital',
+                    customerPhone: '8765432109',
+                    notes: 'Urgent medical supplies. Handle with care.'
+                },
+                {
+                    id: 'MSN003',
+                    type: 'surveillance',
+                    title: 'Security Patrol - Tech Park',
+                    location: 'Electronic City, Bangalore',
+                    date: '2026-03-06',
+                    time: '22:00',
+                    duration: 2,
+                    drone: 'Surveillance Hawk',
+                    payout: 3000,
+                    status: 'completed',
+                    customerName: 'TechPark Security',
+                    notes: 'Night patrol completed successfully.'
+                }
+            ];
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStats();
+            setupFilters();
+        });
+
+        function updateStats() {
+            document.getElementById('assigned-count').textContent = missions.filter(m => m.status === 'assigned').length;
+            document.getElementById('in-progress-count').textContent = missions.filter(m => m.status === 'in-progress').length;
+            document.getElementById('completed-count').textContent = missions.filter(m => m.status === 'completed').length;
+            
+            const totalEarnings = missions
+                .filter(m => m.status === 'completed')
+                .reduce((sum, m) => sum + (m.payout || 0), 0);
+            document.getElementById('total-earnings').textContent = '₹' + totalEarnings.toLocaleString();
+        }
+
+        function setupFilters() {
+            document.getElementById('status-filter').addEventListener('change', filterMissions);
+            document.getElementById('type-filter').addEventListener('change', filterMissions);
+        }
+
+        function filterMissions() {
+            const status = document.getElementById('status-filter').value;
+            const type = document.getElementById('type-filter').value;
+            // In production, this would filter and re-render the mission list
+            console.log('Filtering:', status, type);
+        }
+
+        function startMission(missionId) {
+            const mission = missions.find(m => m.id === missionId);
+            if (mission) {
+                mission.status = 'in-progress';
+                localStorage.setItem('pilotMissions', JSON.stringify(missions));
+                updateStats();
+                alert('Mission started! Fly safe.');
+                location.reload();
+            }
+        }
+
+        function viewMissionDetails(missionId) {
+            const mission = missions.find(m => m.id === missionId);
+            if (!mission) return;
+
+            document.getElementById('mission-detail-body').innerHTML = `
+                <div class="detail-header">
+                    <span class="mission-type ${mission.type}">${mission.type}</span>
+                    <span class="mission-status status-${mission.status}">${mission.status}</span>
+                </div>
+                <h3>${mission.title}</h3>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <label>Date & Time</label>
+                        <span>${mission.date} | ${mission.time}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Location</label>
+                        <span>${mission.location}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Drone</label>
+                        <span>${mission.drone}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Duration</label>
+                        <span>${mission.duration} hour(s)</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Customer</label>
+                        <span>${mission.customerName}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Contact</label>
+                        <span>${mission.customerPhone || 'N/A'}</span>
+                    </div>
+                    <div class="detail-item full-width">
+                        <label>Notes</label>
+                        <span>${mission.notes || 'No additional notes'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Payout</label>
+                        <span class="payout-amount">₹${mission.payout.toLocaleString()}</span>
+                    </div>
+                </div>
+            `;
+
+            let actionsHtml = '';
+            if (mission.status === 'assigned' || mission.status === 'confirmed') {
+                actionsHtml = `
+                    <button class="btn-primary" onclick="startMission('${mission.id}'); closeMissionModal();">
+                        <i class="fas fa-play"></i> Start Mission
+                    </button>
+                `;
+            } else if (mission.status === 'in-progress') {
+                actionsHtml = `
+                    <button class="btn-success" onclick="completeMission('${mission.id}'); closeMissionModal();">
+                        <i class="fas fa-check"></i> Complete Mission
+                    </button>
+                `;
+            }
+
+            document.getElementById('mission-modal-actions').innerHTML = actionsHtml;
+            document.getElementById('mission-modal').classList.add('show');
+        }
+
+        function closeMissionModal() {
+            document.getElementById('mission-modal').classList.remove('show');
+        }
+
+        function completeMission(missionId) {
+            const mission = missions.find(m => m.id === missionId);
+            if (mission) {
+                mission.status = 'completed';
+                localStorage.setItem('pilotMissions', JSON.stringify(missions));
+                updateStats();
+                alert('Mission completed! Great work, pilot.');
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>

@@ -126,7 +126,8 @@ async function handleLogin(event) {
         
         if (response.ok) {
             // Save user data
-            localStorage.setItem('user_email', data.email);
+            localStorage.setItem('user_email', data.email || email);
+            localStorage.setItem('user_name', data.name || email.split('@')[0]);
             localStorage.setItem('user_logged_in', 'true');
             
             closeAuthModal();
@@ -140,7 +141,32 @@ async function handleLogin(event) {
         }
     } catch (error) {
         console.error('Login error:', error);
-        errorEl.textContent = 'Connection failed. Please try again.';
+        // Fallback: Local login when server unavailable
+        const localUsers = JSON.parse(localStorage.getItem('local_users') || '[]');
+        const user = localUsers.find(u => u.email === email && u.password === password);
+        
+        if (user) {
+            localStorage.setItem('user_email', user.email);
+            localStorage.setItem('user_name', user.name || email.split('@')[0]);
+            localStorage.setItem('user_logged_in', 'true');
+            
+            closeAuthModal();
+            updateAuthUI();
+            showNotification('Login successful! Welcome back.', 'success');
+            setTimeout(() => location.reload(), 1000);
+        } else if (localUsers.length === 0) {
+            // No local users, allow demo login
+            localStorage.setItem('user_email', email);
+            localStorage.setItem('user_name', email.split('@')[0]);
+            localStorage.setItem('user_logged_in', 'true');
+            
+            closeAuthModal();
+            updateAuthUI();
+            showNotification('Login successful! (Demo mode)', 'success');
+            setTimeout(() => location.reload(), 1000);
+        } else {
+            errorEl.textContent = 'Invalid email or password';
+        }
     } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = 'Login';
@@ -177,6 +203,31 @@ async function handleSignup(event) {
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
     
+    // Check if email already exists locally
+    const localUsers = JSON.parse(localStorage.getItem('local_users') || '[]');
+    if (localUsers.find(u => u.email === email)) {
+        errorEl.textContent = 'Email already registered';
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Create Account';
+        return;
+    }
+    
+    try {
+        // Submit to Formspree for record-keeping
+        await fetch('https://formspree.io/f/mwvrpbgr', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                _subject: 'New User Signup',
+                name: name,
+                email: email,
+                signup_date: new Date().toISOString()
+            })
+        });
+    } catch (formspreeError) {
+        console.log('Formspree submission skipped:', formspreeError);
+    }
+    
     try {
         const response = await fetch(`${API_BASE}/register`, {
             method: 'POST',
@@ -187,18 +238,51 @@ async function handleSignup(event) {
         const data = await response.json();
         
         if (response.ok) {
-            showNotification('Account created! Please login.', 'success');
-            showLoginForm();
-            document.getElementById('login-email').value = email;
+            // Also save locally for offline use
+            saveLocalUser({ name, email, password });
+            
+            showNotification('Account created successfully!', 'success');
+            
+            // Auto-login after signup
+            localStorage.setItem('user_email', email);
+            localStorage.setItem('user_name', name);
+            localStorage.setItem('user_logged_in', 'true');
+            
+            closeAuthModal();
+            updateAuthUI();
+            setTimeout(() => location.reload(), 1000);
         } else {
             errorEl.textContent = data.message || 'Registration failed';
         }
     } catch (error) {
         console.error('Signup error:', error);
-        errorEl.textContent = 'Connection failed. Please try again.';
+        // Fallback: Local signup when server unavailable
+        
+        // Save user locally
+        saveLocalUser({ name, email, password });
+        
+        showNotification('Account created successfully!', 'success');
+        
+        // Auto-login after signup
+        localStorage.setItem('user_email', email);
+        localStorage.setItem('user_name', name);
+        localStorage.setItem('user_logged_in', 'true');
+        
+        closeAuthModal();
+        updateAuthUI();
+        setTimeout(() => location.reload(), 1000);
     } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = 'Create Account';
+    }
+}
+
+// Save user locally for offline fallback
+function saveLocalUser(user) {
+    const localUsers = JSON.parse(localStorage.getItem('local_users') || '[]');
+    if (!localUsers.find(u => u.email === user.email)) {
+        localUsers.push(user);
+        localStorage.setItem('local_users', JSON.stringify(localUsers));
     }
 }
 

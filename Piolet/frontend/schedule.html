@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule - Pilot Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="header">
+        <a href="../../index.html" class="logo"><h1>Drone <span>Fleet </span>Pilot</h1></a>
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+        <nav class="nav-menu">
+            <a href="index.html" class="nav-link">Dashboard</a>
+            <a href="missions.html" class="nav-link">Missions</a>
+            <a href="schedule.html" class="nav-link active">Schedule</a>
+            <a href="profile.html" class="nav-link">Profile</a>
+            <div class="user-menu" style="display: none;">
+                <span class="user-name">Pilot</span>
+                <button class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <section class="page-header">
+        <h2>Flight Schedule</h2>
+        <p>View your upcoming flights and availability</p>
+    </section>
+
+    <!-- Calendar Navigation -->
+    <section class="calendar-section section-p1">
+        <div class="calendar-header">
+            <button class="btn-icon" onclick="previousWeek()"><i class="fas fa-chevron-left"></i></button>
+            <h2 id="current-week">March 3 - 9, 2026</h2>
+            <button class="btn-icon" onclick="nextWeek()"><i class="fas fa-chevron-right"></i></button>
+        </div>
+
+        <!-- Week View -->
+        <div class="week-calendar">
+            <div class="day-column">
+                <div class="day-header">
+                    <span class="day-name">Mon</span>
+                    <span class="day-date">3</span>
+                </div>
+                <div class="day-slots" data-date="2026-03-03">
+                    <div class="time-slot available">09:00 - 12:00</div>
+                    <div class="time-slot available">14:00 - 18:00</div>
+                </div>
+            </div>
+            <div class="day-column">
+                <div class="day-header">
+                    <span class="day-name">Tue</span>
+                    <span class="day-date">4</span>
+                </div>
+                <div class="day-slots" data-date="2026-03-04">
+                    <div class="time-slot booked">
+                        <span class="slot-type photography">Photography</span>
+                        <span class="slot-time">09:00 - 12:00</span>
+                    </div>
+                    <div class="time-slot available">14:00 - 18:00</div>
+                </div>
+            </div>
+            <div class="day-column">
+                <div class="day-header">
+                    <span class="day-name">Wed</span>
+                    <span class="day-date">5</span>
+                </div>
+                <div class="day-slots" data-date="2026-03-05">
+                    <div class="time-slot booked">
+                        <span class="slot-type agriculture">Agriculture</span>
+                        <span class="slot-time">06:00 - 10:00</span>
+                    </div>
+                    <div class="time-slot available">14:00 - 18:00</div>
+                </div>
+            </div>
+            <div class="day-column">
+                <div class="day-header">
+                    <span class="day-name">Thu</span>
+                    <span class="day-date">6</span>
+                </div>
+                <div class="day-slots" data-date="2026-03-06">
+                    <div class="time-slot available">09:00 - 12:00</div>
+                    <div class="time-slot booked">
+                        <span class="slot-type surveillance">Surveillance</span>
+                        <span class="slot-time">22:00 - 00:00</span>
+                    </div>
+                </div>
+            </div>
+            <div class="day-column today">
+                <div class="day-header">
+                    <span class="day-name">Fri</span>
+                    <span class="day-date">7</span>
+                </div>
+                <div class="day-slots" data-date="2026-03-07">
+                    <div class="time-slot booked">
+                        <span class="slot-type photography">Photography</span>
+                        <span class="slot-time">09:00 - 12:00</span>
+                    </div>
+                    <div class="time-slot booked">
+                        <span class="slot-type delivery">Delivery</span>
+                        <span class="slot-time">14:00 - 15:00</span>
+                    </div>
+                </div>
+            </div>
+            <div class="day-column">
+                <div class="day-header">
+                    <span class="day-name">Sat</span>
+                    <span class="day-date">8</span>
+                </div>
+                <div class="day-slots" data-date="2026-03-08">
+                    <div class="time-slot booked">
+                        <span class="slot-type photography">Photography</span>
+                        <span class="slot-time">07:00 - 11:00</span>
+                    </div>
+                    <div class="time-slot available">14:00 - 18:00</div>
+                </div>
+            </div>
+            <div class="day-column">
+                <div class="day-header">
+                    <span class="day-name">Sun</span>
+                    <span class="day-date">9</span>
+                </div>
+                <div class="day-slots" data-date="2026-03-09">
+                    <div class="time-slot off">Day Off</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="calendar-legend">
+            <div class="legend-item">
+                <span class="legend-color available"></span>
+                <span>Available</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color booked"></span>
+                <span>Booked</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color off"></span>
+                <span>Off Day</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upcoming Flights List -->
+    <section class="upcoming-section section-p1">
+        <h2>Upcoming Flights This Week</h2>
+        <div class="flight-list">
+            <div class="flight-item">
+                <div class="flight-date">
+                    <span class="date-day">07</span>
+                    <span class="date-month">MAR</span>
+                </div>
+                <div class="flight-info">
+                    <span class="mission-type photography">Photography</span>
+                    <h4>Wedding Aerial Photography</h4>
+                    <p><i class="fas fa-clock"></i> 09:00 AM - 12:00 PM</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Palace Grounds, Bangalore</p>
+                </div>
+                <div class="flight-action">
+                    <a href="missions.html" class="btn-secondary btn-small">View Details</a>
+                </div>
+            </div>
+            <div class="flight-item">
+                <div class="flight-date">
+                    <span class="date-day">07</span>
+                    <span class="date-month">MAR</span>
+                </div>
+                <div class="flight-info">
+                    <span class="mission-type delivery">Delivery</span>
+                    <h4>Medical Supply Delivery</h4>
+                    <p><i class="fas fa-clock"></i> 02:00 PM - 03:00 PM</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Koramangala to HSR Layout</p>
+                </div>
+                <div class="flight-action">
+                    <a href="missions.html" class="btn-secondary btn-small">View Details</a>
+                </div>
+            </div>
+            <div class="flight-item">
+                <div class="flight-date">
+                    <span class="date-day">08</span>
+                    <span class="date-month">MAR</span>
+                </div>
+                <div class="flight-info">
+                    <span class="mission-type photography">Photography</span>
+                    <h4>Real Estate Aerial Shoot</h4>
+                    <p><i class="fas fa-clock"></i> 07:00 AM - 11:00 AM</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Whitefield, Bangalore</p>
+                </div>
+                <div class="flight-action">
+                    <a href="missions.html" class="btn-secondary btn-small">View Details</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Set Availability -->
+    <section class="availability-section section-p1">
+        <h2>Manage Availability</h2>
+        <p>Set your working hours and days off</p>
+        <div class="availability-grid">
+            <div class="availability-card">
+                <i class="fas fa-clock"></i>
+                <h4>Working Hours</h4>
+                <p>Set your preferred flight hours</p>
+                <button class="btn-secondary" onclick="openWorkingHoursModal()">Configure</button>
+            </div>
+            <div class="availability-card">
+                <i class="fas fa-calendar-times"></i>
+                <h4>Days Off</h4>
+                <p>Mark days when you're unavailable</p>
+                <button class="btn-secondary" onclick="openDaysOffModal()">Set Days Off</button>
+            </div>
+            <div class="availability-card">
+                <i class="fas fa-plane-slash"></i>
+                <h4>Block Dates</h4>
+                <p>Block specific dates for personal time</p>
+                <button class="btn-secondary" onclick="openBlockDatesModal()">Block Dates</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 Drone Fleet Management - Pilot Portal. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/nav.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        let currentWeekStart = new Date('2026-03-03');
+
+        function previousWeek() {
+            currentWeekStart.setDate(currentWeekStart.getDate() - 7);
+            updateWeekDisplay();
+        }
+
+        function nextWeek() {
+            currentWeekStart.setDate(currentWeekStart.getDate() + 7);
+            updateWeekDisplay();
+        }
+
+        function updateWeekDisplay() {
+            const endDate = new Date(currentWeekStart);
+            endDate.setDate(endDate.getDate() + 6);
+            
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            const startMonth = months[currentWeekStart.getMonth()];
+            const endMonth = months[endDate.getMonth()];
+            
+            let displayText = '';
+            if (startMonth === endMonth) {
+                displayText = `${startMonth} ${currentWeekStart.getDate()} - ${endDate.getDate()}, ${currentWeekStart.getFullYear()}`;
+            } else {
+                displayText = `${startMonth} ${currentWeekStart.getDate()} - ${endMonth} ${endDate.getDate()}, ${currentWeekStart.getFullYear()}`;
+            }
+            
+            document.getElementById('current-week').textContent = displayText;
+        }
+
+        function openWorkingHoursModal() {
+            alert('Working hours configuration - Coming soon!');
+        }
+
+        function openDaysOffModal() {
+            alert('Days off configuration - Coming soon!');
+        }
+
+        function openBlockDatesModal() {
+            alert('Block dates configuration - Coming soon!');
+        }
+    </script>
+</body>
+</html>

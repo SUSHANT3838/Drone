@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilot Dashboard - Drone Fleet Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="header">
+        <a href="../../index.html" class="logo"><h1>Drone <span>Fleet </span>Pilot</h1></a>
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+        <nav class="nav-menu">
+            <a href="index.html" class="nav-link active">Dashboard</a>
+            <a href="missions.html" class="nav-link">Missions</a>
+            <a href="schedule.html" class="nav-link">Schedule</a>
+            <a href="profile.html" class="nav-link">Profile</a>
+            <div class="auth-buttons">
+                <button class="btn-login">Login</button>
+                <button class="btn-signup">Sign Up</button>
+            </div>
+            <div class="user-menu" style="display: none;">
+                <span class="user-name">Pilot</span>
+                <button class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero pilot-hero">
+        <div class="hero-text">
+            <h4>Welcome Back, Pilot!</h4>
+            <h2>Ready for Your Next</h2>
+            <h1>Mission</h1>
+            <p>Manage your flights, track assignments, and stay on schedule</p>
+            <a href="missions.html"><button class="btn-primary">View Missions</button></a>
+        </div>
+    </section>
+
+    <!-- Dashboard Stats -->
+    <section class="dashboard-stats section-p1">
+        <h2>Dashboard Overview</h2>
+        <p>Your flight statistics at a glance</p>
+        <div class="stats-container">
+            <div class="stat-box">
+                <i class="fas fa-plane"></i>
+                <h3 id="total-flights">0</h3>
+                <p>Total Flights</p>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-tasks"></i>
+                <h3 id="active-missions">0</h3>
+                <p>Active Missions</p>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-clock"></i>
+                <h3 id="flight-hours">0</h3>
+                <p>Flight Hours</p>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-star"></i>
+                <h3 id="pilot-rating">0.0</h3>
+                <p>Rating</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Today's Schedule -->
+    <section class="today-section section-p1">
+        <h2>Today's Schedule</h2>
+        <p>Your upcoming flights for today</p>
+        <div class="schedule-timeline" id="today-schedule">
+            <div class="timeline-item">
+                <div class="timeline-time">09:00 AM</div>
+                <div class="timeline-content">
+                    <span class="mission-type photography">Photography</span>
+                    <h4>Aerial Photography - Wedding Event</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> Bangalore, Karnataka</p>
+                    <p><i class="fas fa-helicopter"></i> Photography Pro X1</p>
+                </div>
+                <div class="timeline-status status-pending">Pending</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">02:00 PM</div>
+                <div class="timeline-content">
+                    <span class="mission-type delivery">Delivery</span>
+                    <h4>Package Delivery - Medical Supplies</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> Koramangala, Bangalore</p>
+                    <p><i class="fas fa-helicopter"></i> Delivery Max</p>
+                </div>
+                <div class="timeline-status status-confirmed">Confirmed</div>
+            </div>
+        </div>
+        <div class="section-footer">
+            <a href="schedule.html" class="btn-secondary">View Full Schedule</a>
+        </div>
+    </section>
+
+    <!-- Recent Missions -->
+    <section class="recent-section section-p1">
+        <h2>Recent Missions</h2>
+        <p>Your recently completed assignments</p>
+        <div class="missions-grid" id="recent-missions">
+            <div class="mission-card">
+                <div class="mission-header">
+                    <span class="mission-type surveillance">Surveillance</span>
+                    <span class="mission-date">Mar 6, 2026</span>
+                </div>
+                <h4>Security Patrol - Tech Park</h4>
+                <p><i class="fas fa-map-marker-alt"></i> Electronic City, Bangalore</p>
+                <div class="mission-meta">
+                    <span><i class="fas fa-clock"></i> 2 hrs</span>
+                    <span><i class="fas fa-helicopter"></i> Surveillance Hawk</span>
+                </div>
+                <div class="mission-status status-completed">Completed</div>
+            </div>
+            <div class="mission-card">
+                <div class="mission-header">
+                    <span class="mission-type agriculture">Agriculture</span>
+                    <span class="mission-date">Mar 5, 2026</span>
+                </div>
+                <h4>Crop Spraying - Rice Fields</h4>
+                <p><i class="fas fa-map-marker-alt"></i> Mandya, Karnataka</p>
+                <div class="mission-meta">
+                    <span><i class="fas fa-clock"></i> 4 hrs</span>
+                    <span><i class="fas fa-helicopter"></i> AgroSpray</span>
+                </div>
+                <div class="mission-status status-completed">Completed</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="quick-actions section-p1">
+        <h2>Quick Actions</h2>
+        <p>Access common tasks quickly</p>
+        <div class="actions-grid">
+            <a href="missions.html" class="action-card">
+                <i class="fas fa-list-check"></i>
+                <h4>View All Missions</h4>
+                <p>See all your assigned missions</p>
+            </a>
+            <a href="schedule.html" class="action-card">
+                <i class="fas fa-calendar-alt"></i>
+                <h4>Check Schedule</h4>
+                <p>View your weekly calendar</p>
+            </a>
+            <a href="profile.html" class="action-card">
+                <i class="fas fa-id-card"></i>
+                <h4>Update Certifications</h4>
+                <p>Manage your pilot credentials</p>
+            </a>
+            <a href="#" class="action-card" onclick="updateAvailability()">
+                <i class="fas fa-toggle-on"></i>
+                <h4>Set Availability</h4>
+                <p>Update your availability status</p>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4>Drone Fleet Management</h4>
+                <p>India's leading drone rental platform. Fly with us and be part of the future of aerial services.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Pilot Portal</h4>
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="missions.html">Missions</a></li>
+                    <li><a href="schedule.html">Schedule</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Flight Guidelines</a></li>
+                    <li><a href="#">Safety Protocols</a></li>
+                    <li><a href="#">Training Materials</a></li>
+                    <li><a href="#">DGCA Regulations</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Info</h4>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Tech Park, Bangalore, India</li>
+                    <li><i class="fas fa-phone"></i> +91 98765 43210</li>
+                    <li><a href="mailto:pilots@dronefleet.com"><i class="fas fa-envelope"></i> pilots@dronefleet.com</a></li>
+                    <li><i class="fas fa-clock"></i> 24/7 Pilot Support</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Drone Fleet Management. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Auth Modal -->
+    <div class="modal-overlay" id="auth-modal">
+        <div class="auth-modal-content">
+            <button class="modal-close" onclick="closeAuthModal()">&times;</button>
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Login</button>
+                <button class="auth-tab" data-tab="signup">Sign Up</button>
+            </div>
+            <form id="login-form" class="auth-form">
+                <h3>Pilot Login</h3>
+                <p>Access your missions dashboard</p>
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="login-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="login-password" placeholder="Enter your password" required>
+                </div>
+                <p class="auth-error" id="login-error"></p>
+                <button type="submit" class="btn-primary">Login</button>
+                <p class="auth-link">Don't have an account? <a href="#" onclick="showSignupForm()">Sign Up</a></p>
+            </form>
+            <form id="signup-form" class="auth-form" style="display: none;">
+                <h3>Become a Pilot</h3>
+                <p>Register to start flying missions</p>
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Full Name</label>
+                    <input type="text" id="signup-name" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="signup-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-phone"></i> Phone Number</label>
+                    <input type="tel" id="signup-phone" placeholder="Enter your phone number" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-id-badge"></i> DGCA License Number</label>
+                    <input type="text" id="signup-license" placeholder="Enter your license number">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="signup-password" placeholder="Create a password (min 6 chars)" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Confirm Password</label>
+                    <input type="password" id="signup-confirm-password" placeholder="Confirm your password" required>
+                </div>
+                <p class="auth-error" id="signup-error"></p>
+                <button type="submit" class="btn-primary">Create Account</button>
+                <p class="auth-link">Already have an account? <a href="#" onclick="showLoginForm()">Login</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Availability Modal -->
+    <div class="modal-overlay" id="availability-modal">
+        <div class="availability-modal-content">
+            <button class="modal-close" onclick="closeAvailabilityModal()">&times;</button>
+            <h2>Set Your Availability</h2>
+            <form id="availability-form">
+                <div class="availability-status">
+                    <label class="status-option">
+                        <input type="radio" name="status" value="available" checked>
+                        <span class="status-badge status-available">Available</span>
+                        <p>Ready to accept new missions</p>
+                    </label>
+                    <label class="status-option">
+                        <input type="radio" name="status" value="busy">
+                        <span class="status-badge status-active">Busy</span>
+                        <p>Currently on a mission</p>
+                    </label>
+                    <label class="status-option">
+                        <input type="radio" name="status" value="unavailable">
+                        <span class="status-badge status-cancelled">Unavailable</span>
+                        <p>Not accepting missions</p>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>Unavailable Until (optional)</label>
+                    <input type="date" id="unavailable-until">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeAvailabilityModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Update Status</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/nav.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboardStats();
+        });
+
+        function loadDashboardStats() {
+            const missions = JSON.parse(localStorage.getItem('pilotMissions')) || [];
+            const completedMissions = missions.filter(m => m.status === 'completed');
+            
+            document.getElementById('total-flights').textContent = completedMissions.length || 12;
+            document.getElementById('active-missions').textContent = missions.filter(m => ['assigned', 'in-progress'].includes(m.status)).length || 2;
+            document.getElementById('flight-hours').textContent = completedMissions.reduce((sum, m) => sum + (m.duration || 0), 0) || 48;
+            document.getElementById('pilot-rating').textContent = '4.8';
+        }
+
+        function updateAvailability() {
+            document.getElementById('availability-modal').classList.add('show');
+        }
+
+        function closeAvailabilityModal() {
+            document.getElementById('availability-modal').classList.remove('show');
+        }
+
+        document.getElementById('availability-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const status = document.querySelector('input[name="status"]:checked').value;
+            const until = document.getElementById('unavailable-until').value;
+            
+            localStorage.setItem('pilotAvailability', JSON.stringify({ status, until }));
+            closeAvailabilityModal();
+            alert('Availability updated to: ' + status);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Dashboard - Drone Fleet Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="header">
+        <a href="../../index.html" class="logo"><h1>Drone <span>Fleet </span>Owner</h1></a>
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+        <nav class="nav-menu">
+            <a href="index.html" class="nav-link active">Dashboard</a>
+            <a href="manage-drones.html" class="nav-link">My Drones</a>
+            <a href="bookings.html" class="nav-link">Bookings</a>
+            <a href="earnings.html" class="nav-link">Earnings</a>
+            <a href="profile.html" class="nav-link">Profile</a>
+            <div class="auth-buttons">
+                <button class="btn-login">Login</button>
+                <button class="btn-signup">Sign Up</button>
+            </div>
+            <div class="user-menu" style="display: none;">
+                <span class="user-name">Owner</span>
+                <button class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero owner-hero">
+        <div class="hero-text">
+            <h4>Welcome Back, Owner!</h4>
+            <h2>Manage Your Drone Fleet</h2>
+            <h1>Effortlessly</h1>
+            <p>Add drones, track bookings, and monitor your earnings all in one place</p>
+            <a href="manage-drones.html"><button class="btn-primary">Manage Fleet</button></a>
+        </div>
+    </section>
+
+    <!-- Dashboard Stats -->
+    <section class="dashboard-stats section-p1">
+        <h2>Dashboard Overview</h2>
+        <p>Quick summary of your fleet performance</p>
+        <div class="stats-container">
+            <div class="stat-box">
+                <i class="fas fa-helicopter"></i>
+                <h3 id="total-drones">0</h3>
+                <p>Total Drones</p>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-calendar-check"></i>
+                <h3 id="active-bookings">0</h3>
+                <p>Active Bookings</p>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-rupee-sign"></i>
+                <h3 id="total-earnings">₹0</h3>
+                <p>Total Earnings</p>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-star"></i>
+                <h3 id="avg-rating">0.0</h3>
+                <p>Average Rating</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recent Bookings -->
+    <section class="recent-section section-p1">
+        <h2>Recent Bookings</h2>
+        <p>Latest rental requests for your drones</p>
+        <div class="bookings-table-container">
+            <table class="bookings-table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Drone</th>
+                        <th>Customer</th>
+                        <th>Dates</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="recent-bookings">
+                    <tr>
+                        <td colspan="7" class="empty-message">No bookings yet. Add drones to start receiving bookings!</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="section-footer">
+            <a href="bookings.html" class="btn-secondary">View All Bookings</a>
+        </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="quick-actions section-p1">
+        <h2>Quick Actions</h2>
+        <p>Manage your fleet efficiently</p>
+        <div class="actions-grid">
+            <a href="manage-drones.html" class="action-card">
+                <i class="fas fa-plus-circle"></i>
+                <h4>Add New Drone</h4>
+                <p>Register a new drone to your fleet</p>
+            </a>
+            <a href="bookings.html" class="action-card">
+                <i class="fas fa-clipboard-list"></i>
+                <h4>Manage Bookings</h4>
+                <p>View and manage rental requests</p>
+            </a>
+            <a href="earnings.html" class="action-card">
+                <i class="fas fa-chart-line"></i>
+                <h4>View Earnings</h4>
+                <p>Track your revenue and payouts</p>
+            </a>
+            <a href="profile.html" class="action-card">
+                <i class="fas fa-user-cog"></i>
+                <h4>Update Profile</h4>
+                <p>Manage your account settings</p>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4>Drone Fleet Management</h4>
+                <p>India's leading drone rental platform. Partner with us to maximize your drone fleet's earning potential.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Owner Portal</h4>
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="manage-drones.html">My Drones</a></li>
+                    <li><a href="bookings.html">Bookings</a></li>
+                    <li><a href="earnings.html">Earnings</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Owner Guidelines</a></li>
+                    <li><a href="#">Safety Standards</a></li>
+                    <li><a href="#">Insurance Info</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Info</h4>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Tech Park, Bangalore, India</li>
+                    <li><i class="fas fa-phone"></i> +91 98765 43210</li>
+                    <li><i class="fas fa-envelope"></i> owners@dronefleet.com</li>
+                    <li><i class="fas fa-clock"></i> Mon-Sat: 9:00 AM - 8:00 PM</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Drone Fleet Management. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Auth Modal -->
+    <div class="modal-overlay" id="auth-modal">
+        <div class="auth-modal-content">
+            <button class="modal-close" onclick="closeAuthModal()">&times;</button>
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Login</button>
+                <button class="auth-tab" data-tab="signup">Sign Up</button>
+            </div>
+            <form id="login-form" class="auth-form">
+                <h3>Owner Login</h3>
+                <p>Access your drone fleet dashboard</p>
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="login-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="login-password" placeholder="Enter your password" required>
+                </div>
+                <p class="auth-error" id="login-error"></p>
+                <button type="submit" class="btn-primary">Login</button>
+                <p class="auth-link">Don't have an account? <a href="#" onclick="showSignupForm()">Sign Up</a></p>
+            </form>
+            <form id="signup-form" class="auth-form" style="display: none;">
+                <h3>Become an Owner</h3>
+                <p>Register to list your drones</p>
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Full Name</label>
+                    <input type="text" id="signup-name" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="signup-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-phone"></i> Phone Number</label>
+                    <input type="tel" id="signup-phone" placeholder="Enter your phone number" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="signup-password" placeholder="Create a password (min 6 chars)" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Confirm Password</label>
+                    <input type="password" id="signup-confirm-password" placeholder="Confirm your password" required>
+                </div>
+                <p class="auth-error" id="signup-error"></p>
+                <button type="submit" class="btn-primary">Create Account</button>
+                <p class="auth-link">Already have an account? <a href="#" onclick="showLoginForm()">Login</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/nav.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboardStats();
+            loadRecentBookings();
+        });
+
+        async function loadDashboardStats() {
+            try {
+                const response = await fetch('/api/owner/stats');
+                if (response.ok) {
+                    const stats = await response.json();
+                    document.getElementById('total-drones').textContent = stats.totalDrones || 0;
+                    document.getElementById('active-bookings').textContent = stats.activeBookings || 0;
+                    document.getElementById('total-earnings').textContent = '₹' + (stats.totalEarnings || 0).toLocaleString();
+                    document.getElementById('avg-rating').textContent = (stats.avgRating || 0).toFixed(1);
+                }
+            } catch (err) {
+                console.log('Stats not available');
+            }
+        }
+
+        async function loadRecentBookings() {
+            try {
+                const response = await fetch('/api/owner/bookings?limit=5');
+                if (response.ok) {
+                    const bookings = await response.json();
+                    if (bookings.length > 0) {
+                        const tbody = document.getElementById('recent-bookings');
+                        tbody.innerHTML = bookings.map(b => `
+                            <tr>
+                                <td>${b.orderId}</td>
+                                <td>${b.droneName}</td>
+                                <td>${b.customerName}</td>
+                                <td>${b.startDate} - ${b.endDate}</td>
+                                <td>₹${b.amount.toLocaleString()}</td>
+                                <td><span class="status-badge status-${b.status}">${b.status}</span></td>
+                                <td>
+                                    <button class="btn-small" onclick="viewBooking('${b.orderId}')">View</button>
+                                </td>
+                            </tr>
+                        `).join('');
+                    }
+                }
+            } catch (err) {
+                console.log('Bookings not available');
+            }
+        }
+
+        function viewBooking(orderId) {
+            window.location.href = `bookings.html?id=${orderId}`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "drone-fleet-owner",
+  "version": "1.0.0",
+  "description": "Drone Fleet Management - Owner Portal",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.2",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "multer": "^1.4.5-lts.1"
+  }
+}

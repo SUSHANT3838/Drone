@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Drones - Owner Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="header">
+        <a href="../../index.html" class="logo"><h1>Drone <span>Fleet </span>Owner</h1></a>
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+        <nav class="nav-menu">
+            <a href="index.html" class="nav-link">Dashboard</a>
+            <a href="manage-drones.html" class="nav-link active">My Drones</a>
+            <a href="bookings.html" class="nav-link">Bookings</a>
+            <a href="earnings.html" class="nav-link">Earnings</a>
+            <a href="profile.html" class="nav-link">Profile</a>
+            <div class="user-menu" style="display: none;">
+                <span class="user-name">Owner</span>
+                <button class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <section class="page-header">
+        <h2>Manage Your Drones</h2>
+        <p>Add, edit, and manage your drone fleet</p>
+    </section>
+
+    <!-- Add Drone Section -->
+    <section class="manage-section section-p1">
+        <div class="section-header">
+            <h2>My Drone Fleet</h2>
+            <button class="btn-primary" onclick="openAddDroneModal()">
+                <i class="fas fa-plus"></i> Add New Drone
+            </button>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <select id="category-filter">
+                <option value="">All Categories</option>
+                <option value="Photography">Photography</option>
+                <option value="Delivery">Delivery</option>
+                <option value="Surveillance">Surveillance</option>
+                <option value="Agriculture">Agriculture</option>
+                <option value="Racing">Racing</option>
+            </select>
+            <select id="status-filter">
+                <option value="">All Status</option>
+                <option value="available">Available</option>
+                <option value="rented">Rented</option>
+                <option value="maintenance">Maintenance</option>
+            </select>
+            <input type="text" id="search-drone" placeholder="Search drones...">
+        </div>
+
+        <!-- Drones Grid -->
+        <div class="drones-grid" id="drones-grid">
+            <!-- Sample Drone Cards - Will be populated by JS -->
+            <div class="drone-card">
+                <div class="drone-image">
+                    <img src="https://images.unsplash.com/photo-1507582020474-9a35b7d455d9?w=400&h=300&fit=crop" alt="Photography Drone">
+                    <span class="status-badge status-available">Available</span>
+                </div>
+                <div class="drone-info">
+                    <span class="drone-category">Photography</span>
+                    <h4>Photography Pro X1</h4>
+                    <p>4K Camera, 30min flight time, GPS enabled</p>
+                    <div class="drone-price">
+                        <span>₹1,000/day</span>
+                        <div class="drone-rating">
+                            <i class="fas fa-star"></i> 4.8
+                        </div>
+                    </div>
+                    <div class="drone-actions">
+                        <button class="btn-edit" onclick="editDrone('drone-1')"><i class="fas fa-edit"></i> Edit</button>
+                        <button class="btn-delete" onclick="deleteDrone('drone-1')"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="empty-state" id="empty-state" style="display: none;">
+            <i class="fas fa-helicopter"></i>
+            <h3>No Drones Added Yet</h3>
+            <p>Add your first drone to start receiving rental requests</p>
+            <button class="btn-primary" onclick="openAddDroneModal()">Add Your First Drone</button>
+        </div>
+    </section>
+
+    <!-- Add/Edit Drone Modal -->
+    <div class="modal-overlay" id="drone-modal">
+        <div class="drone-modal-content">
+            <button class="modal-close" onclick="closeDroneModal()">&times;</button>
+            <h2 id="modal-title">Add New Drone</h2>
+            <form id="drone-form">
+                <input type="hidden" id="drone-id">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-tag"></i> Drone Name</label>
+                        <input type="text" id="drone-name" placeholder="Enter drone name" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-list"></i> Category</label>
+                        <select id="drone-category" required>
+                            <option value="">Select Category</option>
+                            <option value="Photography">Photography</option>
+                            <option value="Delivery">Delivery</option>
+                            <option value="Surveillance">Surveillance</option>
+                            <option value="Agriculture">Agriculture</option>
+                            <option value="Racing">Racing</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-info-circle"></i> Description</label>
+                    <textarea id="drone-description" placeholder="Describe your drone features" required></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-rupee-sign"></i> Price per Day</label>
+                        <input type="number" id="drone-price" placeholder="Enter price" min="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-boxes"></i> Quantity Available</label>
+                        <input type="number" id="drone-quantity" placeholder="How many?" min="1" value="1" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-image"></i> Drone Image</label>
+                    <div class="image-upload-container">
+                        <input type="file" id="drone-image-file" accept="image/*" onchange="previewImage(this)">
+                        <input type="hidden" id="drone-image" value="">
+                        <div class="image-preview" id="image-preview">
+                            <img id="preview-img" src="" alt="Preview" style="display:none;">
+                            <span class="preview-text">Click to select image</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-clock"></i> Flight Time (minutes)</label>
+                        <input type="number" id="drone-flight-time" placeholder="Max flight time" min="5">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-weight-hanging"></i> Payload Capacity (kg)</label>
+                        <input type="number" id="drone-payload" placeholder="Max payload" step="0.1" min="0">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-cogs"></i> Features (comma separated)</label>
+                    <input type="text" id="drone-features" placeholder="GPS, 4K Camera, Night Vision, etc.">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeDroneModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Drone</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 Drone Fleet Management - Owner Portal. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Auth Modal -->
+    <div class="modal-overlay" id="auth-modal">
+        <div class="auth-modal-content">
+            <button class="modal-close" onclick="closeAuthModal()">&times;</button>
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Login</button>
+                <button class="auth-tab" data-tab="signup">Sign Up</button>
+            </div>
+            <form id="login-form" class="auth-form">
+                <h3>Owner Login</h3>
+                <p>Access your drone fleet dashboard</p>
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="login-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="login-password" placeholder="Enter your password" required>
+                </div>
+                <p class="auth-error" id="login-error"></p>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+            <form id="signup-form" class="auth-form" style="display: none;">
+                <h3>Become an Owner</h3>
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Full Name</label>
+                    <input type="text" id="signup-name" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="signup-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="signup-password" placeholder="Create a password" required>
+                </div>
+                <p class="auth-error" id="signup-error"></p>
+                <button type="submit" class="btn-primary">Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/nav.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        let drones = JSON.parse(localStorage.getItem('ownerDrones')) || [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderDrones();
+            setupFilters();
+        });
+
+        function renderDrones(filteredDrones = null) {
+            const grid = document.getElementById('drones-grid');
+            const emptyState = document.getElementById('empty-state');
+            const data = filteredDrones || drones;
+
+            if (data.length === 0) {
+                grid.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            grid.style.display = 'grid';
+            emptyState.style.display = 'none';
+
+            grid.innerHTML = data.map(drone => `
+                <div class="drone-card">
+                    <div class="drone-image">
+                        <img src="${drone.image || 'https://images.unsplash.com/photo-1507582020474-9a35b7d455d9?w=400&h=300&fit=crop'}" alt="${drone.name}">
+                        <span class="status-badge status-${drone.status || 'available'}">${drone.status || 'Available'}</span>
+                    </div>
+                    <div class="drone-info">
+                        <span class="drone-category">${drone.category}</span>
+                        <h4>${drone.name}</h4>
+                        <p>${drone.description}</p>
+                        <div class="drone-price">
+                            <span>₹${drone.price.toLocaleString()}/day</span>
+                            <div class="drone-rating">
+                                <i class="fas fa-star"></i> ${drone.rating || '0.0'}
+                            </div>
+                        </div>
+                        <div class="drone-actions">
+                            <button class="btn-edit" onclick="editDrone('${drone.id}')"><i class="fas fa-edit"></i> Edit</button>
+                            <button class="btn-delete" onclick="deleteDrone('${drone.id}')"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function setupFilters() {
+            document.getElementById('category-filter').addEventListener('change', applyFilters);
+            document.getElementById('status-filter').addEventListener('change', applyFilters);
+            document.getElementById('search-drone').addEventListener('input', applyFilters);
+        }
+
+        function applyFilters() {
+            const category = document.getElementById('category-filter').value;
+            const status = document.getElementById('status-filter').value;
+            const search = document.getElementById('search-drone').value.toLowerCase();
+
+            let filtered = drones.filter(drone => {
+                if (category && drone.category !== category) return false;
+                if (status && drone.status !== status) return false;
+                if (search && !drone.name.toLowerCase().includes(search)) return false;
+                return true;
+            });
+
+            renderDrones(filtered);
+        }
+
+        function openAddDroneModal() {
+            document.getElementById('modal-title').textContent = 'Add New Drone';
+            document.getElementById('drone-form').reset();
+            document.getElementById('drone-id').value = '';
+            document.getElementById('drone-image').value = '';
+            // Reset image preview
+            document.getElementById('preview-img').style.display = 'none';
+            document.getElementById('preview-img').src = '';
+            document.querySelector('.preview-text').style.display = 'block';
+            document.getElementById('drone-modal').classList.add('show');
+        }
+
+        function closeDroneModal() {
+            document.getElementById('drone-modal').classList.remove('show');
+        }
+
+        function editDrone(droneId) {
+            const drone = drones.find(d => d.id === droneId);
+            if (!drone) return;
+
+            document.getElementById('modal-title').textContent = 'Edit Drone';
+            document.getElementById('drone-id').value = drone.id;
+            document.getElementById('drone-name').value = drone.name;
+            document.getElementById('drone-category').value = drone.category;
+            document.getElementById('drone-description').value = drone.description;
+            document.getElementById('drone-price').value = drone.price;
+            document.getElementById('drone-quantity').value = drone.quantity || 1;
+            document.getElementById('drone-image').value = drone.image || '';
+            document.getElementById('drone-flight-time').value = drone.flightTime || '';
+            document.getElementById('drone-payload').value = drone.payload || '';
+            document.getElementById('drone-features').value = drone.features || '';
+
+            // Show existing image in preview
+            const preview = document.getElementById('preview-img');
+            const previewText = document.querySelector('.preview-text');
+            if (drone.image) {
+                preview.src = drone.image;
+                preview.style.display = 'block';
+                previewText.style.display = 'none';
+            } else {
+                preview.style.display = 'none';
+                previewText.style.display = 'block';
+            }
+
+            document.getElementById('drone-modal').classList.add('show');
+        }
+
+        function deleteDrone(droneId) {
+            if (confirm('Are you sure you want to delete this drone?')) {
+                drones = drones.filter(d => d.id !== droneId);
+                localStorage.setItem('ownerDrones', JSON.stringify(drones));
+                renderDrones();
+            }
+        }
+
+        // Preview uploaded image
+        function previewImage(input) {
+            const preview = document.getElementById('preview-img');
+            const previewText = document.querySelector('.preview-text');
+            
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    previewText.style.display = 'none';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        document.getElementById('drone-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const droneId = document.getElementById('drone-id').value;
+            const imageFile = document.getElementById('drone-image-file').files[0];
+            const existingImage = document.getElementById('drone-image').value;
+
+            let imagePath = existingImage;
+
+            // Upload image if new file selected
+            if (imageFile) {
+                const formData = new FormData();
+                formData.append('image', imageFile);
+                
+                try {
+                    const uploadRes = await fetch('/api/upload-image', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const uploadData = await uploadRes.json();
+                    if (uploadData.imagePath) {
+                        imagePath = uploadData.imagePath;
+                    }
+                } catch (err) {
+                    console.error('Image upload failed:', err);
+                }
+            }
+
+            const droneData = {
+                id: droneId || 'drone-' + Date.now(),
+                name: document.getElementById('drone-name').value,
+                category: document.getElementById('drone-category').value,
+                description: document.getElementById('drone-description').value,
+                price: parseInt(document.getElementById('drone-price').value),
+                quantity: parseInt(document.getElementById('drone-quantity').value) || 1,
+                image: imagePath,
+                flightTime: document.getElementById('drone-flight-time').value,
+                payload: document.getElementById('drone-payload').value,
+                features: document.getElementById('drone-features').value,
+                status: 'available',
+                rating: 0
+            };
+
+            // Save to backend
+            try {
+                const ownerEmail = localStorage.getItem('ownerEmail');
+                if (droneId) {
+                    await fetch(`/api/owner/drones/${droneId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(droneData)
+                    });
+                    const index = drones.findIndex(d => d.id === droneId);
+                    if (index !== -1) {
+                        drones[index] = { ...drones[index], ...droneData };
+                    }
+                } else {
+                    const res = await fetch('/api/owner/drones', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ ...droneData, ownerId: ownerEmail })
+                    });
+                    const data = await res.json();
+                    if (data.drone) {
+                        droneData.id = data.drone.id;
+                        drones.push(droneData);
+                    } else {
+                        drones.push(droneData);
+                    }
+                }
+            } catch (err) {
+                // Fallback to local storage
+                if (droneId) {
+                    const index = drones.findIndex(d => d.id === droneId);
+                    if (index !== -1) {
+                        drones[index] = { ...drones[index], ...droneData };
+                    }
+                } else {
+                    drones.push(droneData);
+                }
+            }
+
+            localStorage.setItem('ownerDrones', JSON.stringify(drones));
+            closeDroneModal();
+            renderDrones();
+        });
+    </script>
+</body>
+</html>

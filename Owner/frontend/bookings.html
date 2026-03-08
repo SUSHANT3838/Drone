@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookings - Owner Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="header">
+        <a href="../../index.html" class="logo"><h1>Drone <span>Fleet </span>Owner</h1></a>
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+        <nav class="nav-menu">
+            <a href="index.html" class="nav-link">Dashboard</a>
+            <a href="manage-drones.html" class="nav-link">My Drones</a>
+            <a href="bookings.html" class="nav-link active">Bookings</a>
+            <a href="earnings.html" class="nav-link">Earnings</a>
+            <a href="profile.html" class="nav-link">Profile</a>
+            <div class="user-menu" style="display: none;">
+                <span class="user-name">Owner</span>
+                <button class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <section class="page-header">
+        <h2>Rental Bookings</h2>
+        <p>Manage all your drone rental requests</p>
+    </section>
+
+    <!-- Booking Stats -->
+    <section class="booking-stats section-p1">
+        <div class="stats-row">
+            <div class="stat-mini">
+                <span class="stat-number" id="pending-count">0</span>
+                <span class="stat-label">Pending</span>
+            </div>
+            <div class="stat-mini">
+                <span class="stat-number" id="confirmed-count">0</span>
+                <span class="stat-label">Confirmed</span>
+            </div>
+            <div class="stat-mini">
+                <span class="stat-number" id="active-count">0</span>
+                <span class="stat-label">Active</span>
+            </div>
+            <div class="stat-mini">
+                <span class="stat-number" id="completed-count">0</span>
+                <span class="stat-label">Completed</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bookings Table -->
+    <section class="bookings-section section-p1">
+        <div class="section-header">
+            <h2>All Bookings</h2>
+            <div class="filter-group">
+                <select id="status-filter">
+                    <option value="">All Status</option>
+                    <option value="pending">Pending</option>
+                    <option value="confirmed">Confirmed</option>
+                    <option value="active">Active</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+                <input type="date" id="date-filter" placeholder="Filter by date">
+            </div>
+        </div>
+
+        <div class="bookings-table-container">
+            <table class="bookings-table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Drone</th>
+                        <th>Customer</th>
+                        <th>Contact</th>
+                        <th>Rental Period</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="bookings-tbody">
+                    <tr>
+                        <td colspan="8" class="empty-message">No bookings found</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Booking Detail Modal -->
+    <div class="modal-overlay" id="booking-modal">
+        <div class="booking-modal-content">
+            <button class="modal-close" onclick="closeBookingModal()">&times;</button>
+            <h2>Booking Details</h2>
+            <div class="booking-detail" id="booking-detail">
+                <!-- Populated by JS -->
+            </div>
+            <div class="modal-actions" id="booking-actions">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 Drone Fleet Management - Owner Portal. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/nav.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        let bookings = JSON.parse(localStorage.getItem('ownerBookings')) || getSampleBookings();
+
+        function getSampleBookings() {
+            return [
+                {
+                    orderId: 'DRN001',
+                    droneId: 'drone-1',
+                    droneName: 'Photography Pro X1',
+                    customerName: 'Rahul Sharma',
+                    customerEmail: 'rahul@email.com',
+                    customerPhone: '9876543210',
+                    startDate: '2026-03-10',
+                    endDate: '2026-03-12',
+                    days: 3,
+                    quantity: 1,
+                    pricePerDay: 1000,
+                    amount: 3000,
+                    status: 'pending',
+                    createdAt: '2026-03-07'
+                },
+                {
+                    orderId: 'DRN002',
+                    droneId: 'drone-2',
+                    droneName: 'Delivery Max',
+                    customerName: 'Priya Singh',
+                    customerEmail: 'priya@email.com',
+                    customerPhone: '8765432109',
+                    startDate: '2026-03-08',
+                    endDate: '2026-03-09',
+                    days: 2,
+                    quantity: 2,
+                    pricePerDay: 1500,
+                    amount: 6000,
+                    status: 'confirmed',
+                    createdAt: '2026-03-06'
+                }
+            ];
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderBookings();
+            updateStats();
+            setupFilters();
+        });
+
+        function renderBookings(filteredBookings = null) {
+            const tbody = document.getElementById('bookings-tbody');
+            const data = filteredBookings || bookings;
+
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="empty-message">No bookings found</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = data.map(b => `
+                <tr>
+                    <td><strong>${b.orderId}</strong></td>
+                    <td>${b.droneName}</td>
+                    <td>${b.customerName}</td>
+                    <td>${b.customerPhone}</td>
+                    <td>${b.startDate} to ${b.endDate}<br><small>(${b.days} days)</small></td>
+                    <td>₹${b.amount.toLocaleString()}</td>
+                    <td><span class="status-badge status-${b.status}">${b.status}</span></td>
+                    <td>
+                        <button class="btn-small" onclick="viewBooking('${b.orderId}')">View</button>
+                        ${b.status === 'pending' ? `
+                            <button class="btn-small btn-success" onclick="updateStatus('${b.orderId}', 'confirmed')">Accept</button>
+                            <button class="btn-small btn-danger" onclick="updateStatus('${b.orderId}', 'cancelled')">Reject</button>
+                        ` : ''}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateStats() {
+            const counts = {
+                pending: bookings.filter(b => b.status === 'pending').length,
+                confirmed: bookings.filter(b => b.status === 'confirmed').length,
+                active: bookings.filter(b => b.status === 'active').length,
+                completed: bookings.filter(b => b.status === 'completed').length
+            };
+
+            document.getElementById('pending-count').textContent = counts.pending;
+            document.getElementById('confirmed-count').textContent = counts.confirmed;
+            document.getElementById('active-count').textContent = counts.active;
+            document.getElementById('completed-count').textContent = counts.completed;
+        }
+
+        function setupFilters() {
+            document.getElementById('status-filter').addEventListener('change', applyFilters);
+            document.getElementById('date-filter').addEventListener('change', applyFilters);
+        }
+
+        function applyFilters() {
+            const status = document.getElementById('status-filter').value;
+            const date = document.getElementById('date-filter').value;
+
+            let filtered = bookings.filter(b => {
+                if (status && b.status !== status) return false;
+                if (date && b.startDate !== date) return false;
+                return true;
+            });
+
+            renderBookings(filtered);
+        }
+
+        function viewBooking(orderId) {
+            const booking = bookings.find(b => b.orderId === orderId);
+            if (!booking) return;
+
+            document.getElementById('booking-detail').innerHTML = `
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <label>Order ID</label>
+                        <span>${booking.orderId}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Status</label>
+                        <span class="status-badge status-${booking.status}">${booking.status}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Drone</label>
+                        <span>${booking.droneName}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Quantity</label>
+                        <span>${booking.quantity}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Customer Name</label>
+                        <span>${booking.customerName}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Email</label>
+                        <span>${booking.customerEmail}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Phone</label>
+                        <span>${booking.customerPhone}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Rental Period</label>
+                        <span>${booking.startDate} to ${booking.endDate} (${booking.days} days)</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Price per Day</label>
+                        <span>₹${booking.pricePerDay.toLocaleString()}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Total Amount</label>
+                        <span><strong>₹${booking.amount.toLocaleString()}</strong></span>
+                    </div>
+                </div>
+            `;
+
+            let actionsHtml = '';
+            if (booking.status === 'pending') {
+                actionsHtml = `
+                    <button class="btn-success" onclick="updateStatus('${booking.orderId}', 'confirmed'); closeBookingModal();">Accept Booking</button>
+                    <button class="btn-danger" onclick="updateStatus('${booking.orderId}', 'cancelled'); closeBookingModal();">Reject Booking</button>
+                `;
+            } else if (booking.status === 'confirmed') {
+                actionsHtml = `
+                    <button class="btn-primary" onclick="updateStatus('${booking.orderId}', 'active'); closeBookingModal();">Mark as Active</button>
+                `;
+            } else if (booking.status === 'active') {
+                actionsHtml = `
+                    <button class="btn-success" onclick="updateStatus('${booking.orderId}', 'completed'); closeBookingModal();">Mark as Completed</button>
+                `;
+            }
+
+            document.getElementById('booking-actions').innerHTML = actionsHtml;
+            document.getElementById('booking-modal').classList.add('show');
+        }
+
+        function closeBookingModal() {
+            document.getElementById('booking-modal').classList.remove('show');
+        }
+
+        function updateStatus(orderId, newStatus) {
+            const booking = bookings.find(b => b.orderId === orderId);
+            if (booking) {
+                booking.status = newStatus;
+                localStorage.setItem('ownerBookings', JSON.stringify(bookings));
+                renderBookings();
+                updateStats();
+            }
+        }
+    </script>
+</body>
+</html>

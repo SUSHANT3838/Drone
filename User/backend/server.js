@@ -11,6 +11,12 @@ const USERS_FILE = path.join(__dirname, 'users.json');
 const USERS_FILE_TMP = path.join(__dirname, 'users.json.tmp');
 const ORDERS_FILE = path.join(__dirname, 'orders.json');
 const ORDERS_FILE_TMP = path.join(__dirname, 'orders.json.tmp');
+const CONTACTS_FILE = path.join(__dirname, 'contacts.json');
+const CONTACTS_FILE_TMP = path.join(__dirname, 'contacts.json.tmp');
+
+// Shared images and Owner's drones file
+const IMAGES_DIR = path.join(__dirname, '../../images');
+const OWNER_DRONES_FILE = path.join(__dirname, '../../Owner/backend/drones.json');
 
 // Middleware
 app.use(bodyParser.json());
@@ -18,6 +24,8 @@ app.use(cors());
 
 // Serve static files from frontend
 app.use(express.static(path.join(__dirname, '../frontend')));
+// Serve images from shared images folder
+app.use('/images', express.static(IMAGES_DIR));
 
 // Validate user input
 const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -329,6 +337,80 @@ app.post('/api/orders/:orderId/cancel', (req, res) => {
         console.error('Cancel order error:', err);
         res.status(500).json({ message: 'Failed to cancel order' });
     }
+});
+
+// Get all drones (from Owner's database)
+app.get('/api/drones', (req, res) => {
+    try {
+        if (!fs.existsSync(OWNER_DRONES_FILE)) {
+            return res.json([]);
+        }
+        const data = fs.readFileSync(OWNER_DRONES_FILE, 'utf8');
+        const drones = JSON.parse(data) || [];
+        // Filter only available drones
+        const availableDrones = drones.filter(d => d.status === 'available' || !d.status);
+        res.json(availableDrones);
+    } catch (err) {
+        console.error('Error fetching drones:', err);
+        res.json([]);
+    }
+});
+
+// ============ CONTACT FORM ============
+
+// Helper function to read contacts
+const readContacts = () => {
+    try {
+        if (!fs.existsSync(CONTACTS_FILE)) return [];
+        const data = fs.readFileSync(CONTACTS_FILE, 'utf8');
+        return JSON.parse(data) || [];
+    } catch (err) {
+        console.error('Error reading contacts:', err.message);
+        return [];
+    }
+};
+
+// Helper function to write contacts
+const writeContacts = (contacts) => {
+    const json = JSON.stringify(contacts, null, 2);
+    fs.writeFileSync(CONTACTS_FILE_TMP, json, { encoding: 'utf8', mode: 0o600 });
+    fs.renameSync(CONTACTS_FILE_TMP, CONTACTS_FILE);
+};
+
+// Submit contact form
+app.post('/api/contact', (req, res) => {
+    try {
+        const { name, email, subject, message, submittedAt } = req.body;
+        
+        if (!name || !email || !message) {
+            return res.status(400).json({ message: 'Name, email and message are required' });
+        }
+        
+        const contacts = readContacts();
+        const newContact = {
+            id: 'CNT' + Date.now().toString(36).toUpperCase(),
+            name,
+            email,
+            subject: subject || 'No Subject',
+            message,
+            submittedAt: submittedAt || new Date().toISOString(),
+            status: 'new'
+        };
+        
+        contacts.push(newContact);
+        writeContacts(contacts);
+        
+        res.status(201).json({ message: 'Contact form submitted successfully', contactId: newContact.id });
+    } catch (err) {
+        console.error('Contact form error:', err);
+        res.status(500).json({ message: 'Failed to submit contact form' });
+    }
+});
+
+// Get all contacts (admin use)
+app.get('/api/contacts', (req, res) => {
+    const contacts = readContacts();
+    res.json(contacts);
 });
 
 // Health check

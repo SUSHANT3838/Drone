@@ -10,10 +10,10 @@
 <body>
 
     <header class="header">
-        <div class="logo"><h1>Drone <span>Fleet </span>Management</h1></div>
+        <a href="../../index.html" class="logo"><h1>Drone <span>Fleet </span>Management</h1></a>
         <div class="menu-toggle" id="mobile-menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
         <nav class="nav-menu">
-            <a href="home.html" class="nav-link">Home</a>
+            <a href="index.html" class="nav-link">Home</a>
             <a href="Products.html" class="nav-link">Products</a>
             <a href="my-orders.html" class="nav-link">My Orders</a>
             <a href="about.html" class="nav-link">About</a>
@@ -41,19 +41,19 @@
             <h2>Contact us for inquiries or support</h2>
             <h3>Head Office</h3>
             <div>
-                <li><i class="fas fa-map"></i> <p>123 Tech Park, Bangalore, India</p></li>
-                <li><i class="far fa-envelope"></i> <p>info@dronefleet.com</p></li>
-                <li><i class="fas fa-phone-alt"></i> <p>+91 98765 43210</p></li>
+                <li><i class="fas fa-map"></i> <p>Shiledar Office Pandharpur</p></li>
+                <li><i class="far fa-envelope"></i> <p>shiledar@123.com</p></li>
+                <li><i class="fas fa-phone-alt"></i> <p>+91 9763705329</p></li>
             </div>
         </div>
         
         <div class="form">
-            <form onsubmit="submitForm(event)">
-                <input type="text" placeholder="Your Name" required>
-                <input type="email" placeholder="E-mail" required>
-                <input type="text" placeholder="Subject">
-                <textarea cols="30" rows="10" placeholder="Your Message"></textarea>
-                <button class="btn-primary">Submit</button>
+            <form id="contact-form" action="https://formspree.io/f/maqpnjrg" method="POST" onsubmit="submitContactForm(event)">
+                <input type="text" name="name" id="contact-name" placeholder="Your Name" required>
+                <input type="email" name="email" id="contact-email" placeholder="E-mail" required>
+                <input type="text" name="subject" id="contact-subject" placeholder="Subject">
+                <textarea name="message" id="contact-message" cols="30" rows="10" placeholder="Your Message" required></textarea>
+                <button type="submit" class="btn-primary">Submit</button>
             </form>
         </div>
     </section>
@@ -124,7 +124,7 @@
             <div class="footer-col">
                 <h4>Quick Links</h4>
                 <ul>
-                    <li><a href="home.html">Home</a></li>
+                    <li><a href="index.html">Home</a></li>
                     <li><a href="Products.html">Products</a></li>
                     <li><a href="my-orders.html">My Orders</a></li>
                     <li><a href="about.html">About Us</a></li>
@@ -144,9 +144,9 @@
             <div class="footer-col">
                 <h4>Contact Info</h4>
                 <ul class="contact-info">
-                    <li><i class="fas fa-map-marker-alt"></i> 123 Tech Park, Bangalore, India</li>
-                    <li><i class="fas fa-phone"></i> +91 98765 43210</li>
-                    <li><i class="fas fa-envelope"></i> info@dronefleet.com</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Shiledar Office Pandharpur</li>
+                    <li><i class="fas fa-phone"></i> +91 9763705329</li>
+                    <li><i class="fas fa-envelope"></i> shiledar@123.com</li>
                     <li><i class="fas fa-clock"></i> Mon-Sat: 9:00 AM - 8:00 PM</li>
                 </ul>
             </div>
@@ -169,10 +169,56 @@
             const badge = document.getElementById('cart-count');
             if (badge && typeof getCartCount === 'function') badge.textContent = getCartCount();
         });
-        function submitForm(e) {
+
+        async function submitContactForm(e) {
             e.preventDefault();
+            
+            const form = e.target;
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            const contactData = {
+                name: document.getElementById('contact-name').value.trim(),
+                email: document.getElementById('contact-email').value.trim(),
+                subject: document.getElementById('contact-subject').value.trim(),
+                message: document.getElementById('contact-message').value.trim(),
+                submittedAt: new Date().toISOString()
+            };
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            
+            try {
+                // Store in backend
+                await fetch('http://localhost:3000/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(contactData)
+                });
+            } catch (err) {
+                // Store locally if backend unavailable
+                const contacts = JSON.parse(localStorage.getItem('contact_submissions') || '[]');
+                contacts.push(contactData);
+                localStorage.setItem('contact_submissions', JSON.stringify(contacts));
+            }
+            
+            // Also submit to Formspree
+            try {
+                const formData = new FormData(form);
+                await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+            } catch (err) {
+                console.log('Formspree submission failed, but data saved locally');
+            }
+            
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+            form.reset();
+            
             alert('Thank you for your message! We will get back to you soon.');
-            e.target.reset();
         }
     </script>
 </body>
