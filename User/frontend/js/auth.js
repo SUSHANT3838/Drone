@@ -115,6 +115,40 @@ async function handleLogin(event) {
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
     
+    // Check local users first (includes Formspree-registered users)
+    const localUsers = JSON.parse(localStorage.getItem('local_users') || '[]');
+    const user = localUsers.find(u => u.email === email && u.password === password);
+    
+    if (user) {
+        // Log login to Formspree for tracking
+        try {
+            await fetch('https://formspree.io/f/mwvrpbgr', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    _subject: 'User Login',
+                    email: email,
+                    name: user.name,
+                    login_date: new Date().toISOString(),
+                    status: 'successful'
+                })
+            });
+        } catch (e) { console.log('Formspree log skipped'); }
+        
+        localStorage.setItem('user_email', user.email);
+        localStorage.setItem('user_name', user.name || email.split('@')[0]);
+        localStorage.setItem('user_logged_in', 'true');
+        
+        closeAuthModal();
+        updateAuthUI();
+        showNotification('Login successful! Welcome back.', 'success');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Login';
+        setTimeout(() => location.reload(), 1000);
+        return;
+    }
+    
+    // Try backend API if no local user found
     try {
         const response = await fetch(`${API_BASE}/login`, {
             method: 'POST',
@@ -134,28 +168,15 @@ async function handleLogin(event) {
             updateAuthUI();
             showNotification('Login successful! Welcome back.', 'success');
             
-            // Reload page to update UI
             setTimeout(() => location.reload(), 1000);
         } else {
             errorEl.textContent = data.message || 'Login failed';
         }
     } catch (error) {
         console.error('Login error:', error);
-        // Fallback: Local login when server unavailable
-        const localUsers = JSON.parse(localStorage.getItem('local_users') || '[]');
-        const user = localUsers.find(u => u.email === email && u.password === password);
-        
-        if (user) {
-            localStorage.setItem('user_email', user.email);
-            localStorage.setItem('user_name', user.name || email.split('@')[0]);
-            localStorage.setItem('user_logged_in', 'true');
-            
-            closeAuthModal();
-            updateAuthUI();
-            showNotification('Login successful! Welcome back.', 'success');
-            setTimeout(() => location.reload(), 1000);
-        } else if (localUsers.length === 0) {
-            // No local users, allow demo login
+        // No matching user found
+        if (localUsers.length === 0) {
+            // No local users exist, allow demo login
             localStorage.setItem('user_email', email);
             localStorage.setItem('user_name', email.split('@')[0]);
             localStorage.setItem('user_logged_in', 'true');
@@ -165,7 +186,7 @@ async function handleLogin(event) {
             showNotification('Login successful! (Demo mode)', 'success');
             setTimeout(() => location.reload(), 1000);
         } else {
-            errorEl.textContent = 'Invalid email or password';
+            errorEl.textContent = 'Invalid email or password. Please sign up first.';
         }
     } finally {
         submitBtn.disabled = false;

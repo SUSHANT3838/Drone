@@ -85,6 +85,24 @@ async function handleLogin(email, password) {
 
 // Handle signup
 async function handleSignup(name, email, phone, password) {
+    // Submit supplier data to Formspree for record-keeping
+    try {
+        await fetch('https://formspree.io/f/mbdzlkek', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                _subject: 'New Supplier/Owner Registration',
+                name: name,
+                email: email,
+                phone: phone,
+                role: 'supplier/owner',
+                signup_date: new Date().toISOString()
+            })
+        });
+    } catch (formspreeError) {
+        console.log('Formspree submission skipped:', formspreeError);
+    }
+    
     try {
         const response = await fetch(`${API_BASE}/register`, {
             method: 'POST',

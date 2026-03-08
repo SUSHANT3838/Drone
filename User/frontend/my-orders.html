@@ -657,7 +657,7 @@
             <a href="about.html" class="nav-link">About</a>
             <a href="contact.html" class="nav-link">Contact</a>
             <a href="cart.html" class="nav-link"><i class="fas fa-shopping-cart"></i> Cart <span id="cart-count" class="cart-badge">0</span></a>
-            <button class="btn-login">Login</button>
+            <button class="btn-login" onclick="openLoginModal()">Login</button>
         </nav>
     </header>
 
@@ -982,7 +982,7 @@
                         </div>
                         <div class="detail-row" style="font-size: 0.85rem; color: #888;">
                             <span>${item.days} days rental</span>
-                            <span>₹${item.price}/day</span>
+                            <span>₹${item.price}/hr</span>
                         </div>
                     `).join('')}
                 </div>

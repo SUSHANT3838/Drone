@@ -74,7 +74,7 @@
                     <h4>Photography Pro X1</h4>
                     <p>4K Camera, 30min flight time, GPS enabled</p>
                     <div class="drone-price">
-                        <span>₹1,000/day</span>
+                        <span>₹100/hr</span>
                         <div class="drone-rating">
                             <i class="fas fa-star"></i> 4.8
                         </div>
@@ -125,8 +125,8 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label><i class="fas fa-rupee-sign"></i> Price per Day</label>
-                        <input type="number" id="drone-price" placeholder="Enter price" min="100" required>
+                        <label><i class="fas fa-rupee-sign"></i> Price per Hour</label>
+                        <input type="number" id="drone-price" placeholder="Enter price" min="10" required>
                     </div>
                     <div class="form-group">
                         <label><i class="fas fa-boxes"></i> Quantity Available</label>
@@ -250,7 +250,7 @@
                         <h4>${drone.name}</h4>
                         <p>${drone.description}</p>
                         <div class="drone-price">
-                            <span>₹${drone.price.toLocaleString()}/day</span>
+                            <span>₹${drone.price.toLocaleString()}/hr</span>
                             <div class="drone-rating">
                                 <i class="fas fa-star"></i> ${drone.rating || '0.0'}
                             </div>

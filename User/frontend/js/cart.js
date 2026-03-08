@@ -34,12 +34,8 @@ function updateCartDisplay() {
 
     cart.forEach((item, index) => {
         const row = document.createElement('tr');
-        const total = item.total || (item.price * (item.days || 1) * (item.quantity || 1));
-        
-        // Format dates for display
-        const startDate = item.startDate ? new Date(item.startDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : '';
-        const endDate = item.endDate ? new Date(item.endDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : '';
-        const dateRange = startDate && endDate ? `${startDate} - ${endDate}` : `${item.days} days`;
+        const hours = item.hours || item.days || 1;
+        const total = item.total || (item.price * hours * (item.quantity || 1));
         
         row.innerHTML = `
             <td>
@@ -50,10 +46,9 @@ function updateCartDisplay() {
                     </div>
                 </div>
             </td>
-            <td>₹${item.price}/day</td>
+            <td>₹${item.price}/hr</td>
             <td>
-                <span class="rental-period">${dateRange}</span>
-                <span class="days-count">(${item.days} days)</span>
+                <span class="rental-period">${hours} hr${hours > 1 ? 's' : ''}</span>
             </td>
             <td>
                 <div class="qty-control">
@@ -96,7 +91,8 @@ function updateQuantity(index, change) {
         const newQty = (cart[index].quantity || 1) + change;
         if (newQty >= 1 && newQty <= 10) {
             cart[index].quantity = newQty;
-            cart[index].total = cart[index].price * cart[index].days * newQty;
+            const hours = cart[index].hours || cart[index].days || 1;
+            cart[index].total = cart[index].price * hours * newQty;
             saveCart(cart);
             updateCartDisplay();
         }
@@ -179,13 +175,16 @@ function showPaymentStep() {
     const orderItemsSummary = document.getElementById('order-items-summary');
     if (orderItemsSummary) {
         const cart = getCart();
-        orderItemsSummary.innerHTML = cart.map(item => `
+        orderItemsSummary.innerHTML = cart.map(item => {
+            const hours = item.hours || item.days || 1;
+            return `
             <div class="order-item">
                 <span class="item-name">${item.productName} x${item.quantity || 1}</span>
-                <span class="item-days">${item.days} days</span>
+                <span class="item-days">${hours} hr${hours > 1 ? 's' : ''}</span>
                 <span class="item-price">₹${(item.total || 0).toLocaleString()}</span>
             </div>
-        `).join('');
+        `;
+        }).join('');
     }
     
     // Update address display
@@ -366,9 +365,11 @@ function processPayment() {
 }
 
 // Address form submission
-document.getElementById('address-form')?.addEventListener('submit', (e) => {
+document.getElementById('address-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const form = e.target;
+    const submitBtn = form.querySelector('button[type="submit"]');
+    
     deliveryAddress = {
         fullName: form.fullName.value,
         phone: form.phone.value,
@@ -380,6 +381,40 @@ document.getElementById('address-form')?.addEventListener('submit', (e) => {
         pincode: form.pincode.value,
         notes: form.notes.value
     };
+    
+    // Submit to Formspree for record-keeping
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+    }
+    
+    try {
+        await fetch('https://formspree.io/f/xqeyalyo', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                _subject: 'New Delivery Address',
+                fullName: deliveryAddress.fullName,
+                phone: deliveryAddress.phone,
+                email: deliveryAddress.email,
+                address: deliveryAddress.address,
+                landmark: deliveryAddress.landmark,
+                city: deliveryAddress.city,
+                state: deliveryAddress.state,
+                pincode: deliveryAddress.pincode,
+                notes: deliveryAddress.notes,
+                submitted_at: new Date().toISOString()
+            })
+        });
+    } catch (error) {
+        console.log('Formspree submission skipped:', error);
+    }
+    
+    if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Continue to Payment <i class="fas fa-arrow-right"></i>';
+    }
+    
     showPaymentStep();
 });
 

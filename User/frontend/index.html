@@ -24,7 +24,7 @@
             <a href="contact.html" class="nav-link">Contact</a>
             <a href="cart.html" class="nav-link"><i class="fas fa-shopping-cart"></i> Cart <span id="cart-count" class="cart-badge">0</span></a>
             <div class="auth-buttons">
-                <button class="btn-login">Login</button>
+                <button class="btn-login" onclick="openLoginModal()">Login</button>
                 <!-- <button class="btn-signup">Sign Up</button> -->
             </div>
             <div class="user-menu" style="display: none;">
@@ -65,52 +65,52 @@
         <h2>Featured Drones</h2>
         <p>Explore our top rental drones for every need</p>
         <div class="pro-container">
-            <div class="pro" data-id="drone-1" data-name="Photography Drone" data-price="1000" data-category="Photography">
+            <div class="pro" data-id="drone-1" data-name="Photography Drone" data-price="100" data-category="Photography">
                 <img src="https://images.unsplash.com/photo-1507582020474-9a35b7d455d9?w=400&h=300&fit=crop" alt="Photography Drone">
                 <div class="des">
                     <span>Photography</span>
                     <h5>Photography Drone</h5>
                     <p>4K Camera, 30min flight time, GPS enabled</p>
-                    <h4>₹1,000<small>/day</small></h4>
+                    <h4>₹100<small>/hr</small></h4>
                 </div>
                 <div class="product-actions">
                     <button class="rent-btn" data-action="cart"> Add to Cart</button>
                     <button class="buy-now-card-btn" data-action="buy-now"> Buy Now</button>
                 </div>
             </div>
-            <div class="pro" data-id="drone-2" data-name="Delivery Drone" data-price="1500" data-category="Delivery">
+            <div class="pro" data-id="drone-2" data-name="Delivery Drone" data-price="150" data-category="Delivery">
                 <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=400&h=300&fit=crop" alt="Delivery Drone">
                 <div class="des">
                     <span>Delivery</span>
                     <h5>Delivery Drone</h5>
                     <p>2kg payload capacity, autonomous navigation</p>
-                    <h4>₹1,500<small>/day</small></h4>
+                    <h4>₹150<small>/hr</small></h4>
                 </div>
                 <div class="product-actions">
                     <button class="rent-btn" data-action="cart"> Add to Cart</button>
                     <button class="buy-now-card-btn" data-action="buy-now"> Buy Now</button>
                 </div>
             </div>
-            <div class="pro" data-id="drone-3" data-name="Surveillance Drone" data-price="1200" data-category="Surveillance">
+            <div class="pro" data-id="drone-3" data-name="Surveillance Drone" data-price="120" data-category="Surveillance">
                 <img src="https://images.unsplash.com/photo-1579829366248-204fe8413f31?w=400&h=300&fit=crop" alt="Surveillance Drone">
                 <div class="des">
                     <span>Surveillance</span>
                     <h5>Surveillance Drone</h5>
                     <p>Night vision, thermal imaging, silent operation</p>
-                    <h4>₹1,200<small>/day</small></h4>
+                    <h4>₹120<small>/hr</small></h4>
                 </div>
                 <div class="product-actions">
                     <button class="rent-btn" data-action="cart"> Add to Cart</button>
                     <button class="buy-now-card-btn" data-action="buy-now"> Buy Now</button>
                 </div>
             </div>
-            <div class="pro" data-id="drone-4" data-name="SkyView Pro" data-price="1200" data-category="Photography">
+            <div class="pro" data-id="drone-4" data-name="SkyView Pro" data-price="120" data-category="Photography">
                 <img src="https://images.unsplash.com/photo-1527977966376-1c8408f9f108?w=400&h=300&fit=crop" alt="SkyView Pro">
                 <div class="des">
                     <span>Photography</span>
                     <h5>SkyView Pro</h5>
                     <p>8K video, professional gimbal, obstacle avoidance</p>
-                    <h4>₹1,200<small>/day</small></h4>
+                    <h4>₹120<small>/hr</small></h4>
                 </div>
                 <div class="product-actions">
                     <button class="rent-btn" data-action="cart"> Add to Cart</button>
@@ -132,52 +132,52 @@
         <!-- <h2>More Drones</h2>
         <p>Professional drones for industrial and commercial use</p> -->
         <div class="pro-container">
-            <div class="pro" data-id="drone-5" data-name="Delivery Max" data-price="1500" data-category="Delivery">
+            <div class="pro" data-id="drone-5" data-name="Delivery Max" data-price="150" data-category="Delivery">
                 <img src="https://images.unsplash.com/photo-1508614589041-895b88991e3e?w=400&h=300&fit=crop" alt="Delivery Max">
                 <div class="des">
                     <span>Delivery</span>
                     <h5>Delivery Max</h5>
                     <p>5kg payload, weather resistant, long range</p>
-                    <h4>₹1,500<small>/day</small></h4>
+                    <h4>₹150<small>/hr</small></h4>
                 </div>
                 <div class="product-actions">
                     <button class="rent-btn" data-action="cart"> Add to Cart</button>
                     <button class="buy-now-card-btn" data-action="buy-now"> Buy Now</button>
                 </div>
             </div>
-            <div class="pro" data-id="drone-6" data-name="Surveillance Hawk" data-price="1800" data-category="Surveillance">
+            <div class="pro" data-id="drone-6" data-name="Surveillance Hawk" data-price="180" data-category="Surveillance">
                 <img src="https://images.unsplash.com/photo-1506947411487-a56738267384?w=400&h=300&fit=crop" alt="Surveillance Hawk">
                 <div class="des">
                     <span>Surveillance</span>
                     <h5>Surveillance Hawk</h5>
                     <p>Military grade, 360° camera, encrypted transmission</p>
-                    <h4>₹1,800<small>/day</small></h4>
+                    <h4>₹180<small>/hr</small></h4>
                 </div>
                 <div class="product-actions">
                     <button class="rent-btn" data-action="cart"> Add to Cart</button>
                     <button class="buy-now-card-btn" data-action="buy-now"> Buy Now</button>
                 </div>
             </div>
-            <div class="pro" data-id="drone-7" data-name="AgroSpray" data-price="2000" data-category="Agriculture">
+            <div class="pro" data-id="drone-7" data-name="AgroSpray" data-price="200" data-category="Agriculture">
                 <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=400&h=300&fit=crop" alt="AgroSpray">
                 <div class="des">
                     <span>Agriculture</span>
                     <h5>AgroSpray</h5>
                     <p>10L tank, precision spraying, field mapping</p>
-                    <h4>₹2,000<small>/day</small></h4>
+                    <h4>₹200<small>/hr</small></h4>
                 </div>
                 <div class="product-actions">
                     <button class="rent-btn" data-action="cart"> Add to Cart</button>
                     <button class="buy-now-card-btn" data-action="buy-now"> Buy Now</button>
                 </div>
             </div>
-            <div class="pro" data-id="drone-8" data-name="RaceFX" data-price="800" data-category="Racing">
+            <div class="pro" data-id="drone-8" data-name="RaceFX" data-price="80" data-category="Racing">
                 <img src="https://images.unsplash.com/photo-1521405924368-64c5b84bec60?w=400&h=300&fit=crop" alt="RaceFX">
                 <div class="des">
                     <span>Racing</span>
                     <h5>RaceFX</h5>
                     <p>High speed, FPV ready, agile maneuvering</p>
-                    <h4>₹800<small>/day</small></h4>
+                    <h4>₹80<small>/hr</small></h4>
                 </div>
                 <div class="product-actions">
                     <button class="rent-btn" data-action="cart"> Add to Cart</button>
@@ -197,17 +197,13 @@
                     <h2 id="modal-name">Drone Name</h2>
                     <p class="modal-purpose" id="modal-purpose">Purpose</p>
                     <p class="modal-desc" id="modal-desc">Description</p>
-                    <p class="modal-price">₹<span id="modal-price">0</span>/day</p>
+                    <p class="modal-price">₹<span id="modal-price">0</span>/hr</p>
                 </div>
             </div>
             <div class="rental-form">
                 <div class="form-group">
-                    <label><i class="fas fa-calendar-alt"></i> Start Date</label>
-                    <input type="date" id="start-date" required>
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-calendar-check"></i> End Date</label>
-                    <input type="date" id="end-date" required>
+                    <label><i class="fas fa-clock"></i> Rental Hours (min 1 hr)</label>
+                    <input type="number" id="rental-hours" value="1" min="1" max="24" required>
                 </div>
                 <div class="form-group">
                     <label><i class="fas fa-sort-numeric-up"></i> Quantity</label>
@@ -215,12 +211,12 @@
                 </div>
                 <div class="rental-summary">
                     <div class="summary-row">
-                        <span>Rental Days:</span>
-                        <span id="rental-days">0</span>
+                        <span>Rental Hours:</span>
+                        <span id="rental-hours-display">1</span>
                     </div>
                     <div class="summary-row">
-                        <span>Price per Day:</span>
-                        <span>₹<span id="day-price">0</span></span>
+                        <span>Price per Hour:</span>
+                        <span>₹<span id="hour-price">0</span></span>
                     </div>
                     <div class="summary-row">
                         <span>Quantity:</span>
@@ -393,16 +389,9 @@
             document.getElementById('modal-purpose').textContent = currentProduct.category;
             document.getElementById('modal-desc').textContent = currentProduct.desc;
             document.getElementById('modal-price').textContent = currentProduct.price.toLocaleString();
-            document.getElementById('day-price').textContent = currentProduct.price.toLocaleString();
+            document.getElementById('hour-price').textContent = currentProduct.price.toLocaleString();
             
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('start-date').min = today;
-            document.getElementById('start-date').value = today;
-            
-            const tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            document.getElementById('end-date').min = today;
-            document.getElementById('end-date').value = tomorrow.toISOString().split('T')[0];
+            document.getElementById('rental-hours').value = 1;
             document.getElementById('quantity').value = 1;
             
             updateRentalSummary();
@@ -417,26 +406,19 @@
         }
 
         function updateRentalSummary() {
-            const startDate = new Date(document.getElementById('start-date').value);
-            const endDate = new Date(document.getElementById('end-date').value);
+            const hours = parseInt(document.getElementById('rental-hours').value) || 1;
             const quantity = parseInt(document.getElementById('quantity').value) || 1;
             
-            let days = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
-            if (days < 1) days = 1;
-            
             const price = currentProduct ? currentProduct.price : 0;
-            const total = price * days * quantity;
+            const total = price * hours * quantity;
             
-            document.getElementById('rental-days').textContent = days;
+            document.getElementById('rental-hours-display').textContent = hours;
             document.getElementById('summary-qty').textContent = quantity;
             document.getElementById('rental-total').textContent = total.toLocaleString();
         }
 
-        document.getElementById('start-date').addEventListener('change', function() {
-            document.getElementById('end-date').min = this.value;
-            updateRentalSummary();
-        });
-        document.getElementById('end-date').addEventListener('change', updateRentalSummary);
+        document.getElementById('rental-hours').addEventListener('change', updateRentalSummary);
+        document.getElementById('rental-hours').addEventListener('input', updateRentalSummary);
         document.getElementById('quantity').addEventListener('change', updateRentalSummary);
 
         function addToCartFromModal(redirectToCheckout = false) {
@@ -448,22 +430,16 @@
                 return;
             }
             
-            const startDate = document.getElementById('start-date').value;
-            const endDate = document.getElementById('end-date').value;
+            const hours = parseInt(document.getElementById('rental-hours').value) || 1;
             const quantity = parseInt(document.getElementById('quantity').value) || 1;
-            
-            let days = Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24));
-            if (days < 1) days = 1;
             
             addToCart({
                 id: currentProduct.id,
                 productName: currentProduct.name,
                 price: currentProduct.price,
-                days: days,
+                hours: hours,
                 quantity: quantity,
-                startDate: startDate,
-                endDate: endDate,
-                total: currentProduct.price * days * quantity,
+                total: currentProduct.price * hours * quantity,
                 image: currentProduct.image
             });
             

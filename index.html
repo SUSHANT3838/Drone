@@ -49,6 +49,7 @@
             text-decoration: none;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
+            cursor: pointer;
         }
         .portal-card:hover {
             transform: translateY(-10px);
@@ -112,6 +113,148 @@
             .portal-card { padding: 30px 20px; }
             .portal-card i { font-size: 3rem; }
         }
+
+        /* Auth Modal Styles */
+        .auth-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        .auth-modal.active { display: flex; }
+        .auth-modal-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 20px;
+            padding: 40px;
+            width: 90%;
+            max-width: 450px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+        .auth-modal-content::-webkit-scrollbar { width: 6px; }
+        .auth-modal-content::-webkit-scrollbar-track { background: rgba(255,255,255,0.1); border-radius: 3px; }
+        .auth-modal-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 3px; }
+        .auth-close {
+            position: sticky;
+            top: 0;
+            float: right;
+            font-size: 1.5rem;
+            color: rgba(255,255,255,0.6);
+            cursor: pointer;
+            transition: color 0.3s;
+            background: #1a1a2e;
+            padding: 5px;
+            border-radius: 50%;
+            z-index: 10;
+        }
+        .auth-close:hover { color: #fff; }
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .auth-header i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        .auth-header h2 {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        .auth-header p {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+        }
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 25px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 5px;
+        }
+        .auth-tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            color: rgba(255,255,255,0.6);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        .auth-tab.active {
+            background: var(--portal-color, #088178);
+            color: #fff;
+        }
+        .auth-form { display: none; }
+        .auth-form.active { display: block; }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--portal-color, #088178);
+        }
+        .form-group input::placeholder { color: rgba(255,255,255,0.4); }
+        .form-group select option { background: #16213e; color: #fff; }
+        .auth-submit {
+            width: 100%;
+            padding: 14px;
+            background: var(--portal-color, #088178);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        .auth-submit:hover { opacity: 0.9; }
+        .auth-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+        .auth-message {
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 0.9rem;
+            display: none;
+        }
+        .auth-message.success { display: block; background: rgba(46,204,113,0.2); color: #2ecc71; }
+        .auth-message.error { display: block; background: rgba(231,76,60,0.2); color: #e74c3c; }
+
+        /* Portal-specific colors */
+        .auth-modal.user-modal { --portal-color: #3498db; }
+        .auth-modal.owner-modal { --portal-color: #e74c3c; }
+        .auth-modal.pilot-modal { --portal-color: #9b59b6; }
+        .auth-modal.user-modal .auth-header i { color: #3498db; }
+        .auth-modal.owner-modal .auth-header i { color: #e74c3c; }
+        .auth-modal.pilot-modal .auth-header i { color: #9b59b6; }
     </style>
 </head>
 <body>
@@ -121,30 +264,420 @@
     </div>
 
     <div class="portals">
-        <a href="User/frontend/index.html" class="portal-card user-card">
+        <div class="portal-card user-card" onclick="openAuthModal('user')">
             <i class="fas fa-user"></i>
             <h2>User Portal</h2>
             <p>Browse and rent drones for photography, delivery, surveillance and more. Book your perfect drone today!</p>
             <span class="btn">Enter as User</span>
-        </a>
+        </div>
 
-        <a href="Owner/frontend/index.html" class="portal-card owner-card">
+        <div class="portal-card owner-card" onclick="openAuthModal('owner')">
             <i class="fas fa-building"></i>
             <h2>Owner Portal</h2>
             <p>Manage your drone fleet, track bookings, monitor earnings and grow your rental business.</p>
             <span class="btn">Enter as Owner</span>
-        </a>
+        </div>
 
-        <a href="Piolet/frontend/index.html" class="portal-card pilot-card">
+        <div class="portal-card pilot-card" onclick="openAuthModal('pilot')">
             <i class="fas fa-helicopter"></i>
             <h2>Pilot Portal</h2>
             <p>View assigned missions, manage your schedule, track flight hours and certifications.</p>
             <span class="btn">Enter as Pilot</span>
-        </a>
+        </div>
+    </div>
+
+    <!-- User Auth Modal -->
+    <div id="userModal" class="auth-modal user-modal">
+        <div class="auth-modal-content">
+            <span class="auth-close" onclick="closeAuthModal('user')">&times;</span>
+            <div class="auth-header">
+                <i class="fas fa-user"></i>
+                <h2>User Portal</h2>
+                <p>Login or create an account to continue</p>
+            </div>
+            <div class="auth-tabs">
+                <div class="auth-tab active" onclick="switchTab('user', 'login')">Login</div>
+                <div class="auth-tab" onclick="switchTab('user', 'signup')">Sign Up</div>
+            </div>
+            <div id="userMessage" class="auth-message"></div>
+            <!-- Login Form -->
+            <form id="userLoginForm" class="auth-form active" onsubmit="handleLogin(event, 'user')">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="auth-submit">Login</button>
+            </form>
+            <!-- Signup Form -->
+            <form id="userSignupForm" class="auth-form" onsubmit="handleSignup(event, 'user')">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" name="name" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" name="phone" placeholder="Enter your phone number" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Create a password" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" name="confirmPassword" placeholder="Confirm your password" required>
+                </div>
+                <button type="submit" class="auth-submit">Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Owner Auth Modal -->
+    <div id="ownerModal" class="auth-modal owner-modal">
+        <div class="auth-modal-content">
+            <span class="auth-close" onclick="closeAuthModal('owner')">&times;</span>
+            <div class="auth-header">
+                <i class="fas fa-building"></i>
+                <h2>Owner Portal</h2>
+                <p>Login or register as a drone supplier</p>
+            </div>
+            <div class="auth-tabs">
+                <div class="auth-tab active" onclick="switchTab('owner', 'login')">Login</div>
+                <div class="auth-tab" onclick="switchTab('owner', 'signup')">Sign Up</div>
+            </div>
+            <div id="ownerMessage" class="auth-message"></div>
+            <!-- Login Form -->
+            <form id="ownerLoginForm" class="auth-form active" onsubmit="handleLogin(event, 'owner')">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="auth-submit">Login</button>
+            </form>
+            <!-- Signup Form -->
+            <form id="ownerSignupForm" class="auth-form" onsubmit="handleSignup(event, 'owner')">
+                <div class="form-group">
+                    <label>Business Name</label>
+                    <input type="text" name="businessName" placeholder="Enter your business name" required>
+                </div>
+                <div class="form-group">
+                    <label>Owner Name</label>
+                    <input type="text" name="name" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" name="phone" placeholder="Enter your phone number" required>
+                </div>
+                <div class="form-group">
+                    <label>Number of Drones</label>
+                    <input type="number" name="droneCount" placeholder="How many drones do you have?" required min="1">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Create a password" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" name="confirmPassword" placeholder="Confirm your password" required>
+                </div>
+                <button type="submit" class="auth-submit">Register as Supplier</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Pilot Auth Modal -->
+    <div id="pilotModal" class="auth-modal pilot-modal">
+        <div class="auth-modal-content">
+            <span class="auth-close" onclick="closeAuthModal('pilot')">&times;</span>
+            <div class="auth-header">
+                <i class="fas fa-helicopter"></i>
+                <h2>Pilot Portal</h2>
+                <p>Login or register as a drone pilot</p>
+            </div>
+            <div class="auth-tabs">
+                <div class="auth-tab active" onclick="switchTab('pilot', 'login')">Login</div>
+                <div class="auth-tab" onclick="switchTab('pilot', 'signup')">Sign Up</div>
+            </div>
+            <div id="pilotMessage" class="auth-message"></div>
+            <!-- Login Form -->
+            <form id="pilotLoginForm" class="auth-form active" onsubmit="handleLogin(event, 'pilot')">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="auth-submit">Login</button>
+            </form>
+            <!-- Signup Form -->
+            <form id="pilotSignupForm" class="auth-form" onsubmit="handleSignup(event, 'pilot')">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" name="name" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" name="phone" placeholder="Enter your phone number" required>
+                </div>
+                <div class="form-group">
+                    <label>License Number</label>
+                    <input type="text" name="licenseNumber" placeholder="Enter your drone pilot license" required>
+                </div>
+                <div class="form-group">
+                    <label>Experience (Years)</label>
+                    <input type="number" name="experience" placeholder="Years of flying experience" required min="0">
+                </div>
+                <div class="form-group">
+                    <label>Specialization</label>
+                    <select name="specialization" required>
+                        <option value="">Select your specialization</option>
+                        <option value="photography">Aerial Photography</option>
+                        <option value="surveying">Surveying & Mapping</option>
+                        <option value="delivery">Delivery Operations</option>
+                        <option value="agriculture">Agricultural Spraying</option>
+                        <option value="inspection">Industrial Inspection</option>
+                        <option value="racing">Drone Racing</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Create a password" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" name="confirmPassword" placeholder="Confirm your password" required>
+                </div>
+                <button type="submit" class="auth-submit">Register as Pilot</button>
+            </form>
+        </div>
     </div>
 
     <footer>
         <p>&copy; 2026 Drone Fleet Management. All Rights Reserved.</p>
     </footer>
+
+    <script>
+        // Portal URLs
+        const portalUrls = {
+            user: 'User/frontend/index.html',
+            owner: 'Owner/frontend/index.html',
+            pilot: 'Piolet/frontend/index.html'
+        };
+
+        // Formspree endpoints
+        const formspreeEndpoints = {
+            user: 'https://formspree.io/f/mwvrpbgr',
+            owner: 'https://formspree.io/f/mbdzlkek',
+            pilot: 'https://formspree.io/f/mwvrpbgr' // Using same as user, change if needed
+        };
+
+        // Open auth modal
+        function openAuthModal(portal) {
+            document.getElementById(portal + 'Modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close auth modal
+        function closeAuthModal(portal) {
+            document.getElementById(portal + 'Modal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+            // Reset forms and messages
+            document.getElementById(portal + 'LoginForm').reset();
+            document.getElementById(portal + 'SignupForm').reset();
+            document.getElementById(portal + 'Message').className = 'auth-message';
+            document.getElementById(portal + 'Message').textContent = '';
+        }
+
+        // Switch between login and signup tabs
+        function switchTab(portal, tab) {
+            const modal = document.getElementById(portal + 'Modal');
+            const tabs = modal.querySelectorAll('.auth-tab');
+            const forms = modal.querySelectorAll('.auth-form');
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            forms.forEach(f => f.classList.remove('active'));
+            
+            if (tab === 'login') {
+                tabs[0].classList.add('active');
+                document.getElementById(portal + 'LoginForm').classList.add('active');
+            } else {
+                tabs[1].classList.add('active');
+                document.getElementById(portal + 'SignupForm').classList.add('active');
+            }
+            
+            // Clear message
+            document.getElementById(portal + 'Message').className = 'auth-message';
+            document.getElementById(portal + 'Message').textContent = '';
+        }
+
+        // Show message
+        function showMessage(portal, message, type) {
+            const msgDiv = document.getElementById(portal + 'Message');
+            msgDiv.textContent = message;
+            msgDiv.className = 'auth-message ' + type;
+        }
+
+        // Get stored users for a portal
+        function getStoredUsers(portal) {
+            const key = portal + '_users';
+            return JSON.parse(localStorage.getItem(key) || '[]');
+        }
+
+        // Save user for a portal
+        function saveUser(portal, userData) {
+            const key = portal + '_users';
+            const users = getStoredUsers(portal);
+            users.push(userData);
+            localStorage.setItem(key, JSON.stringify(users));
+        }
+
+        // Handle Login
+        async function handleLogin(event, portal) {
+            event.preventDefault();
+            const form = event.target;
+            const submitBtn = form.querySelector('.auth-submit');
+            const email = form.email.value;
+            const password = form.password.value;
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Logging in...';
+
+            // Check stored users
+            const users = getStoredUsers(portal);
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                // Store current user session
+                localStorage.setItem(portal + '_currentUser', JSON.stringify({
+                    email: user.email,
+                    name: user.name || user.businessName
+                }));
+
+                // Log login to Formspree
+                try {
+                    await fetch(formspreeEndpoints[portal], {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            action: 'login',
+                            portal: portal,
+                            email: email,
+                            timestamp: new Date().toISOString()
+                        })
+                    });
+                } catch (e) { console.log('Formspree log failed'); }
+
+                showMessage(portal, 'Login successful! Redirecting...', 'success');
+                setTimeout(() => {
+                    window.location.href = portalUrls[portal];
+                }, 1500);
+            } else {
+                showMessage(portal, 'Invalid email or password. Please sign up if you don\'t have an account.', 'error');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Login';
+            }
+        }
+
+        // Handle Signup
+        async function handleSignup(event, portal) {
+            event.preventDefault();
+            const form = event.target;
+            const submitBtn = form.querySelector('.auth-submit');
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            // Validate passwords match
+            if (data.password !== data.confirmPassword) {
+                showMessage(portal, 'Passwords do not match!', 'error');
+                return;
+            }
+
+            // Check if email already exists
+            const users = getStoredUsers(portal);
+            if (users.find(u => u.email === data.email)) {
+                showMessage(portal, 'Email already registered. Please login.', 'error');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Creating Account...';
+
+            // Prepare data for Formspree
+            const formspreeData = {
+                action: 'signup',
+                portal: portal,
+                timestamp: new Date().toISOString(),
+                ...data
+            };
+            delete formspreeData.confirmPassword;
+
+            // Send to Formspree
+            try {
+                await fetch(formspreeEndpoints[portal], {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formspreeData)
+                });
+            } catch (e) { console.log('Formspree submission failed'); }
+
+            // Save user locally
+            const userData = { ...data };
+            delete userData.confirmPassword;
+            saveUser(portal, userData);
+
+            // Store current user session
+            localStorage.setItem(portal + '_currentUser', JSON.stringify({
+                email: data.email,
+                name: data.name || data.businessName
+            }));
+
+            showMessage(portal, 'Account created successfully! Redirecting...', 'success');
+            setTimeout(() => {
+                window.location.href = portalUrls[portal];
+            }, 1500);
+        }
+
+        // Close modal on outside click
+        document.querySelectorAll('.auth-modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    const portal = modal.id.replace('Modal', '');
+                    closeAuthModal(portal);
+                }
+            });
+        });
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                ['user', 'owner', 'pilot'].forEach(portal => {
+                    if (document.getElementById(portal + 'Modal').classList.contains('active')) {
+                        closeAuthModal(portal);
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
